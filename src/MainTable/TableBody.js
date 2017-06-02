@@ -68,7 +68,8 @@ class TableBody extends Component {
     this.setState({edit: false})
   }
   
-  SaveEdits(putObject){
+  SaveEdits(event,putObject){
+    event.preventDefault();
      putObject = {
        "Full Name": this.refs.firstname.value +" "+ this.refs.lastname.value,
        "Company Name": this.refs.company.value,
@@ -96,7 +97,7 @@ class TableBody extends Component {
     if (this.state.edit===true) {
       return (
         <div className="edit_mode">
-          <div action="" className="edit_form">
+          <form onSubmit={this.SaveEdits} className="edit_form">
             <h3 className="add_new_header">Edit {this.firstname} {this.lastname}'s Contacts</h3>
             <input className="list_input" ref="firstname" defaultValue={this.firstname} required type="text" placeholder="First Name" /><br />
             <input className="list_input" ref="lastname" defaultValue={this.lastname} required type="text" placeholder="Last Name" /><br />
@@ -105,8 +106,8 @@ class TableBody extends Component {
             <input className="list_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
             <input className="list_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
             <button className="main_buttons" onClick={this.closeEdit}>Close</button>
-            <button className="main_buttons" onClick={this.SaveEdits}>Save</button>
-          </div>
+            <button className="main_buttons" type="submit">Save</button>
+          </form>
         </div>
       )
     }
@@ -120,8 +121,8 @@ class TableBody extends Component {
   renderHeaders(value, key) {
     return (
       <tr key={key} className="table_row">
-        <td className="table_data checkbox"><input type="checkbox" defaultChecked={this.state.checkings} id={key} onChange={this.getGuId} /></td>
         <td className="table_data">{key += 1}</td>
+        <td className="table_data checkbox"><input type="checkbox" defaultChecked={this.state.checkings} id={key} onChange={this.getGuId} /></td>
         <td className="table_data">{value["Full Name"]}</td>
         <td className="table_data">{value["Company Name"]}</td>
         <td className="table_data">{value.Position}</td>

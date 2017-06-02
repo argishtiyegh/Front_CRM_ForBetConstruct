@@ -25,7 +25,7 @@ class EmailListTable extends Component {
 
         call('api/emaillists/1', "GET").then((response) => {
             this.setState({ dbTemplate: response })
-            //  console.log(response);
+              console.log(response);
         }
         )
     }

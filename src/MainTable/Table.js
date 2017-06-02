@@ -72,17 +72,13 @@ class Table extends Component {
         else {
             sendData = this.state.sendMail;
         }
-
-
-        call('api/sendemail?templateid=1', 'POST', sendData);
-        for (let i = 0; i < this.state.arrayCheckes.length; i++) {
-            this.state.arrayCheckes[i].checked = false;
-        }
+        call('api/sendemail?templateid=1', 'POST', sendData);      
     };
-    createMailingList() {
+    createMailingList(e) {
+        e.preventDefault();
         let listData = {
             "EmailListName": this.refs.listname.value,
-            "GuID": this.state.sendMail
+            "Guids": this.state.sendMail
         };
         let that = this;
         call('api/emaillists', 'POST', listData).then(function (response) {
@@ -105,9 +101,11 @@ class Table extends Component {
             <button className="main_buttons button_send" disabled={this.state.disable} onClick={this.postData}>SEND EMAIL</button>
 
             <div className="createList">
-                <label htmlFor="listcreate">Mailing List Name </label>
-                <input id="listcreate" ref="listname" className="listname" required type="text" />
-                <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disable} >Create New Mailing List</button>
+                <form onSubmit={this.createMailingList}>
+                    <label htmlFor="listcreate">Mailing List Name </label>
+                    <input id="listcreate" ref="listname" className="listname" required type="text" />
+                    <button className="main_buttons button_send" type="submit" disabled={this.state.disable} >Create New Mailing List</button>
+                </form>
             </div>
             <div className="upload createList">
                 <input type="file" className="upload" />
