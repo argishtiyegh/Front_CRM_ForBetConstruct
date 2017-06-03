@@ -1,0 +1,21 @@
+.loading {
+    background-image:url('../images/send_mail.gif');
+    /*background-size: contain;
+ 	top:0;
+ 	left:0;
+    background-repeat:no-repeat;
+ 	background-position:center;
+    margin-top: 65px; 
+    height: 100px;       
+    width: 100px;
+    z-index: 999;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-repeat:no-repeat;
+ 	background-position:center;
+     z-index: 999;
+   
+}

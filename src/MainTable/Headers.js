@@ -33,8 +33,8 @@ class Headers extends Component {
         return (
             <thead>
                 <tr className="table_row">
-                    <th className="table_data">Number</th>
                     <th className="table_data">Select</th>
+                    <th className="table_data">Number</th>
                     {this.getHeadersData().map(this.renderHeaders)}
                     <th className="table_data">Edit</th>
                     <th className="table_data">Delete</th>

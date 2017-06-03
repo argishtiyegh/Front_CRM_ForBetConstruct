@@ -3,12 +3,18 @@ import { TableBody } from './TableBody';
 import call from '../helpers/call.js'
 import { Headers } from './Headers';
 import { AddNewContact } from './AddNewContact';
+import { LoadingGIF } from './LoadingGIF';
+import { MessageSent } from './MessageSent';
+import { MessageFailed } from './MessageFailed';
 import '../StyleSheet/Contacts.css';
 
 class Table extends Component {
     constructor(props) {
         super(props);
-        this.state = { arrayCheckes: [], db: [], AddNewMode: false, sendMail: [], addnew: false, disable: true, selectAll: false, };
+        this.state = {
+            arrayCheckes: [], db: [], AddNewMode: false, sendMail: [], addnew: false, disable: true, selectAll: false,
+            loading: false, sent: false, failed: false
+        };
         //this.putNewContacts=this.putNewContacts.bind(this);
         this.getSendMailData = this.getSendMailData.bind(this);
         this.postData = this.postData.bind(this);
@@ -18,6 +24,8 @@ class Table extends Component {
         this.changeSelectAll = this.changeSelectAll.bind(this);
         this.checkBoxHide = this.checkBoxHide.bind(this);
         this.createMailingList = this.createMailingList.bind(this);
+        this.sentMsg = this.sentMsg.bind(this);
+        this.failedMsg = this.failedMsg.bind(this);
 
     }
 
@@ -60,7 +68,18 @@ class Table extends Component {
 
     }
 
+    sentMsg() {
+        this.setState({ sent: true });
+        setTimeout(function () { this.setState({ sent: false }) }.bind(this), 2500);
+    }
+
+    failedMsg() {
+        this.setState({ failed: true });
+        setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
+    }
+
     postData(sendData) {
+        this.setState({ loading: true });
 
         if (this.state.selectAll) {
             this.allGuID = [];
@@ -72,13 +91,36 @@ class Table extends Component {
         else {
             sendData = this.state.sendMail;
         }
-        call('api/sendemail?templateid=1', 'POST', sendData);      
+        for (let i = 0; i < this.state.arrayCheckes.length; i++) {
+            this.state.arrayCheckes[i].checked = false;
+        }
+
+        let that = this;
+        return fetch('http://crmbetd.azurewebsites.net/api/sendemail?templateid=1', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(sendData),
+        }
+        )
+            .then(function (response) {
+
+                if (!response.ok) {
+                    that.setState({ loading: false });
+                    that.setState({ sent: false });
+                    that.failedMsg();
+                    console.log(response);
+                } else {
+                    that.setState({ failed: false });
+                    that.setState({ loading: false });
+                    that.sentMsg();
+
+                }
+            });
     };
-    createMailingList(e) {
-        e.preventDefault();
+    createMailingList() {
         let listData = {
             "EmailListName": this.refs.listname.value,
-            "Guids": this.state.sendMail
+            "GuID": this.state.sendMail
         };
         let that = this;
         call('api/emaillists', 'POST', listData).then(function (response) {
@@ -101,15 +143,16 @@ class Table extends Component {
             <button className="main_buttons button_send" disabled={this.state.disable} onClick={this.postData}>SEND EMAIL</button>
 
             <div className="createList">
-                <form onSubmit={this.createMailingList}>
-                    <label htmlFor="listcreate">Mailing List Name </label>
-                    <input id="listcreate" ref="listname" className="listname" required type="text" />
-                    <button className="main_buttons button_send" type="submit" disabled={this.state.disable} >Create New Mailing List</button>
-                </form>
+                <label htmlFor="listcreate">Mailing List Name </label>
+                <input id="listcreate" ref="listname" className="listname" required type="text" />
+                <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disable} >Create New Mailing List</button>
             </div>
             <div className="upload createList">
                 <input type="file" className="upload" />
                 <button className="main_buttons button_send" >Upload</button>
+                {this.state.loading && <LoadingGIF />}
+                <div>{this.state.sent && <MessageSent />}</div>
+                <div>{this.state.failed && <MessageFailed />}</div>
             </div>
         </div>
         )
