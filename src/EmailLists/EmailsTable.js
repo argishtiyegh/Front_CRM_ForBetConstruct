@@ -1,20 +1,23 @@
 import React, { Component } from 'react';
 import call from '../helpers/call.js';
+import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';
 
 class EmailsTable extends Component {
     constructor(props) {
         super(props);
-        this.state = { guId: [], disabling: true, };
+        this.state = {
+            guId: [],
+            disabling: true
+        };
         this.mapList = this.mapList.bind(this);
         this.checkBoxDel = this.checkBoxDel.bind(this);
         this.deletContact = this.deletContact.bind(this);
         this.closeList = this.closeList.bind(this);
     }
 
-
     checkBoxDel(e) {
-        if (e.target.checked === true) {
+        if (e.target.checked) {
             this.state.guId.push(this.props.datas[e.target.id].GuID);
         }
         else {
@@ -22,43 +25,40 @@ class EmailsTable extends Component {
             if (index >= 0) {
                 this.state.guId.splice(index, 1);
             }
-
         }
         if (this.state.guId.length != 0) {
-            this.setState({ disabling: false })
+            this.setState({ disabling: false });
         }
         else {
-            this.setState({ disabling: true })
+            this.setState({ disabling: true });
         }
-
-        console.log(this.state.guId)
-        console.log(this.props.listID)
+        console.log(this.state.guId);
+        console.log(this.props.listID);
     }
 
     deletContact(deleteData) {
-       deleteData = {
+        deleteData = {
             "EmailListID": this.props.listID,
             "Guids": this.state.guId
         };
-        deleteData=JSON.stringify(deleteData)
-        console.log(deleteData)
+        deleteData = JSON.stringify(deleteData)
+        console.log(deleteData);
         let that = this;
         call("api/emaillists", "DELETE", deleteData).then(function (response) {
             console.log(deleteData)
-            
-           if (response.error) {
-                console.log(deleteData)
-                console.log(response.message)
-                call('api/emaillists/'+that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts) })
-              console.log(this);
+
+            if (response.error) {
+                console.log(deleteData);
+                console.log(response.message);
+                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts) });
+                console.log(this);
             }
         })
-         this.setState({guId: []})
+        this.setState({ guId: [] });
     }
 
     mapList(value, key) {
         return (
-
             <tr key={key} className="table_row">
                 <td className="table_data"><input type="checkbox" id={key} onChange={this.checkBoxDel} /></td>
                 <td className="table_data">{value["Full Name"]}</td>
@@ -67,19 +67,15 @@ class EmailsTable extends Component {
                 <td className="table_data">{value.Country}</td>
                 <td className="table_data">{value.Email}</td>
             </tr>
-
-
         )
     }
 
     closeList() {
-        this.props.updateContacts([])
+        this.props.updateContacts([]);
     }
     render() {
-
         if (this.props.datas.length > 0) {
             return (
-
                 <div>
                     <button onClick={this.closeList} className="edit_delete closelist">Close</button>
                     <table className="all_contacts">
@@ -97,7 +93,6 @@ class EmailsTable extends Component {
                         </tbody>
                     </table>
                     <button disabled={this.state.disabling} onClick={this.deletContact} className="edit_delete del">Delete</button>
-
                 </div>
             )
         }
@@ -112,5 +107,6 @@ class EmailsTable extends Component {
         }
     }
 }
-export { EmailsTable }
+
+export { EmailsTable };
 

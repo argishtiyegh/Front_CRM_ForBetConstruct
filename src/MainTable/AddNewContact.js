@@ -1,36 +1,40 @@
 import React, { Component } from 'react';
-import { LoadingGIF } from './LoadingGIF';
+import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';
 import call from '../helpers/call.js'
 
 class AddNewContact extends Component {
     constructor(props) {
         super(props);
-        this.state = { close: this.props.addNewState, putNew: true, loading: false, addedContact: false, failed: false };
-        //    this.renderAddNew = this.renderAddNew.bind(this);
-        //  this.renderEditMode = this.renderEditMode.bind(this);
+        this.state = {
+            close: this.props.addNewState,
+            putNew: true,
+            loading: false,
+            addedContact: false,
+            failed: false
+        };
+        // this.renderAddNew = this.renderAddNew.bind(this);
+        // this.renderEditMode = this.renderEditMode.bind(this);
         this.normalMode = this.normalMode.bind(this);
         this.addNewMode = this.addNewMode.bind(this);
         this.editState = this.editState.bind(this);
         this.closeMode = this.closeMode.bind(this);
         this.putNewData = this.putNewData.bind(this);
         this.handleAdd = this.handleAdd.bind(this);
-
     }
 
     editState() {
-
-        this.setState({ close: true })
+        this.setState({ close: true });
     }
 
     closeMode() {
-        this.setState({ close: false })
-        return (<p>Your Contact Added Succesfully</p>)
+        this.setState({ close: false });
+        return (<p>Your Contact Added Succesfully</p>);
     }
 
     handleAdd() {
         this.setState({ putNew: false });
-        console.log(this.state.putNew)
+        console.log(this.state.putNew);
     }
 
     addedContact() {
@@ -59,27 +63,14 @@ class AddNewContact extends Component {
                 console.log(that);
                 if (response.error) {
                     call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
-                    console.log(this)
+                    console.log(this);
                 }
                 else {
-                    alert("Error Request")
+                    alert("Error Request");
                 }
             });
         }
     }
-
-    // return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
-    //     method: 'POST',
-    //     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-    //     body: JSON.stringify(added_data),
-    // })
-    //     .then(function (response) {
-    //         if (!response.ok) {
-    //             that.setState({ loading: false });
-    //             console.log(response);
-    //         } else {
-    //             that.setState({ loading: false });
-    //         }
 
     addNewMode() {
         return (<div className="add_new">
@@ -103,11 +94,12 @@ class AddNewContact extends Component {
     }
     render() {
         if (this.state.close) {
-            return this.addNewMode()
+            return this.addNewMode();
         }
         else {
-            return this.normalMode()
+            return this.normalMode();
         }
     }
 }
+
 export { AddNewContact }; 

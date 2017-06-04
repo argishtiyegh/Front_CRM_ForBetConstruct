@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import '../StyleSheet/Contacts.css';
 
-
 class Headers extends Component {
     constructor(props) {
         super(props);
@@ -12,19 +11,17 @@ class Headers extends Component {
     getHeadersData() {
         // getting header data
         const obj = this.props.headerData;
-        console.log(obj)
+        console.log(obj);
         // defining rendered headers
         let headers = [];
         for (let i in obj) {
             headers.push(i);
         }
-        console.log(headers)
+        console.log(headers);
         let header = headers.splice(0, 5);
         // rendering headers as table heads
-        return header
+        return header;
     }
-
-   
 
     renderHeaders(headers, index) {
         return (<th className="table_data table_head_data" key={index}>{headers}</th>)
@@ -43,4 +40,5 @@ class Headers extends Component {
         )
     }
 }
+
 export { Headers };

@@ -5,18 +5,14 @@
 }
 
 .table_head_data {
-    text-align: center;
-    
+    text-align: center;  
 }
 
 .all_contacts{
-
-font-family: arial, sans-serif;
+    font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
-    
+    width: 100%;  
 }
-
 
 .count{
     font-size: 20px;
@@ -62,7 +58,7 @@ font-family: arial, sans-serif;
 
 .buttonSend{
     float: right;
-        clear: both;
+    clear: both;
    
 }
 
@@ -125,12 +121,12 @@ font-family: arial, sans-serif;
     background-color: rgba(224,224,224,0.07);
 }
 .edit_delete{
-        margin: 0px 8px;
+    margin: 0px 8px;
     padding: 5px 10px;
     cursor: pointer;
-        border: none;
-        color: white;
-        background: rgb(0, 188, 212)
+    border: none;
+    color: white;
+    background: rgb(0, 188, 212)
     
 }
 .del{
@@ -141,7 +137,28 @@ font-family: arial, sans-serif;
 .upload{
     float: left;
     color: white;
-        background: rgb(0, 188, 212)
+    background: #dddddd;
+}
+
+.uploadFile{
+    clear: both;
+    overflow: auto;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+.chooseFile{
+    background-color: #dddddd; 
+    border: none;
+    color: white;
+    padding: 13px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
 }
 
 .button_send:disabled{
@@ -158,12 +175,52 @@ font-family: arial, sans-serif;
     clear: both;
     overflow: auto;
     float: left;
+    margin-top: 20px;
+    margin-left: 5px;
+}
+
+.listName{
+    margin: 1% 0%;
+    padding: 12px 20px;    
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    
+}
+
+/* select options */
+
+ .selectJoin {
+   margin: auto;
+   width: 170px;
+   height: 28px;
+   overflow: hidden;
+   background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
+   border: #FEFEFE 1px solid;
+   -webkit-border-radius: 3px;
+   border-radius: 3px;
+   -webkit-box-shadow: inset 0px 0px 10px 1px #FEFEFE;
+   box-shadow: inset 0px 0px 10px 1px #FEFEFE;
+   }
+.selectJoin select {
+   margin: auto;
+   background: transparent;
+   width: 170px;
+   font-size:12pt;
+   color:grey;
+   border: 0;
+   border-radius: 0;
+   height: 28px;
+   -webkit-appearance: none;
+   }
+   .selectJoin select:focus {
+    outline: none;
+
 }
 
 /*NEW*/
 
 .del:disabled{
-
     cursor: not-allowed;
     background: burlywood;
     color: black;
@@ -196,12 +253,12 @@ font-family: arial, sans-serif;
 }
 
 .send_template{
-        margin: 10px 72px;
-         background: black;
+    margin: 10px 72px;
+    background: black;
 }
 
 .select_template{
-        padding: 6px;
+    padding: 6px;
     width: 28%;
 }
 .contacts_status {
