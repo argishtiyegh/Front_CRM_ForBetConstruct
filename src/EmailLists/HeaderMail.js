@@ -6,7 +6,16 @@ import call from '../helpers/call.js';
 class HeaderMail extends Component {
     constructor(props) {
         super(props);
-        this.state = { checks: true, dbContactsEmail: [], ContactsDB: [], mailDb: "", editMode: false, disabling: "", deletes: true, edit: true };
+        this.state = {
+            checks: true,
+            dbContactsEmail: [],
+            ContactsDB: [],
+            mailDb: "",
+            editMode: false,
+            disabling: "",
+            deletes: true,
+            edit: true
+        };
         //  this.deleteMailList = this.deleteMailList.bind(this);
         this.renderBody = this.renderBody.bind(this);
         this.handleDel = this.handleDel.bind(this);
@@ -19,46 +28,37 @@ class HeaderMail extends Component {
     }
 
     getBoxId(e) {
-
         if (this.state.checks) {
             this.idscontacts = this.props.dbase[e.target.id].EmailListID;
             call('api/emaillists/' + this.idscontacts, "GET").then((response) => {
-                this.setState({ dbContactsEmail: response, ContactsDB: response })
+                this.setState({ dbContactsEmail: response, ContactsDB: response });
             })
             console.log(this.state.dbContactsEmail);
         }
-
     }
 
 
     handleDel(e, deleteID) {
-        this.setState({ deletes: !this.state.deletes })
-
+        this.setState({ deletes: !this.state.deletes });
         if (this.state.deletes) {
             deleteID = this.props.dbase[parseInt(e.target.id)].EmailListID;
-            this.setState({ deletes: this.state.deletes })
+            this.setState({ deletes: this.state.deletes });
         };
         let that = this;
         call('api/emaillists?id=' + deleteID, 'DELETE').then(function (response) {
-            console.log(that)
+            console.log(that);
             if (response.error) {
                 call('api/emaillists', 'GET').then(response => { response.error ? alert(response.message) : that.props.changeDB(response) })
-                console.log(this)
-            }
-            else {
-                alert("Error Request")
+                console.log(this);
             }
         })
-
     }
 
-
-
     handleStateEdit(e) {
-        this.setState({ edit: !this.state.edit })
+        this.setState({ edit: !this.state.edit });
         this.editID = this.props.dbase[parseInt(e.target.id)].EmailListID;
-        this.editName = this.props.dbase[parseInt(e.target.id)].EmailListName
-        console.log(this.props.dbase[parseInt(e.target.id)].EmailListID)
+        this.editName = this.props.dbase[parseInt(e.target.id)].EmailListName;
+        console.log(this.props.dbase[parseInt(e.target.id)].EmailListID);
     }
 
     saveEdits(event, savedData) {
@@ -67,21 +67,18 @@ class HeaderMail extends Component {
             "Guids": null,
             "EmailListName": this.refs.listname.value,
             "EmailListID": this.editID
-        }
-        console.log(this.refs.listname.value)
+        };
+        console.log(this.refs.listname.value);
         let that = this;
         call('api/emaillists', 'PUT', savedData).then(function (response) {
-
             if (response.error) {
                 call('api/emaillists', 'GET').then(response => { response.error ? alert(response.message) : that.props.changeDB(response) })
-
             }
             else {
                 alert("Error Request")
             }
             that.closeEditMode()
         })
-
     }
 
     closeEditMode() {
@@ -89,7 +86,6 @@ class HeaderMail extends Component {
     }
 
     handleEdit(key) {
-
         if (!this.state.edit) {
             return (
                 <div className="edit_mode">
@@ -107,8 +103,6 @@ class HeaderMail extends Component {
         }
     }
 
-
-
     renderBody(value, key) {
         return (
             <tr className="table_row" key={key} id={key}>
@@ -121,7 +115,6 @@ class HeaderMail extends Component {
             </tr>)
     }
 
-
     render() {
         return (
             <tbody>
@@ -130,4 +123,5 @@ class HeaderMail extends Component {
         )
     }
 }
+
 export { HeaderMail };

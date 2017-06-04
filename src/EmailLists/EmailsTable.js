@@ -2,16 +2,12 @@ import React, { Component } from 'react';
 import call from '../helpers/call.js';
 import '../StyleSheet/Contacts.css';
 
-
-
 class EmailsTable extends Component {
     constructor(props) {
         super(props);
-
     }
 
     renderBody(value, key) {
-
         return (
             <tr key={key} className="table_row">
                 <td className="table_data checkbox"><input type="checkbox" /></td>
@@ -29,7 +25,6 @@ class EmailsTable extends Component {
 
     renderContacts() {
         return (
-
             <table className="all_contacts mailList">
                 <thead>
                     <tr>
@@ -53,8 +48,7 @@ class EmailsTable extends Component {
     }
 
     render() {
-
-        return (this.renderContacts())
+        return (this.renderContacts());
     }
 }
-export { EmailsTable }
+export { EmailsTable };

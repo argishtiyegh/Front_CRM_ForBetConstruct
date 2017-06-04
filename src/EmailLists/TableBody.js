@@ -7,7 +7,12 @@ import '../StyleSheet/Contacts.css';
 class TableBody extends Component {
     constructor(props) {
         super(props);
-        this.state = { editing: false, getEmailListIdArr: [], checkings: false, editName: [] };
+        this.state = {
+            editing: false,
+            getEmailListIdArr: [],
+            checkings: false,
+            editName: []
+        };
         this.edit = this.edit.bind(this);
         this.save = this.save.bind(this);
         this.editMode = this.editMode.bind(this);
@@ -52,8 +57,6 @@ class TableBody extends Component {
     editMode() {
         return (
             <tbody>
-
-                
                 <tr className="table_row">
                     <td className="table_data"><input type="text" ref="newText" defaultValue={this.state.editName}></input></td>
                 </tr>
@@ -98,9 +101,7 @@ class TableBody extends Component {
         if (this.state.editing) {
             return this.editMode();
         } else {
-            return (this.normalMode()
-           
-                    )
+            return this.normalMode();
         }
     }
 }

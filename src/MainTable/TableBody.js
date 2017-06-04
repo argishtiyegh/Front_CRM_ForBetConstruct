@@ -6,18 +6,30 @@ import call from '../helpers/call.js'
 class TableBody extends Component {
   constructor(props) {
     super(props);
-    this.state = { guId: [], checkings: false, edit: false, editableData: [], editguID: "", status: "disable", loading: false };
+    this.state = {
+      guId: [],
+      checkings: false,
+      edit: false,
+      editableData: [],
+      editguID: "",
+      status: "disable",
+      loading: false,
+      delete: false,
+      guIDForDel: ""
+    };
     this.renderHeaders = this.renderHeaders.bind(this);
     this.getGuId = this.getGuId.bind(this);
     this.handleEdit = this.handleEdit.bind(this);
     this.closeEdit = this.closeEdit.bind(this);
     this.SaveEdits = this.SaveEdits.bind(this);
     this.DelContact = this.DelContact.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
+    this.closeDelete = this.closeDelete.bind(this);
   }
 
   getGuId(e) {
     this.props.checkBoxHide(e.target);
-    if (e.target.checked === true) {
+    if (e.target.checked) {
       this.state.guId.push(this.props.database[e.target.id].GuID);
     }
     else {
@@ -26,18 +38,16 @@ class TableBody extends Component {
         this.state.guId.splice(index, 1);
       }
     }
-    this.setState({ guId: this.state.guId })
+    this.setState({ guId: this.state.guId });
 
     if (this.state.guId.length > 0) {
-      this.props.changeSt(false)
+      this.props.changeSt(false);
     }
     else {
-      this.props.changeSt(true)
+      this.props.changeSt(true);
     }
-
-    this.props.getSendData(this.state.guId)
-    console.log(this.state.guId)
-
+    this.props.getSendData(this.state.guId);
+    console.log(this.state.guId);
   };
 
   handleEdit(e) {
@@ -46,28 +56,36 @@ class TableBody extends Component {
     let editData = this.props.database[e.target.id - 1];
     this.firstname = editData["Full Name"].split(" ")[0];
     this.lastname = editData["Full Name"].split(" ")[1];
-    this.setState({ editableData: editData, editguID: editData.GuID })
+    this.setState({ editableData: editData, editguID: editData.GuID });
+  }
+
+  handleDelete(e) {
+    this.setState({ delete: true });
+    this.state.guIDForDel = this.props.database[e.target.id - 1].GuID;
   }
 
   DelContact(e, guid_del) {
     this.setState({ loading: true });
-    let deletedata = this.props.database[e.target.id - 1];
-    guid_del = deletedata.GuID;
+
+    guid_del = this.state.guIDForDel;
+    console.log(guid_del);
     let that = this;
     call('api/contacts?guid=' + guid_del, 'DELETE').then(function (response) {
-      console.log(that)
+      console.log(that);
       if (response.error) {
         call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }); })
         console.log(this);
       }
-      else {
-        console.log(this);
-      }
+      that.closeDelete();
     })
   }
 
   closeEdit() {
-    this.setState({ edit: false })
+    this.setState({ edit: false });
+  }
+
+  closeDelete() {
+    this.setState({ delete: false });
   }
 
   SaveEdits(event, putObject) {
@@ -83,21 +101,18 @@ class TableBody extends Component {
     }
     let that = this;
     call('api/contacts', 'PUT', putObject).then(function (response) {
-      console.log(that)
+      console.log(that);
       if (response.error) {
         call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
-        console.log(this)
+        console.log(this);
       }
-      else {
-        alert("Error Request")
-      }
-      that.closeEdit()
+      that.closeEdit();
     })
   }
 
   editingRender(key) {
     let dataPlacehold = this.state.editableData;
-    if (this.state.edit === true) {
+    if (this.state.edit) {
       return (
         <div className="edit_mode">
           <form onSubmit={this.SaveEdits} className="edit_form">
@@ -120,10 +135,33 @@ class TableBody extends Component {
     }
   }
 
+  deletingRender(key) {
+    if (this.state.delete) {
+      return (
+        <div className="edit_mode">
+          <form className="edit_form">
+            <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
+            <button className="main_buttons" onClick={this.closeDelete}>Close</button>
+            <button className="main_buttons" onClick={this.DelContact}>Delete</button>
+          </form>
+          {this.state.loading && <LoadingGIF />}
+        </div>
+      )
+    }
+    else {
+      return (<button className="edit_delete" onClick={this.handleDelete} id={key}>Delete</button>)
+    }
+  }
+
   renderHeaders(value, key) {
     return (
       <tr key={key} className="table_row">
-        <td className="table_data checkbox"><input type="checkbox" defaultChecked={this.state.checkings} id={key} onChange={this.getGuId} /></td>
+        <td className="table_data checkbox">
+          <input type="checkbox" 
+            defaultChecked={this.state.checkings}
+            id={key}
+            onChange={this.getGuId} />
+        </td>
         <td className="table_data">{key += 1}</td>
         <td className="table_data">{value["Full Name"]}</td>
         <td className="table_data">{value["Company Name"]}</td>
@@ -131,7 +169,7 @@ class TableBody extends Component {
         <td className="table_data">{value.Country}</td>
         <td className="table_data">{value.Email}</td>
         <td className="table_data">{this.editingRender(key)}</td>
-        <td className="table_data"><button id={key} onClick={this.DelContact} className="edit_delete del">Delete</button></td>
+        <td className="table_data">{this.deletingRender(key)}</td>
         <td>{this.state.loading && <LoadingGIF />}</td>
       </tr>
     )

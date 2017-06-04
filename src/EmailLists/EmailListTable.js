@@ -20,7 +20,11 @@ function TableHead(props) {
 class EmailListTable extends Component {
     constructor(props) {
         super(props);
-        this.state = { dbMailingList: [], templatesDb: [], contactViewMode: false };
+        this.state = {
+            dbMailingList: [],
+            templatesDb: [],
+            contactViewMode: false
+        };
         this.changeDbMailingList = this.changeDbMailingList.bind(this);
         this.changeContactView = this.changeContactView.bind(this);
     }
@@ -53,7 +57,10 @@ class EmailListTable extends Component {
                         <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
                         <table className="all_contacts mailList">
                             <TableHead />
-                            <HeaderMail dbase={this.state.dbMailingList} changeDB={this.changeDbMailingList} ></HeaderMail>
+                            <HeaderMail
+                                dbase={this.state.dbMailingList}
+                                changeDB={this.changeDbMailingList} >
+                            </HeaderMail>
                         </table>
                         <button className="main_buttons button_send">SEND EMAIL</button>
                         <button className="edit_delete list_buttons list_view" disabled={this.state.disabl} onClick={this.viewTable}>{this.value}</button>
@@ -69,15 +76,18 @@ class EmailListTable extends Component {
                         <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
                         <table className="all_contacts mailList">
                             <TableHead />
-                            <HeaderMail changeDB={this.changeDbMailingList} dbase={this.state.dbMailingList}></HeaderMail>
+                            <HeaderMail
+                                changeDB={this.changeDbMailingList}
+                                dbase={this.state.dbMailingList}>
+                            </HeaderMail>
                         </table>
                         <button className="main_buttons button_send">SEND EMAIL</button>
                         <button className="edit_delete list_buttons list_view">VIEW LIST</button>
                     </div>
                 </div>
             )
-
         }
     }
 }
+
 export { EmailListTable };

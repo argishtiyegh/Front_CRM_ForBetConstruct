@@ -6,7 +6,13 @@ import call from '../helpers/call.js'
 class AddNewContact extends Component {
     constructor(props) {
         super(props);
-        this.state = { close: this.props.addNewState, putNew: true, loading: false, addedContact: false, failed: false };
+        this.state = {
+            close: this.props.addNewState,
+            putNew: true,
+            loading: false,
+            addedContact: false,
+            failed: false
+        };
         //    this.renderAddNew = this.renderAddNew.bind(this);
         //  this.renderEditMode = this.renderEditMode.bind(this);
         this.normalMode = this.normalMode.bind(this);
@@ -19,7 +25,6 @@ class AddNewContact extends Component {
     }
 
     editState() {
-
         this.setState({ close: true })
     }
 
@@ -60,9 +65,6 @@ class AddNewContact extends Component {
                 if (response.error) {
                     call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
                     console.log(this)
-                }
-                else {
-                    alert("Error Request")
                 }
             });
         }
