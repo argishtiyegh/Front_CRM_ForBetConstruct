@@ -5,50 +5,112 @@ import '../StyleSheet/Contacts.css';
 class EmailsTable extends Component {
     constructor(props) {
         super(props);
+        this.state = { guId: [], disabling: true, };
+        this.mapList = this.mapList.bind(this);
+        this.checkBoxDel = this.checkBoxDel.bind(this);
+        this.deletContact = this.deletContact.bind(this);
+        this.closeList = this.closeList.bind(this);
     }
 
-    renderBody(value, key) {
+
+    checkBoxDel(e) {
+        if (e.target.checked === true) {
+            this.state.guId.push(this.props.datas[e.target.id].GuID);
+        }
+        else {
+            let index = this.state.guId.indexOf(this.props.datas[e.target.id].GuID);
+            if (index >= 0) {
+                this.state.guId.splice(index, 1);
+            }
+
+        }
+        if (this.state.guId.length != 0) {
+            this.setState({ disabling: false })
+        }
+        else {
+            this.setState({ disabling: true })
+        }
+
+        console.log(this.state.guId)
+        console.log(this.props.listID)
+    }
+
+    deletContact(deleteData) {
+       deleteData = {
+            "EmailListID": this.props.listID,
+            "Guids": this.state.guId
+        };
+        deleteData=JSON.stringify(deleteData)
+        console.log(deleteData)
+        let that = this;
+        call("api/emaillists", "DELETE", deleteData).then(function (response) {
+            console.log(deleteData)
+            
+           if (response.error) {
+                console.log(deleteData)
+                console.log(response.message)
+                call('api/emaillists/'+that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts) })
+              console.log(this);
+            }
+        })
+         this.setState({guId: []})
+    }
+
+    mapList(value, key) {
         return (
+
             <tr key={key} className="table_row">
-                <td className="table_data checkbox"><input type="checkbox" /></td>
-                <td className="table_data">{key += 1}</td>
+                <td className="table_data"><input type="checkbox" id={key} onChange={this.checkBoxDel} /></td>
                 <td className="table_data">{value["Full Name"]}</td>
                 <td className="table_data">{value["Company Name"]}</td>
                 <td className="table_data">{value.Position}</td>
                 <td className="table_data">{value.Country}</td>
                 <td className="table_data">{value.Email}</td>
-                <td className="table_data"><button id={key} className="edit_delete del">Edit</button></td>
-                <td className="table_data"><button id={key} className="edit_delete del">Delete</button></td>
-            </tr>)
+            </tr>
 
-    }
 
-    renderContacts() {
-        return (
-            <table className="all_contacts mailList">
-                <thead>
-                    <tr>
-                        <th className="table_data table_head_data">SELECT</th>
-                        <th className="table_data table_head_data">NUMBER</th>
-                        <th className="table_data table_head_data">FULL NAME</th>
-                        <th className="table_data table_head_data">COMPANY NAME</th>
-                        <th className="table_data table_head_data">POSITION</th>
-                        <th className="table_data table_head_data">COUNTRY</th>
-                        <th className="table_data table_head_data">EMAIL</th>
-                        <th className="table_data table_head_data">EDIT</th>
-                        <th className="table_data table_head_data">DELETE</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {this.state.contacts.map(this.renderBody)}
-                </tbody>
-            </table>
         )
-
     }
 
+    closeList() {
+        this.props.updateContacts([])
+    }
     render() {
-        return (this.renderContacts());
+
+        if (this.props.datas.length > 0) {
+            return (
+
+                <div>
+                    <button onClick={this.closeList} className="edit_delete closelist">Close</button>
+                    <table className="all_contacts">
+                        <thead>
+                            <tr className="table_row"><th className="table_data">Select</th>
+                                <th className="table_data">Full Name</th>
+                                <th className="table_data">Company Name</th>
+                                <th className="table_data">Position</th>
+                                <th className="table_data">Country</th>
+                                <th className="table_data">Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.props.datas.map(this.mapList)}
+                        </tbody>
+                    </table>
+                    <button disabled={this.state.disabling} onClick={this.deletContact} className="edit_delete del">Delete</button>
+
+                </div>
+            )
+        }
+        else {
+            return (
+                <table>
+                    <tbody>
+                        {this.props.datas.map(this.mapList)}
+                    </tbody>
+                </table>
+            )
+        }
     }
 }
-export { EmailsTable };
+export { EmailsTable }
+

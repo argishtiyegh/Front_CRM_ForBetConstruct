@@ -3,30 +3,37 @@ import ReactDOM from 'react-dom';
 import call from '../helpers/call.js';
 import { HeaderMail } from './HeaderMail';
 import { EmailsTable } from './EmailsTable';
+import {SendEmail} from './SendEmail';
 import '../StyleSheet/Contacts.css';
 
 function TableHead(props) {
     return (<thead>
         <tr>
-            <th className="table_data table_head_data">SELECT</th>
-            <th className="table_data table_head_data">NUMBER</th>
-            <th className="table_data table_head_data">NAME</th>
-            <th className="table_data table_head_data">EDIT</th>
-            <th className="table_data table_head_data">VIEW LIST</th>
-            <th className="table_data table_head_data">DELETE</th>
+            <th className="table_data">SELECT</th>
+            <th className="table_data">NAME</th>
+            <th className="table_data">EDIT</th>
+            <th className="table_data">VIEW LIST</th>
+            <th className="table_data">DELETE</th>
+            <th className="table_data">SEND EMAIL</th>
+
         </tr>
     </thead>)
 }
 class EmailListTable extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            dbMailingList: [],
-            templatesDb: [],
-            contactViewMode: false
-        };
+        this.state = { listID: "", message: "Click on VIEW LIST button to see contact's list", header: "", dbMailingList: [], templatesDb: [], contacts: [], contactViewMode: false };
         this.changeDbMailingList = this.changeDbMailingList.bind(this);
         this.changeContactView = this.changeContactView.bind(this);
+        this.changeContactsState = this.changeContactsState.bind(this);
+        this.getHeader = this.getHeader.bind(this);
+        this.getID = this.getID.bind(this);
+        this.updateContacts = this.updateContacts.bind(this);
+    }
+
+    updateContacts(value) {
+        this.setState({ contacts: value })
+
     }
     componentDidMount() {
         call('api/emaillists', "GET").then((response) => {
@@ -40,6 +47,23 @@ class EmailListTable extends Component {
         }
         );
     }
+    getHeader(value) {
+        this.setState({ header: value })
+    }
+
+    getID(value) {
+        this.setState({ listID: value })
+    }
+    changeContactsState(newvalue) {
+
+        this.setState({ contacts: newvalue })
+        if (this.state.contacts.length != 0) {
+            this.setState({ message: "Email List's Contacts" })
+        }
+        else {
+            this.setState({ message: "Email List is Empty" })
+        }
+    }
     changeContactView(value) {
 
         this.setState({ contactViewMode: value })
@@ -50,44 +74,21 @@ class EmailListTable extends Component {
     }
 
     render() {
-        if (this.state.rend) {
-            return (
+
+        return (
+            <div>
+                <h3 className="contacts_status"> {this.state.header} {this.state.message}</h3>
+                <EmailsTable updateContacts={this.updateContacts} listID={this.state.listID} dbase={this.state.dbMailingList} mes={this.message} datas={this.state.contacts} />
                 <div>
-                    <div>
-                        <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
-                        <table className="all_contacts mailList">
-                            <TableHead />
-                            <HeaderMail
-                                dbase={this.state.dbMailingList}
-                                changeDB={this.changeDbMailingList} >
-                            </HeaderMail>
-                        </table>
-                        <button className="main_buttons button_send">SEND EMAIL</button>
-                        <button className="edit_delete list_buttons list_view" disabled={this.state.disabl} onClick={this.viewTable}>{this.value}</button>
-                    </div>
-                    <EmailsTable />
+                    <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
+                    <table className="all_contacts mailList">
+                        <TableHead />
+                        <HeaderMail getID={this.getID} header={this.getHeader} changeContacts={this.changeContactsState} dbase={this.state.dbMailingList} changeDB={this.changeDbMailingList} ></HeaderMail>
+                    </table>
                 </div>
-            )
-        }
-        else {
-            return (
-                <div>
-                    <div>
-                        <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
-                        <table className="all_contacts mailList">
-                            <TableHead />
-                            <HeaderMail
-                                changeDB={this.changeDbMailingList}
-                                dbase={this.state.dbMailingList}>
-                            </HeaderMail>
-                        </table>
-                        <button className="main_buttons button_send">SEND EMAIL</button>
-                        <button className="edit_delete list_buttons list_view">VIEW LIST</button>
-                    </div>
-                </div>
-            )
-        }
+
+            </div>
+        )
     }
 }
-
 export { EmailListTable };

@@ -17,6 +17,7 @@ font-family: arial, sans-serif;
     
 }
 
+
 .count{
     font-size: 20px;
     color: #735a73;
@@ -124,12 +125,12 @@ font-family: arial, sans-serif;
     background-color: rgba(224,224,224,0.07);
 }
 .edit_delete{
-    margin: 0px 8px;
+        margin: 0px 8px;
     padding: 5px 10px;
     cursor: pointer;
-    border: none;
-    color: white;
-    background: rgb(0, 188, 212)
+        border: none;
+        color: white;
+        background: rgb(0, 188, 212)
     
 }
 .del{
@@ -156,45 +157,58 @@ font-family: arial, sans-serif;
 .createList{
     clear: both;
     overflow: auto;
-        float: left;
+    float: left;
 }
 
-.listName{
-    margin: 1% 0%;
-    padding: 1% 0%;
-    font-size: 14px;
+/*NEW*/
 
+.del:disabled{
+
+    cursor: not-allowed;
+    background: burlywood;
+    color: black;
+}
+    .view_list{
+    background: #FF9800;
+    margin: 0px 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    }
+
+.closelist{
+    float: right;
 }
 
-/* checkbox */
+.send_email{
+    background: #795548;
+}
 
+.send_email_template{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 22% 0%;
+    background-color: rgba(224,224,224,0.07);
+}
 
-/* select options */
+.send_template{
+        margin: 10px 72px;
+         background: black;
+}
 
- .selectJoin {
-   margin: auto;
-   width: 170px;
-   height: 28px;
-   overflow: hidden;
-   background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
-   border: #FEFEFE 1px solid;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
-   -webkit-box-shadow: inset 0px 0px 10px 1px #FEFEFE;
-   box-shadow: inset 0px 0px 10px 1px #FEFEFE;
-   }
-.selectJoin select {
-   margin: auto;
-   background: transparent;
-   width: 170px;
-   font-size:12pt;
-   color:grey;
-   border: 0;
-   border-radius: 0;
-   height: 28px;
-   -webkit-appearance: none;
-   }
-   .selectJoin select:focus {
-    outline: none;
-
+.select_template{
+        padding: 6px;
+    width: 28%;
+}
+.contacts_status {
+    text-align: center;
+    color: #ff9800;
+    font-family: font;
+}
+.deleteContacts{
+    margin-top: 1%;
 }

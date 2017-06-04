@@ -7,7 +7,7 @@ class Headers extends Component {
         super(props);
         this.getHeadersData = this.getHeadersData.bind(this);
         this.renderHeaders = this.renderHeaders.bind(this);
-        console.log(this.getHeadersData());
+        console.log(this.getHeadersData())
     }
     getHeadersData() {
         // getting header data
@@ -23,6 +23,8 @@ class Headers extends Component {
         // rendering headers as table heads
         return header
     }
+
+   
 
     renderHeaders(headers, index) {
         return (<th className="table_data table_head_data" key={index}>{headers}</th>)
