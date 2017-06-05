@@ -30,7 +30,8 @@ class Table extends Component {
             templatesDB: [],
             templateId: "",
             deleteMultiple: true,
-            addContactsToList: true
+            addContactsToList: true,
+            disableInput: true,
         };
         //this.putNewContacts=this.putNewContacts.bind(this);
         this.getSendMailData = this.getSendMailData.bind(this);
@@ -39,7 +40,6 @@ class Table extends Component {
         this.putData = this.putData.bind(this);
         this.ReusableChangeState = this.ReusableChangeState.bind(this);
         this.changeSelectAll = this.changeSelectAll.bind(this);
-        this.checkBoxHide = this.checkBoxHide.bind(this);
         this.createMailingList = this.createMailingList.bind(this);
         this.sentMsg = this.sentMsg.bind(this);
         this.failedMsg = this.failedMsg.bind(this);
@@ -51,6 +51,7 @@ class Table extends Component {
         this.closePopUp = this.closePopUp.bind(this);
         this.closeDeletePopup = this.closeDeletePopup.bind(this);
         this.handleDelMultiple = this.handleDelMultiple.bind(this);
+        this.changeInputDisable=this.changeInputDisable.bind(this);
     }
 
     componentDidMount() {
@@ -75,11 +76,7 @@ class Table extends Component {
         call('api/contacts', 'PUT', putJSON)
     }
 
-    checkBoxHide(target) {
-        this.state.arrayCheckes.push(target);
-    }
-
-    closeMode() {
+   closeMode() {
         this.setState({ AddNewMode: false })
     }
 
@@ -120,6 +117,15 @@ class Table extends Component {
     getTemplateId(e) {
         this.state.templateId = this.state.templatesDB[e.target.selectedIndex].TemplateId;
         console.log(this.state.templateId);
+    }
+
+    changeInputDisable(){
+        if(this.refs.listname.value.length>0 && this.state.sendMail.length!=0){
+            this.setState({disableInput: false})
+        }
+        else{
+            this.setState({disableInput: true})
+        }
     }
 
     postData(sendData, tempId) {
@@ -213,7 +219,7 @@ class Table extends Component {
                 addNewState={this.state.AddNewMode}
                 change={this.changeState} />
             <p className="count">Number of Contacts: {this.state.db.length}</p>
-            <input type="checkbox" onChange={this.changeSelectAll} className="select_all" />
+            {/*<input type="checkbox" onChange={this.changeSelectAll} className="select_all" />*/}
             <div className="scroll">
                 <table className="all_contacts">
                     <Headers
@@ -227,14 +233,13 @@ class Table extends Component {
                         getSendData={this.getSendMailData}
                         put={this.putData}
                         change={this.changeState}
-                        database={this.state.db}
-                        checkBoxHide={this.checkBoxHide} />
+                        database={this.state.db} />
                 </table>
             </div>
             {this.sendingRender(key)}
             <div className="createList">
-                <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" />
-                <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disable} >Create New Mailing List</button>
+                <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable}/>
+                <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
             <div className="upload createList">
                 <UploadFile />

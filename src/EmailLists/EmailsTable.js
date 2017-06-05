@@ -32,8 +32,7 @@ class EmailsTable extends Component {
         else {
             this.setState({ disabling: true });
         }
-        console.log(this.state.guId);
-        console.log(this.props.listID);
+         
     }
 
     deletContact(deleteData) {
@@ -50,11 +49,11 @@ class EmailsTable extends Component {
             if (response.error) {
                 console.log(deleteData);
                 console.log(response.message);
-                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts) });
-                console.log(this);
+                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts)});            
             }
+            that.setState({guId: []});
         })
-        this.setState({ guId: [] });
+       
     }
 
     mapList(value, key) {

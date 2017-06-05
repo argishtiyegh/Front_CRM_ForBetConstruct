@@ -10,7 +10,6 @@ import '../StyleSheet/Contacts.css';
 function TableHead(props) {
     return (<thead>
         <tr>
-            <th className="table_data">SELECT</th>
             <th className="table_data">NAME</th>
             <th className="table_data">EDIT</th>
             <th className="table_data">VIEW LIST</th>
@@ -84,7 +83,7 @@ class EmailListTable extends Component {
 
     render() {
         return (
-            <div>
+            <div className="emailListSection">
                 <h3 className="contacts_status"> {this.state.header} {this.state.message}</h3>
                 <EmailsTable 
                     updateContacts={this.updateContacts}

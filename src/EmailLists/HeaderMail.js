@@ -23,7 +23,7 @@ class HeaderMail extends Component {
             listIDForDel: "",
             loading: false
         };
-        //  this.deleteMailList = this.deleteMailList.bind(this);
+      
         this.renderBody = this.renderBody.bind(this);
         this.deleteList = this.deleteList.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
@@ -35,7 +35,7 @@ class HeaderMail extends Component {
         this.changeSend = this.changeSend.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.closeDelete = this.closeDelete.bind(this);
-        // this.getBoxId = this.getBoxId.bind(this);
+       
     }
 
     getContacts(event) {
@@ -56,6 +56,7 @@ class HeaderMail extends Component {
     }
 
     deleteList(e, deleteID) {
+        e.preventDefault()
         this.setState({ loading: true });
         this.setState({ deletes: !this.state.deletes });
         if (this.state.deletes) {
@@ -136,10 +137,10 @@ class HeaderMail extends Component {
         if (!this.state.delete) {
             return (
                 <div className="edit_mode">
-                    <form className="edit_form">
+                    <form className="edit_form" onSubmit={this.deleteList}>
                         <h3 className="add_new_header">Are you sure you want to delete this Mailing List ?</h3>
                         <button className="main_buttons" onClick={this.closeDelete}>No</button>
-                        <button className="main_buttons" onClick={this.deleteList}>Yes</button>
+                        <button type="submit" className="main_buttons">Yes</button>
                     </form>
                     {this.state.loading && <LoadingGIF />}
                 </div>
@@ -154,7 +155,6 @@ class HeaderMail extends Component {
         const data = this.state.emaillists
         return (
             <tr className="table_row" key={key} id={key}>
-                <td className="table_data table_head_data"><input type="checkbox" name="ids" id={key} /></td>
                 <td className="table_data">{value.EmailListName}</td>
                 <td className="table_data table_head_data">{this.handleEdit(key)}</td>
                 <td className="table_data table_head_data"><button id={key} className=" view_list" onClick={this.getContacts}>VIEW LIST</button></td>

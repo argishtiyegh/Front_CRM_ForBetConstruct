@@ -28,7 +28,6 @@ class TableBody extends Component {
   }
 
   getGuId(e) {
-    this.props.checkBoxHide(e.target);
     if (e.target.checked) {
       this.state.guId.push(this.props.database[e.target.id].GuID);
     }
@@ -65,6 +64,7 @@ class TableBody extends Component {
   }
 
   DelContact(e, guid_del) {
+    e.preventDefault();
     this.setState({ loading: true });
     guid_del = this.state.guIDForDel;
     console.log(guid_del);
@@ -138,10 +138,10 @@ class TableBody extends Component {
     if (this.state.delete) {
       return (
         <div className="edit_mode">
-          <form className="edit_form">
+          <form className="edit_form" onSubmit={this.DelContact}>
             <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
             <button className="main_buttons" onClick={this.closeDelete}>No</button>
-            <button className="main_buttons" onClick={this.DelContact}>Yes</button>
+            <button className="main_buttons" type="submit">Yes</button>
           </form>
           {this.state.loading && <LoadingGIF />}
         </div>
@@ -182,4 +182,3 @@ class TableBody extends Component {
 }
 export { TableBody };
 
-//{/*ref={checkings => { this.allchecks.push(checkings)}}*/}

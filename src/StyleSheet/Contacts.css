@@ -224,8 +224,6 @@
 
 }
 
-/*NEW*/
-
 .del:disabled{
     cursor: not-allowed;
     background: burlywood;
@@ -402,7 +400,20 @@
     text-align: center;
     display: block;
     margin: 0;
-    width: 80%;
 }
 
-  
+.delete_mode{
+    margin: 0 auto;
+    padding: 0;
+    position: fixed;
+    top: 50%;
+    left: 0;
+    right: 0;
+    width: 45%;
+    background: burlywood;
+    border-radius: 18px;
+}
+
+.emailListSection{
+    margin-top: 4%;
+}
