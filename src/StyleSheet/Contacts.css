@@ -38,7 +38,6 @@
 .main_buttons{
     float: right;
     padding: 1%;
-    margin-top: 1%;
     margin-right: 2%;
     background: black;
     position: fixies;
@@ -144,6 +143,12 @@
     float: left;
     color: white;
     background: #dddddd;
+    width: 64%;
+    text-align: center;
+    overflow: auto;
+    float: right;
+    width: 38%;
+    margin: 3% auto;
 }
 
 .uploadFile{
@@ -178,15 +183,14 @@
 }
 
 .createList{
-    clear: both;
     overflow: auto;
     float: left;
-    margin-top: 20px;
     margin-left: 5px;
+    width: 38%;
 }
 
 .listName{
-    margin: 1% 0%;
+    margin: 3px 0%;
     padding: 12px 20px;    
     font-size: 14px;
     border: 1px solid #ccc;
@@ -416,4 +420,19 @@
 
 .emailListSection{
     margin-top: 4%;
+}
+
+.sendMail{
+    margin-top: 3px
+}
+
+.createList_but{
+     padding: 3%;
+}
+.uploadCSV{
+    background: #735a73;
+}
+
+.mainBlock{
+    margin-top: 3%;
 }

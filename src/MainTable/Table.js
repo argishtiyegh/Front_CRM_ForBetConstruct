@@ -209,12 +209,12 @@ class Table extends Component {
             )
         }
         else {
-            return (<button className="main_buttons button_send" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>)
+            return (<button className="main_buttons button_send sendMail" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>)
         }
     }
 
     render(key) {
-        return (<div>
+        return (<div className="mainBlock">
             <AddNewContact
                 addNewState={this.state.AddNewMode}
                 change={this.changeState} />
@@ -239,22 +239,24 @@ class Table extends Component {
             {this.sendingRender(key)}
             <div className="createList">
                 <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable}/>
-                <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
+                <button className="main_buttons createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
-            <div className="upload createList">
-                <UploadFile />
-                {this.state.loading && <LoadingGIF />}
-                {this.state.sent && <MessageSent />}
-                {this.state.failed && <MessageFailed />}
-            </div>
+            
             <div>
                 {this.state.addContactsToList ? (<button className="main_buttons button_send"
                     onClick={this.addContToListState}
-                    disabled={this.state.disable}>Add To existing Mail List</button>) : ((<AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />))}
+                    disabled={this.state.disable}>Add To Email List</button>) : ((<AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />))}
             </div>
             {this.state.deleteMultiple ? (<button className="main_buttons button_send"
                 onClick={this.handleDelMultiple}
                 disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple closePopUp={this.closeDeletePopup} guidsList={this.state.sendMail} change={this.changeState} />))}
+            <div className="upload createList">
+                    <UploadFile />
+                    {this.state.loading && <LoadingGIF />}
+                    {this.state.sent && <MessageSent />}
+                    {this.state.failed && <MessageFailed />}
+            </div>
+       
         </div>
         )
     }

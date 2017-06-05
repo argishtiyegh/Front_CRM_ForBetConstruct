@@ -38,6 +38,7 @@ class EmailListTable extends Component {
         this.getHeader = this.getHeader.bind(this);
         this.getID = this.getID.bind(this);
         this.updateContacts = this.updateContacts.bind(this);
+        this.changeHeadMessage=this.changeHeadMessage.bind(this);
     }
 
     updateContacts(value) {
@@ -81,6 +82,10 @@ class EmailListTable extends Component {
         this.setState({ dbMailingList: value });
     }
 
+    changeHeadMessage(value){
+        this.setState({message: value})
+    }
+
     render() {
         return (
             <div className="emailListSection">
@@ -90,7 +95,9 @@ class EmailListTable extends Component {
                     listID={this.state.listID}
                     dbase={this.state.dbMailingList}
                     mes={this.message}
-                    datas={this.state.contacts} />
+                    datas={this.state.contacts}
+                    changeHeadMessage={this.changeHeadMessage}
+                    header={this.getHeader} />
                 <div>
                     <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
                     <div className="scroll">

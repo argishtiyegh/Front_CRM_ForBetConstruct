@@ -11,7 +11,7 @@ position:fixed;
 .row{
     width: 100%;
     height: 100%;
-    background-color:  #735a73;
+    background-color: #3a373a;
     justify-content: center;
     align-items: center;
 }
@@ -76,7 +76,7 @@ h1{
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #735a73;
+    background: #3a373a;
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;

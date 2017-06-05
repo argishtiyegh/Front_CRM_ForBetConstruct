@@ -1,7 +1,7 @@
 .menu{
     list-style-type: none;
     width:20%;
-    background-color: #735a73;
+    background-color: #3a373a;
     overflow: hidden;
     display: inline-flex;
     justify-content:center;
@@ -34,10 +34,10 @@
 }
 
 .menu_item:hover{
-    background-color:#513654;
+    background-color:#00bcd4;
 }
 .active{
-    background-color:#513654;
+    background-color:#795548
 }
 a :active{
     background-color:#513654;

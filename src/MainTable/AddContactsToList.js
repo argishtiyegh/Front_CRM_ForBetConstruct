@@ -31,7 +31,7 @@ class AddContactsToList extends Component {
 
     getEmailListId(e) {
         this.setState({ EmailListId: e.target.value });
-        if (e.target.value != "Choose Template") {
+        if (e.target.value != "Choose Email List") {
             this.setState({ disabling: false });
         }
         else {
@@ -56,7 +56,7 @@ class AddContactsToList extends Component {
             <div>
                 <div className="select_email_list">
                     <select className="select_template" onChange={this.getEmailListId}>
-                        <option defaultValue="Choose Template">Choose Template</option>
+                        <option defaultValue="Choose Email List">Choose Email List</option>
                         {this.state.mailingListsDB.map(this.renderEmailList)}
                     </select>
                     <div>

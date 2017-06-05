@@ -71,6 +71,8 @@ class EmailsTable extends Component {
 
     closeList() {
         this.props.updateContacts([]);
+        this.props.changeHeadMessage("Click on VIEW LIST button to see contact's list");
+        this.props.header("")
     }
     render() {
         if (this.props.datas.length > 0) {
