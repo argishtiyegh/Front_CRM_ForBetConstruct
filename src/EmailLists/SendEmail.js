@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import call from '../helpers/call.js';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';

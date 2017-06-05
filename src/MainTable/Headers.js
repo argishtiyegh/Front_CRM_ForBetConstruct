@@ -6,18 +6,18 @@ class Headers extends Component {
         super(props);
         this.getHeadersData = this.getHeadersData.bind(this);
         this.renderHeaders = this.renderHeaders.bind(this);
-        console.log(this.getHeadersData())
+       
     }
     getHeadersData() {
         // getting header data
         const obj = this.props.headerData;
-        console.log(obj);
+      
         // defining rendered headers
         let headers = [];
         for (let i in obj) {
             headers.push(i);
         }
-        console.log(headers);
+       
         let header = headers.splice(0, 5);
         // rendering headers as table heads
         return header;

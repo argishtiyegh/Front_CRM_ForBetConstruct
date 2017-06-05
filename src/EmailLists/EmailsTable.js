@@ -26,7 +26,7 @@ class EmailsTable extends Component {
                 this.state.guId.splice(index, 1);
             }
         }
-        if (this.state.guId.length != 0) {
+        if (this.state.guId.length !== 0) {
             this.setState({ disabling: false });
         }
         else {

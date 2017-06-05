@@ -32,8 +32,9 @@ class Table extends Component {
             deleteMultiple: true,
             addContactsToList: true,
             disableInput: true,
+            disabling: true,
         };
-        //this.putNewContacts=this.putNewContacts.bind(this);
+       
         this.getSendMailData = this.getSendMailData.bind(this);
         this.postData = this.postData.bind(this);
         this.changeState = this.changeState.bind(this);
@@ -116,11 +117,16 @@ class Table extends Component {
 
     getTemplateId(e) {
         this.state.templateId = this.state.templatesDB[e.target.selectedIndex].TemplateId;
-        console.log(this.state.templateId);
+        if(e.target.value!=="Choose Template"){
+            this.setState({disabling: false})
+        }
+        else {
+            this.setState({disabling: true})
+        }
     }
 
     changeInputDisable() {
-        if (this.refs.listname.value.length > 0 && this.state.sendMail.length != 0) {
+        if (this.refs.listname.value.length > 0 && this.state.sendMail.length !== 0) {
             this.setState({ disableInput: false })
         }
         else {
@@ -128,7 +134,8 @@ class Table extends Component {
         }
     }
 
-    postData(sendData, tempId) {
+    postData(event,sendData, tempId) {
+        event.preventDefault();
         this.setState({ loading: true });
         if (this.state.selectAll) {
             this.allGuID = [];
@@ -187,21 +194,22 @@ class Table extends Component {
         )
     }
 
+
     sendingRender(key) {
         if (this.state.edit) {
             return (
                 <div className="edit_mode">
-                    <form className="edit_form">
+                    <form className="edit_form" onSubmit={this.postData}>
                         <h3 className="add_new_header">Select the template</h3>
                         <div className="selectJoin">
-                            <select
+                            <select 
                                 onChange={this.getTemplateId}>
+                                <option defaultValue="Choose Template">Choose Template</option>
                                 {this.state.templatesDB.map(this.renderOptions)}
-                                <option selected disabled>--</option>
                             </select>
                         </div>
                         <button className="main_buttons" onClick={this.closeSend}>Close</button>
-                        <button className="main_buttons" type="submit" onClick={this.postData}>Send</button>
+                        <button className="main_buttons del" disabled={this.state.disabling} type="submit">Send</button>
                     </form>
                     {this.state.loading && <LoadingGIF />}
                 </div>
@@ -255,7 +263,7 @@ class Table extends Component {
                 {this.state.sent && <MessageSent />}
                 {this.state.failed && <MessageFailed />}
             </div>
-
+          
         </div>
         )
     }

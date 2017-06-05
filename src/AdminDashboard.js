@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import {Table} from './MainTable/Table.js'
 import Header from "./Header.js"
 import Menu from "./Menu.js";
-import MailingLists from'./MailingLists/MailingLists';
-import SendEmails from './SendEmails.js';
 import {EmailListTable} from './EmailLists/EmailListTable';
 
 

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import call from '../helpers/call.js';
 import { HeaderMail } from './HeaderMail';
 import { EmailsTable } from './EmailsTable';
-import { SendEmail } from './SendEmail';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';
 

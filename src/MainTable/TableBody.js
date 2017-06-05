@@ -60,7 +60,7 @@ class TableBody extends Component {
 
   handleDelete(e) {
     this.setState({ delete: true });
-    this.state.guIDForDel = this.props.database[e.target.id - 1].GuID;
+    this.setState({guIDForDel:this.props.database[e.target.id - 1].GuID})
   }
 
   DelContact(e, guid_del) {

@@ -15,7 +15,7 @@ class AddContactsToList extends Component {
         this.closePopUp = this.closePopUp.bind(this);
         this.SendToExistingList = this.SendToExistingList.bind(this);
         this.getEmailListId = this.getEmailListId.bind(this);
-        // this.renderMail = this.renderMail.bind(this);
+       
     }
 
     componentDidMount() {

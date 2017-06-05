@@ -51,6 +51,7 @@
     float: left;
 }
 
+
 .headers{
     font-size: 32px;
     font-family: font;
@@ -72,7 +73,8 @@
     font-family: font;
     text-align: center;
     display: block;
-    margin: 0;
+    margin: 3% 0;
+   
 }
 .add_new_form{
     text-align: center;
@@ -202,7 +204,8 @@
 
  .selectJoin {
    margin: auto;
-   width: 170px;
+  width: 50%;
+
    height: 28px;
    overflow: hidden;
    background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
@@ -215,7 +218,7 @@
 .selectJoin select {
    margin: auto;
    background: transparent;
-   width: 170px;
+   width: 100%;
    font-size:12pt;
    color:grey;
    border: 0;
