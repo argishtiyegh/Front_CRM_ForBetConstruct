@@ -9,7 +9,8 @@ class SendEmail extends Component {
         super(props);
         this.state = {
             templatesDb: [],
-            templateID: null
+            templateID: null,
+            disabling: true
         };
         this.renderTemplate = this.renderTemplate.bind(this);
         this.close = this.close.bind(this);
@@ -32,6 +33,12 @@ class SendEmail extends Component {
         let templateID = event.target.value;
         this.setState({ templateID: templateID });
         console.log(this.props.EmailListID);
+        if (event.target.value != "Choose Template") {
+            this.setState({ disabling: false });
+        }
+        else {
+            this.setState({ disabling: true });
+        }
     }
 
     sendEMailWithTemplate(templateID) {
@@ -52,15 +59,15 @@ class SendEmail extends Component {
         return (
             <div className="send_email_template">
                 <select className="select_template" onChange={this.getTemplateID}>
+                    <option defaultValue="Choose Template" >Choose Template</option>
                     {this.state.templatesDb.map(this.renderTemplate)}
-                    <option disabled selected>Choose Template</option>
                 </select>
                 <div>
-                    <button className="edit_delete send_template" onClick={this.sendEMailWithTemplate}>SEND</button>
+                    <button className="edit_delete send_template" disabled={this.state.disabling} onClick={this.sendEMailWithTemplate}>SEND</button>
                     <button className="edit_delete send_template" onClick={this.close}> CLOSE </button>
                 </div>
             </div>
         )
     }
 }
-export { SendEmail }
+export { SendEmail };

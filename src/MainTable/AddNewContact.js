@@ -29,7 +29,6 @@ class AddNewContact extends Component {
 
     closeMode() {
         this.setState({ close: false });
-        return (<p>Your Contact Added Succesfully</p>);
     }
 
     handleAdd() {
@@ -64,6 +63,7 @@ class AddNewContact extends Component {
                 if (response.error) {
                     call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
                     console.log(this);
+                    that.closeMode();
                 }
                 else {
                     alert("Error Request");

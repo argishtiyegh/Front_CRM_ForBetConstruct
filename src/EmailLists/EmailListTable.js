@@ -86,7 +86,7 @@ class EmailListTable extends Component {
         return (
             <div>
                 <h3 className="contacts_status"> {this.state.header} {this.state.message}</h3>
-                <EmailsTable
+                <EmailsTable 
                     updateContacts={this.updateContacts}
                     listID={this.state.listID}
                     dbase={this.state.dbMailingList}
@@ -94,7 +94,8 @@ class EmailListTable extends Component {
                     datas={this.state.contacts} />
                 <div>
                     <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
-                    <table className="all_contacts mailList">
+                    <div className="scroll">
+                    <table className="all_contacts mailList table">
                         <TableHead />
                         <HeaderMail
                             getID={this.getID}
@@ -104,6 +105,7 @@ class EmailListTable extends Component {
                             changeDB={this.changeDbMailingList} >
                         </HeaderMail>
                     </table>
+                    </div>
                 </div>
             </div>
         )

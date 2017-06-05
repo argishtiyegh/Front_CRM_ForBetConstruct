@@ -1,7 +1,13 @@
+.scroll{
+    overflow-y:auto;
+    height: 400px;
+    width: 100%;
+}
 .table_data {
     border: 1px solid #dddddd;
     padding: 4px;
     font-family: font;
+    
 }
 
 .table_head_data {
@@ -269,3 +275,134 @@
 .deleteContacts{
     margin-top: 1%;
 }
+
+
+.del:disabled{
+
+    cursor: not-allowed;
+    background: burlywood;
+    color: black;
+}
+    .view_list{
+    background: #FF9800;
+    margin: 0px 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    }
+
+.closelist{
+    float: right;
+}
+
+.send_email{
+    background: #795548;
+}
+
+.send_email_template{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 22% 0%;
+    background-color: rgba(224,224,224,0.07);
+}
+
+.send_template{
+        margin: 10px 72px;
+         background: black;
+}
+
+.select_template{
+        padding: 6px;
+    width: 28%;
+}
+.contacts_status {
+    text-align: center;
+    color: #ff9800;
+    font-family: font;
+}
+.deleteContacts{
+    margin-top: 1%;
+}
+
+.select_email_list{
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 22% 0%;
+    background-color:rgba(12, 12, 10, 0.74);
+    text-align: center;
+}
+
+.add_to_list{
+    margin: 0px 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    color: white;
+    background: rgb(0, 188, 212)
+
+}
+
+.add_to_list_del{
+    margin: 0px 8px;
+    padding: 5px 10px;
+    cursor: pointer;
+    border: none;
+    background: rgb(255, 64, 129);
+    color: white;
+}
+
+.listadd{
+    margin: 0 4%;
+}
+
+.add_to_list:disabled{
+
+    cursor: not-allowed;
+    background: burlywood;
+    color: black;
+}
+
+.send_template:disabled{
+    cursor: not-allowed;
+    background: burlywood;
+    color: black;
+}
+
+.mail_data{
+    color: blue;
+}
+.multiplePopUp{
+  overflow: auto;
+  margin: 0 auto;
+  text-align: center;
+  width: 80%
+}
+
+
+.multi_delete{
+
+ padding: 10px 15px;
+ color: white;
+ background: rgb(0, 188, 212);
+ cursor: pointer;
+ margin: 0 3%;
+
+}
+
+.del_header{
+    font-size: 24px;
+    font-family: font;
+    text-align: center;
+    display: block;
+    margin: 0;
+    width: 80%;
+}
+
+  

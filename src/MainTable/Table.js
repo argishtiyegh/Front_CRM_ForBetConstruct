@@ -6,6 +6,9 @@ import { AddNewContact } from './AddNewContact';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import { MessageSent } from '../exceptionHandling/MessageSent.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
+import { AddContactsToList } from './AddContactsToList';
+import { UploadFile } from './UploadFile';
+import { DeleteMultiple } from './DeleteMultipleContacts';
 import '../StyleSheet/Contacts.css';
 
 class Table extends Component {
@@ -25,7 +28,9 @@ class Table extends Component {
             edit: false,
             sendTo: [],
             templatesDB: [],
-            templateId: ""
+            templateId: "",
+            deleteMultiple: true,
+            addContactsToList: true
         };
         //this.putNewContacts=this.putNewContacts.bind(this);
         this.getSendMailData = this.getSendMailData.bind(this);
@@ -42,6 +47,10 @@ class Table extends Component {
         this.closeSend = this.closeSend.bind(this);
         this.renderOptions = this.renderOptions.bind(this);
         this.getTemplateId = this.getTemplateId.bind(this);
+        this.addContToListState = this.addContToListState.bind(this);
+        this.closePopUp = this.closePopUp.bind(this);
+        this.closeDeletePopup = this.closeDeletePopup.bind(this);
+        this.handleDelMultiple = this.handleDelMultiple.bind(this);
     }
 
     componentDidMount() {
@@ -86,6 +95,22 @@ class Table extends Component {
     failedMsg() {
         this.setState({ failed: true });
         setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
+    }
+
+    addContToListState() {
+        this.setState({ addContactsToList: false });
+    }
+
+    closePopUp(value) {
+        this.setState({ addContactsToList: value });
+    }
+
+    closeDeletePopup(value) {
+        this.setState({ deleteMultiple: value });
+    }
+
+    handleDelMultiple() {
+        this.setState({ deleteMultiple: false });
     }
 
     closeSend() {
@@ -189,33 +214,42 @@ class Table extends Component {
                 change={this.changeState} />
             <p className="count">Number of Contacts: {this.state.db.length}</p>
             <input type="checkbox" onChange={this.changeSelectAll} className="select_all" />
-            <table className="all_contacts">
-                <Headers
-                    selectAll={this.changeSelectAll}
-                    headerData={this.state.db[0]}>
-                </Headers>
-                <TableBody
-                    select={this.state.selectAll}
-                    status={this.state.disable}
-                    changeSt={this.ReusableChangeState}
-                    getSendData={this.getSendMailData}
-                    put={this.putData}
-                    change={this.changeState}
-                    database={this.state.db}
-                    checkBoxHide={this.checkBoxHide} />
-            </table>
+            <div className="scroll">
+                <table className="all_contacts">
+                    <Headers
+                        selectAll={this.changeSelectAll}
+                        headerData={this.state.db[0]}>
+                    </Headers>
+                    <TableBody
+                        select={this.state.selectAll}
+                        status={this.state.disable}
+                        changeSt={this.ReusableChangeState}
+                        getSendData={this.getSendMailData}
+                        put={this.putData}
+                        change={this.changeState}
+                        database={this.state.db}
+                        checkBoxHide={this.checkBoxHide} />
+                </table>
+            </div>
             {this.sendingRender(key)}
             <div className="createList">
                 <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" />
                 <button className="main_buttons button_send" onClick={this.createMailingList} disabled={this.state.disable} >Create New Mailing List</button>
             </div>
-            <div className="upload uploadFile">
-                <input type="file" className="chooseFile" />
-                <button className="main_buttons button_send" >Upload</button>
+            <div className="upload createList">
+                <UploadFile />
+                {this.state.loading && <LoadingGIF />}
+                {this.state.sent && <MessageSent />}
+                {this.state.failed && <MessageFailed />}
             </div>
-            {this.state.loading && <LoadingGIF />}
-            {this.state.sent && <MessageSent />}
-            {this.state.failed && <MessageFailed />}
+            <div>
+                {this.state.addContactsToList ? (<button className="main_buttons button_send"
+                    onClick={this.addContToListState}
+                    disabled={this.state.disable}>Add To existing Mail List</button>) : ((<AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />))}
+            </div>
+            {this.state.deleteMultiple ? (<button className="main_buttons button_send"
+                onClick={this.handleDelMultiple}
+                disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple closePopUp={this.closeDeletePopup} guidsList={this.state.sendMail} change={this.changeState} />))}
         </div>
         )
     }
