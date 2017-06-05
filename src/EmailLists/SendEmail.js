@@ -10,17 +10,18 @@ class SendEmail extends Component {
         this.state = {
             templatesDb: [],
             templateID: null,
-            disabling: true
+            disabling: true,
+            loading: false
         };
         this.renderTemplate = this.renderTemplate.bind(this);
         this.close = this.close.bind(this);
         this.getTemplateID = this.getTemplateID.bind(this);
         this.sendEMailWithTemplate = this.sendEMailWithTemplate.bind(this);
     }
+
     componentDidMount() {
-        call('api/template/', "GET").then((response) => {
-            this.setState({ templatesDb: response })
-        });
+        this.setState({ loading: true });
+        call('api/template/', "GET").then(response => { response.error ? alert(response.message) : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
         console.log(this.state.templatesDb);
     }
 
@@ -66,6 +67,7 @@ class SendEmail extends Component {
                     <button className="edit_delete send_template" disabled={this.state.disabling} onClick={this.sendEMailWithTemplate}>SEND</button>
                     <button className="edit_delete send_template" onClick={this.close}> CLOSE </button>
                 </div>
+                {this.state.loading && <LoadingGIF />}
             </div>
         )
     }

@@ -51,7 +51,7 @@ class Table extends Component {
         this.closePopUp = this.closePopUp.bind(this);
         this.closeDeletePopup = this.closeDeletePopup.bind(this);
         this.handleDelMultiple = this.handleDelMultiple.bind(this);
-        this.changeInputDisable=this.changeInputDisable.bind(this);
+        this.changeInputDisable = this.changeInputDisable.bind(this);
     }
 
     componentDidMount() {
@@ -76,7 +76,7 @@ class Table extends Component {
         call('api/contacts', 'PUT', putJSON)
     }
 
-   closeMode() {
+    closeMode() {
         this.setState({ AddNewMode: false })
     }
 
@@ -119,12 +119,12 @@ class Table extends Component {
         console.log(this.state.templateId);
     }
 
-    changeInputDisable(){
-        if(this.refs.listname.value.length>0 && this.state.sendMail.length!=0){
-            this.setState({disableInput: false})
+    changeInputDisable() {
+        if (this.refs.listname.value.length > 0 && this.state.sendMail.length != 0) {
+            this.setState({ disableInput: false })
         }
-        else{
-            this.setState({disableInput: true})
+        else {
+            this.setState({ disableInput: true })
         }
     }
 
@@ -167,14 +167,13 @@ class Table extends Component {
     };
 
     createMailingList() {
+        this.setState({ loading: true });
         let listData = {
             "EmailListName": this.refs.listname.value,
             "Guids": this.state.sendMail
         };
         let that = this;
-        call('api/emaillists', 'POST', listData).then(function (response) {
-            console.log(response);
-        })
+        call('api/emaillists', 'POST', listData).then(response => { response.error ? this.setState({ loading: false }) : response.error, this.setState({ loading: false }) });
     }
 
     handleSend(e) {
@@ -238,10 +237,10 @@ class Table extends Component {
             </div>
             {this.sendingRender(key)}
             <div className="createList">
-                <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable}/>
+                <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable} />
                 <button className="main_buttons createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
-            
+
             <div>
                 {this.state.addContactsToList ? (<button className="main_buttons button_send"
                     onClick={this.addContToListState}
@@ -251,12 +250,12 @@ class Table extends Component {
                 onClick={this.handleDelMultiple}
                 disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple closePopUp={this.closeDeletePopup} guidsList={this.state.sendMail} change={this.changeState} />))}
             <div className="upload createList">
-                    <UploadFile />
-                    {this.state.loading && <LoadingGIF />}
-                    {this.state.sent && <MessageSent />}
-                    {this.state.failed && <MessageFailed />}
+                <UploadFile />
+                {this.state.loading && <LoadingGIF />}
+                {this.state.sent && <MessageSent />}
+                {this.state.failed && <MessageFailed />}
             </div>
-       
+
         </div>
         )
     }

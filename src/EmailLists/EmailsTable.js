@@ -31,8 +31,7 @@ class EmailsTable extends Component {
         }
         else {
             this.setState({ disabling: true });
-        }
-         
+        }    
     }
 
     deletContact(deleteData) {
@@ -74,6 +73,7 @@ class EmailsTable extends Component {
         this.props.changeHeadMessage("Click on VIEW LIST button to see contact's list");
         this.props.header("")
     }
+
     render() {
         if (this.props.datas.length > 0) {
             return (

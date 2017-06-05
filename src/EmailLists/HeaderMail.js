@@ -43,7 +43,7 @@ class HeaderMail extends Component {
         this.props.getID(index);
         call('api/emaillists/' + index, 'GET')
             .then(response => { response.error ? alert(response.message) : this.props.changeContacts(response.Contacts) });
-        this.props.header(this.props.dbase[event.target.id].EmailListName);
+            this.props.header(this.props.dbase[event.target.id].EmailListName);
     }
 
     changeSend(value) {

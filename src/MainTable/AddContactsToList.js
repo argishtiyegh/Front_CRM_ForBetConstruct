@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';
 import call from '../helpers/call.js';
 
@@ -8,17 +9,19 @@ class AddContactsToList extends Component {
         this.state = {
             mailingListsDB: [],
             EmailListId: null,
-            disabling: true
+            disabling: true,
+            loading: false
         };
         this.closePopUp = this.closePopUp.bind(this);
         this.SendToExistingList = this.SendToExistingList.bind(this);
         this.getEmailListId = this.getEmailListId.bind(this);
-        //  this.renderMail = this.renderMail.bind(this);
+        // this.renderMail = this.renderMail.bind(this);
     }
 
     componentDidMount() {
+        this.setState({ loading: true });
         call('api/emaillists/', "GET").then((response) => {
-            this.setState({ mailingListsDB: response })
+            this.setState({ mailingListsDB: response }), this.setState({ loading: false });
         });
     }
     renderEmailList(value, key) {
