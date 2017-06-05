@@ -116,12 +116,12 @@ class TableBody extends Component {
         <div className="edit_mode">
           <form onSubmit={this.SaveEdits} className="edit_form">
             <h3 className="add_new_header">Edit {this.firstname} {this.lastname}'s Contacts</h3>
-            <input className="list_input" ref="firstname" defaultValue={this.firstname} required type="text" placeholder="First Name" /><br />
-            <input className="list_input" ref="lastname" defaultValue={this.lastname} required type="text" placeholder="Last Name" /><br />
-            <input className="list_input" ref="company" defaultValue={dataPlacehold["Company Name"]} type="text" required placeholder="Company Name" /> <br />
-            <input className="list_input" ref="position" defaultValue={dataPlacehold["Position"]} type="text" required placeholder="Position" /> <br />
-            <input className="list_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
-            <input className="list_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
+            <input className="list_input edit_input" ref="firstname" defaultValue={this.firstname} required type="text" placeholder="First Name" /><br />
+            <input className="list_input edit_input" ref="lastname" defaultValue={this.lastname} required type="text" placeholder="Last Name" /><br />
+            <input className="list_input edit_input" ref="company" defaultValue={dataPlacehold["Company Name"]} type="text" required placeholder="Company Name" /> <br />
+            <input className="list_input edit_input" ref="position" defaultValue={dataPlacehold["Position"]} type="text" required placeholder="Position" /> <br />
+            <input className="list_input edit_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
+            <input className="list_input edit_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
             <button className="main_buttons" onClick={this.closeEdit}>Close</button>
             <button className="main_buttons" type="submit">Save</button>
           </form>

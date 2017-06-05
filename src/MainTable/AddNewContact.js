@@ -76,12 +76,12 @@ class AddNewContact extends Component {
         return (<div className="add_new">
             <form action="" className="add_new_form" onSubmit={this.putNewData}>
                 <h3 className="add_new_header">Add New Contact</h3>
-                <input className="list_input" ref="firstname" required type="text" placeholder="First Name" /><br />
-                <input className="list_input" ref="lastname" type="text" required placeholder="Last Name" /> <br />
-                <input className="list_input" ref="company" type="text" required placeholder="Company Name" /> <br />
-                <input className="list_input" ref="position" type="text" required placeholder="Position" /> <br />
-                <input className="list_input" ref="country" type="text" required placeholder="Country" /> <br />
-                <input className="list_input" ref="email" type="email" required placeholder="Email" /> <br />
+                <input className="list_input edit_input" ref="firstname" required type="text" placeholder="First Name" /><br />
+                <input className="list_input edit_input" ref="lastname" type="text" required placeholder="Last Name" /> <br />
+                <input className="list_input edit_input" ref="company" type="text" required placeholder="Company Name" /> <br />
+                <input className="list_input edit_input" ref="position" type="text" required placeholder="Position" /> <br />
+                <input className="list_input edit_input" ref="country" type="text" required placeholder="Country" /> <br />
+                <input className="list_input edit_input" ref="email" type="email" required placeholder="Email" /> <br />
                 <button className="main_buttons" onClick={this.closeMode}>Close</button>
                 <button className="main_buttons" type="submit">Add Contact</button>
             </form>

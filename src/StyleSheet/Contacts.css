@@ -136,6 +136,10 @@
     background: rgb(0, 188, 212)
     
 }
+
+.edit_input{
+    width: 65%;
+}
 .del{
     background: rgb(255, 64, 129);
     color: white;
