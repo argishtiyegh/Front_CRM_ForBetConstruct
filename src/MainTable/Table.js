@@ -120,11 +120,11 @@ class Table extends Component {
     }
 
     closeSend() {
-        this.setState({ edit: false });
+        this.setState({ edit: false, disabling: true});
     }
 
     getTemplateId(e) {
-        this.state.templateId = this.state.templatesDB[e.target.selectedIndex].TemplateId;
+        this.setState({templateId : this.state.templatesDB[e.target.selectedIndex].TemplateId});
         if (e.target.value !== "Choose Template") {
             this.setState({ disabling: false });
         }
@@ -221,6 +221,8 @@ class Table extends Component {
     sendingRender(key) {
         if (this.state.edit) {
             return (
+                <div>
+                <button className="main_buttons button_send sendMail" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
                 <div className="edit_mode">
                     <form className="edit_form" onSubmit={this.postData}>
                         <h3 className="add_new_header">Select the template</h3>
@@ -234,7 +236,9 @@ class Table extends Component {
                         <button className="main_buttons" onClick={this.closeSend}>Close</button>
                         <button className="main_buttons del" disabled={this.state.disabling} type="submit">Send</button>
                     </form>
+    
                     {this.state.loading && <LoadingGIF />}
+                </div>
                 </div>
             )
         }
@@ -275,14 +279,24 @@ class Table extends Component {
             <div>
                 {this.state.addContactsToList ? (<button className="main_buttons button_send"
                     onClick={this.addContToListState}
-                    disabled={this.state.disable}>Add To Email List</button>) : ((<AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />))}
+                    disabled={this.state.disable}>Add To Email List</button>) : (
+                        <div>
+                    <button className="main_buttons button_send"
+                    onClick={this.addContToListState}
+                    disabled={this.state.disable}>Add To Email List</button>
+                    <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} /></div>)}
             </div>
             {this.state.deleteMultiple ? (<button className="main_buttons button_send"
                 onClick={this.handleDelMultiple}
-                disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple
+                disabled={this.state.disable}>Multiple Delete</button>) : (
+                <div>
+                    <button className="main_buttons button_send"
+                    onClick={this.handleDelMultiple}
+                    disabled={this.state.disable}>Multiple Delete</button>
+                    <DeleteMultiple
                     closePopUp={this.closeDeletePopup}
                     guidsList={this.state.sendMail}
-                    change={this.changeState} />))}
+                    change={this.changeState} /></div>)}
             <div className="upload createList">
                 <UploadFile change={this.changeState} />
                 {this.state.loading && <LoadingGIF />}

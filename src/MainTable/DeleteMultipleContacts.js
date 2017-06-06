@@ -46,7 +46,7 @@ class DeleteMultiple extends Component {
                 <h3 className="del_header">Are you sure you want to delete these contacts ?</h3>
                 <div className="multiplePopUp">
                     <button className="multi_delete" onClick={this.deleteMultipleSend}>YES</button>
-                    <button className="multi_delete" onClick={this.closePopUp} >NO</button>
+                    <button className="multi_delete" onClick={this.props.closePopUp}>NO</button>
                 </div>
                 {this.state.loading && <LoadingGIF />}
                 {this.state.failed && <MessageFailed />}

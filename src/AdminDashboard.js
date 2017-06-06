@@ -4,9 +4,6 @@ import {Table} from './MainTable/Table.js'
 import Header from "./Header.js"
 import Menu from "./Menu.js";
 import {EmailListTable} from './EmailLists/EmailListTable';
-
-
-
 import { Switch } from 'react-router-dom';
 import { Route, Redirect} from 'react-router';
 
@@ -22,9 +19,7 @@ class AdminDashboard extends Component{
        <Switch>
 				      <Route path='/Contacts' component={Table}/>
 						  <Route path='/MailingList' component={EmailListTable}/>
-              {/*<Route path='/sendemails' component={SendEmails}/>*/}
-              <Redirect to="/Contacts"/>
-              
+              <Redirect to="/Contacts"/>              
 				</Switch>
         </main>
       </div>

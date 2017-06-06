@@ -12,7 +12,6 @@ class TableBody extends Component {
       edit: false,
       editableData: [],
       editguID: "",
-      status: "disable",
       loading: false,
       delete: false,
       guIDForDel: ""

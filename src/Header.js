@@ -34,8 +34,8 @@ class Header extends Component{
                   </div>
                   <div className="user flex">
                       <ul className="list flex">
-                      {/*    <li className="list_item">Username</li> */}
-                      {/* <li className="list_item"><NavLink activeClassName="active" to='/login'>Log out</NavLink></li> */} 
+                          <li className="list_item">Username</li> 
+                       <li className="list_item"><NavLink activeClassName="active" to='/login'>Log out</NavLink></li>  
                       </ul>
                   </div>
               </div>
@@ -49,8 +49,8 @@ class Header extends Component{
              <ul className="menu_list">
                  <li className="menu_item"><NavLink activeClassName="active" to='/Contacts'>Contacts</NavLink></li>
                  <li className="menu_item"><NavLink activeClassName="active" to='/MailingList'>Mailing List </NavLink></li>
-                {/*<li className="menu_item"><NavLink activeClassName="active" to='/sendemails'> Send Email </NavLink></li>
-                 <li className="menu_item"><NavLink activeClassName="active" to='/login'>Log Out </NavLink></li>*/}
+      
+                 <li className="menu_item"><NavLink activeClassName="active" to='/login'>Log Out </NavLink></li>
              </ul>
          </div>
       </div>
