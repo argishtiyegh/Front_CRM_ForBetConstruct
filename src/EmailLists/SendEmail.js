@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import call from '../helpers/call.js';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
+import { MessageSent } from '../exceptionHandling/MessageSent.js';
+import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import '../StyleSheet/Contacts.css';
 
 class SendEmail extends Component {
@@ -10,17 +12,21 @@ class SendEmail extends Component {
             templatesDb: [],
             templateID: null,
             disabling: true,
-            loading: false
+            loading: false,
+            sent: false,
+            failed: false
         };
         this.renderTemplate = this.renderTemplate.bind(this);
         this.close = this.close.bind(this);
         this.getTemplateID = this.getTemplateID.bind(this);
         this.sendEMailWithTemplate = this.sendEMailWithTemplate.bind(this);
+        this.sentMsg = this.sentMsg.bind(this);
+        this.failedMsg = this.failedMsg.bind(this);
     }
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/template/', "GET").then(response => { response.error ? alert(response.message) : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
+        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
         console.log(this.state.templatesDb);
     }
 
@@ -41,20 +47,46 @@ class SendEmail extends Component {
         }
     }
 
+    sentMsg() {
+        this.setState({ sent: true });
+        setTimeout(function () { this.setState({ sent: false }), this.close() }.bind(this), 2500);
+        console.log(this.state.sent);
+    }
+
+    failedMsg() {
+        this.setState({ failed: true });
+        setTimeout(function () { this.setState({ failed: false }), this.close() }.bind(this), 2500);
+    }
+
     sendEMailWithTemplate(templateID) {
+        this.setState({ loading: true });
         console.log(this.props.EmailListID);
         templateID = parseInt(this.state.templateID);
         console.log(templateID);
-        call("api/sendemail/list?id=" + this.props.EmailListID + "&template=" + templateID, "POST").then(function (response) {
-            if (response.error) {
-                console.log("done");
-            }
+
+        let that = this;
+        return fetch("http://crmbetd.azurewebsites.net/api/sendemail/list?id=" + this.props.EmailListID + "&template=" + templateID, {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
+            .then(function (response) {
+                if (!response.ok) {
+                    that.setState({ loading: false });
+                    that.setState({ sent: false });
+                    that.failedMsg();
+                    console.log(response);
+                } else {
+                    that.setState({ failed: false });
+                    that.setState({ loading: false });
+                    that.sentMsg();
+                }
+            });
     }
 
     renderTemplate(value, key) {
         return (<option value={value.TemplateId} key={key} id={key}>{value.TemplateName}</option>)
     }
+
     render() {
         return (
             <div className="send_email_template">
@@ -67,8 +99,11 @@ class SendEmail extends Component {
                     <button className="edit_delete send_template" onClick={this.close}> CLOSE </button>
                 </div>
                 {this.state.loading && <LoadingGIF />}
+                {this.state.sent && <MessageSent />}
+                {this.state.failed && <MessageFailed />}
             </div>
         )
     }
 }
+
 export { SendEmail };

@@ -10,14 +10,15 @@ class EmailsTable extends Component {
             guId: [],
             disabling: true,
             delete: true,
+            loading: false
         };
         this.mapList = this.mapList.bind(this);
         this.checkBoxDel = this.checkBoxDel.bind(this);
         this.deletContact = this.deletContact.bind(this);
         this.closeList = this.closeList.bind(this);
-        this.closeDel=this.closeDel.bind(this);
-        this.handleDel=this.handleDel.bind(this);
-        this.deletingRender=this.deletingRender.bind(this);
+        this.closeDel = this.closeDel.bind(this);
+        this.handleDel = this.handleDel.bind(this);
+        this.deletingRender = this.deletingRender.bind(this);
     }
 
     checkBoxDel(e) {
@@ -35,20 +36,18 @@ class EmailsTable extends Component {
         }
         else {
             this.setState({ disabling: true });
-        }    
+        }
     }
 
-    handleDel(){
-        this.setState({delete: false})
+    handleDel() {
+        this.setState({ delete: false });
     }
 
-    closeDel(){
-        this.setState({delete: true })
+    closeDel() {
+        this.setState({ delete: true });
     }
 
-
-  deletingRender() {
-      
+    deletingRender() {
         if (!this.state.delete) {
             return (
                 <div>
@@ -69,31 +68,26 @@ class EmailsTable extends Component {
         }
     }
 
-
-
-
-
     deletContact(event, deleteData) {
+        this.setState({ loading: true });
         event.preventDefault();
         deleteData = {
             "EmailListID": this.props.listID,
             "Guids": this.state.guId
         };
-        deleteData = JSON.stringify(deleteData)
+        deleteData = JSON.stringify(deleteData);
         console.log(deleteData);
         let that = this;
         call("api/emaillists", "DELETE", deleteData).then(function (response) {
-            console.log(deleteData)
-
+            console.log(deleteData);
             if (response.error) {
                 console.log(deleteData);
                 console.log(response.message);
-                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts)});            
+                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? response.message : that.props.updateContacts(response.Contacts), that.setState({ loading: false }) });
             }
-            that.setState({guId: []});
+            that.setState({ guId: [] });
             that.closeDel();
         })
-       
     }
 
     mapList(value, key) {
@@ -112,7 +106,7 @@ class EmailsTable extends Component {
     closeList() {
         this.props.updateContacts([]);
         this.props.changeHeadMessage("Click on VIEW LIST button to see contact's list");
-        this.props.header("")
+        this.props.header("");
     }
 
     render() {
@@ -135,6 +129,7 @@ class EmailsTable extends Component {
                         </tbody>
                     </table>
                     {this.deletingRender()}
+                    {this.state.loading && <LoadingGIF />}
                 </div>
             )
         }

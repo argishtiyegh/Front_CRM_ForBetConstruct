@@ -72,7 +72,7 @@ class TableBody extends Component {
     call('api/contacts?guid=' + guid_del, 'DELETE').then(function (response) {
       console.log(that);
       if (response.error) {
-        call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) });
+        call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
         console.log(this);
       }
       that.closeDelete();
@@ -102,10 +102,10 @@ class TableBody extends Component {
     call('api/contacts', 'PUT', putObject).then(function (response) {
       console.log(that)
       if (response.error) {
-        call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
-        console.log(this)
+        call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
+        console.log(this);
       }
-      that.closeEdit()
+      that.closeEdit();
     })
   }
 
@@ -186,5 +186,6 @@ class TableBody extends Component {
     </tbody>)
   }
 }
+
 export { TableBody };
 

@@ -61,7 +61,7 @@ class AddNewContact extends Component {
             call('api/contacts', 'POST', added_data).then(function (response) {
                 console.log(that);
                 if (response.error) {
-                    call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : that.props.change(response), that.setState({ loading: false }) })
+                    call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) })
                     console.log(this);
                     that.closeMode();
                 }

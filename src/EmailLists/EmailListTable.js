@@ -45,8 +45,8 @@ class EmailListTable extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/emaillists', "GET").then(response => { response.error ? alert(response.message) : this.setState({ dbMailingList: response }), this.setState({ loading: false }) });
-        call('api/template/', "GET").then(response => { response.error ? alert(response.message) : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
+        call('api/emaillists', "GET").then(response => { response.error ? response.message : this.setState({ dbMailingList: response }), this.setState({ loading: false }) });
+        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
     }
 
     getHeader(value) {
@@ -58,7 +58,7 @@ class EmailListTable extends Component {
     }
 
     changeContactsState(newvalue) {
-        this.setState({ contacts: newvalue })
+        this.setState({ contacts: newvalue });
         if (this.state.contacts.length != 0) {
             this.setState({ message: "Email List's Contacts" });
         }
@@ -76,7 +76,7 @@ class EmailListTable extends Component {
     }
 
     changeHeadMessage(value) {
-        this.setState({ message: value })
+        this.setState({ message: value });
     }
 
     render() {

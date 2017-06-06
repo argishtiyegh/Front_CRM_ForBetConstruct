@@ -6,6 +6,7 @@ import { AddNewContact } from './AddNewContact';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import { MessageSent } from '../exceptionHandling/MessageSent.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
+import { Added } from '../exceptionHandling/Added.js';
 import { AddContactsToList } from './AddContactsToList';
 import { UploadFile } from './UploadFile';
 import { DeleteMultiple } from './DeleteMultipleContacts';
@@ -24,6 +25,7 @@ class Table extends Component {
             selectAll: false,
             loading: false,
             sent: false,
+            added: false,
             failed: false,
             edit: false,
             sendTo: [],
@@ -34,7 +36,7 @@ class Table extends Component {
             disableInput: true,
             disabling: true,
         };
-       
+
         this.getSendMailData = this.getSendMailData.bind(this);
         this.postData = this.postData.bind(this);
         this.changeState = this.changeState.bind(this);
@@ -53,12 +55,13 @@ class Table extends Component {
         this.closeDeletePopup = this.closeDeletePopup.bind(this);
         this.handleDelMultiple = this.handleDelMultiple.bind(this);
         this.changeInputDisable = this.changeInputDisable.bind(this);
+        this.addedMsg = this.addedMsg.bind(this);
     }
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/contacts', 'GET').then(response => { response.error ? alert(response.message) : this.setState({ db: response }), this.setState({ loading: false }) });
-        call('api/template', 'GET').then(response => { response.error ? alert(response.message) : this.setState({ templatesDB: response }), this.setState({ loading: false }) });
+        call('api/contacts', 'GET').then(response => { response.error ? response.message : this.setState({ db: response }), this.setState({ loading: false }) });
+        call('api/template', 'GET').then(response => { response.error ? response.message : this.setState({ templatesDB: response }), this.setState({ loading: false }) });
     }
 
     changeState(data) {
@@ -74,20 +77,25 @@ class Table extends Component {
     }
 
     putData(putJSON) {
-        call('api/contacts', 'PUT', putJSON)
+        call('api/contacts', 'PUT', putJSON);
     }
 
     closeMode() {
-        this.setState({ AddNewMode: false })
+        this.setState({ AddNewMode: false });
     }
 
     getSendMailData(sendData) {
-        this.setState({ sendMail: sendData })
+        this.setState({ sendMail: sendData });
     }
 
     sentMsg() {
         this.setState({ sent: true });
         setTimeout(function () { this.setState({ sent: false }) }.bind(this), 2500);
+    }
+
+    addedMsg() {
+        this.setState({ added: true });
+        setTimeout(function () { this.setState({ added: false }) }.bind(this), 2500);
     }
 
     failedMsg() {
@@ -117,24 +125,24 @@ class Table extends Component {
 
     getTemplateId(e) {
         this.state.templateId = this.state.templatesDB[e.target.selectedIndex].TemplateId;
-        if(e.target.value!=="Choose Template"){
-            this.setState({disabling: false})
+        if (e.target.value !== "Choose Template") {
+            this.setState({ disabling: false });
         }
         else {
-            this.setState({disabling: true})
+            this.setState({ disabling: true });
         }
     }
 
     changeInputDisable() {
         if (this.refs.listname.value.length > 0 && this.state.sendMail.length !== 0) {
-            this.setState({ disableInput: false })
+            this.setState({ disableInput: false });
         }
         else {
-            this.setState({ disableInput: true })
+            this.setState({ disableInput: true });
         }
     }
 
-    postData(event,sendData, tempId) {
+    postData(event, sendData, tempId) {
         event.preventDefault();
         this.setState({ loading: true });
         if (this.state.selectAll) {
@@ -180,7 +188,23 @@ class Table extends Component {
             "Guids": this.state.sendMail
         };
         let that = this;
-        call('api/emaillists', 'POST', listData).then(response => { response.error ? this.setState({ loading: false }) : response.error, this.setState({ loading: false }) });
+        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+            method: 'POST',
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(listData),
+        })
+            .then(function (response) {
+                if (!response.ok) {
+                    that.setState({ loading: false });
+                    that.setState({ added: false });
+                    that.failedMsg();
+                    console.log(response);
+                } else {
+                    that.setState({ failed: false });
+                    that.setState({ loading: false });
+                    that.addedMsg();
+                }
+            });
     }
 
     handleSend(e) {
@@ -194,7 +218,6 @@ class Table extends Component {
         )
     }
 
-
     sendingRender(key) {
         if (this.state.edit) {
             return (
@@ -202,7 +225,7 @@ class Table extends Component {
                     <form className="edit_form" onSubmit={this.postData}>
                         <h3 className="add_new_header">Select the template</h3>
                         <div className="selectJoin">
-                            <select 
+                            <select
                                 onChange={this.getTemplateId}>
                                 <option defaultValue="Choose Template">Choose Template</option>
                                 {this.state.templatesDB.map(this.renderOptions)}
@@ -256,14 +279,17 @@ class Table extends Component {
             </div>
             {this.state.deleteMultiple ? (<button className="main_buttons button_send"
                 onClick={this.handleDelMultiple}
-                disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple closePopUp={this.closeDeletePopup} guidsList={this.state.sendMail} change={this.changeState} />))}
+                disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple
+                    closePopUp={this.closeDeletePopup}
+                    guidsList={this.state.sendMail}
+                    change={this.changeState} />))}
             <div className="upload createList">
-                <UploadFile change={this.changeState}/>
+                <UploadFile change={this.changeState} />
                 {this.state.loading && <LoadingGIF />}
                 {this.state.sent && <MessageSent />}
+                {this.state.added && <Added />}
                 {this.state.failed && <MessageFailed />}
             </div>
-          
         </div>
         )
     }

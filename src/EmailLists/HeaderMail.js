@@ -35,14 +35,14 @@ class HeaderMail extends Component {
         this.changeSend = this.changeSend.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.closeDelete = this.closeDelete.bind(this);
-
     }
 
     getContacts(event) {
+        this.setState({ loading: true });
         let index = this.props.dbase[event.target.id].EmailListID;
         this.props.getID(index);
         call('api/emaillists/' + index, 'GET')
-            .then(response => { response.error ? alert(response.message) : this.props.changeContacts(response.Contacts) });
+            .then(response => { response.error ? response.message : this.props.changeContacts(response.Contacts), this.setState({ loading: false }); });
         this.props.header(this.props.dbase[event.target.id].EmailListName);
     }
 
@@ -56,7 +56,7 @@ class HeaderMail extends Component {
     }
 
     deleteList(e, deleteID) {
-        e.preventDefault()
+        e.preventDefault();
         this.setState({ loading: true });
         this.setState({ deletes: !this.state.deletes });
         if (this.state.deletes) {
@@ -67,7 +67,7 @@ class HeaderMail extends Component {
         call('api/emaillists?id=' + deleteID, 'DELETE').then(function (response) {
             console.log(that);
             if (response.error) {
-                call('api/emaillists', 'GET').then(response => { response.error ? alert(response.message) : that.props.changeDB(response), that.setState({ loading: false }) });
+                call('api/emaillists', 'GET').then(response => { response.error ? response.message : that.props.changeDB(response), that.setState({ loading: false }) });
                 console.log(this);
             }
             that.closeDelete();
@@ -88,6 +88,7 @@ class HeaderMail extends Component {
     }
 
     saveEdits(event, savedData) {
+        this.setState({ loading: true });
         event.preventDefault();
         savedData = {
             "Guids": null,
@@ -98,7 +99,7 @@ class HeaderMail extends Component {
         let that = this;
         call('api/emaillists', 'PUT', savedData).then(function (response) {
             if (response.error) {
-                call('api/emaillists', 'GET').then(response => { response.error ? alert(response.message) : that.props.changeDB(response) });
+                call('api/emaillists', 'GET').then(response => { response.error ? response.message : that.props.changeDB(response), that.setState({ loading: false }) });
             }
             else {
                 alert("Error Request");
@@ -147,7 +148,6 @@ class HeaderMail extends Component {
                             <button className="main_buttons_list" onClick={this.closeDelete}>No</button>
                             <button type="submit" className="main_buttons_list">Yes</button>
                         </form>
-                        {this.state.loading && <LoadingGIF />}
                     </div>
                     <button className="edit_delete del list_buttons" onClick={this.handleDelete} id={key}>DELETE</button>
                 </div>
@@ -174,6 +174,9 @@ class HeaderMail extends Component {
         return (
             <tbody>
                 {this.props.dbase.map(this.renderBody)}
+                <tr>
+                    <td>{this.state.loading && <LoadingGIF />}</td>
+                </tr>
             </tbody>
         )
     }
