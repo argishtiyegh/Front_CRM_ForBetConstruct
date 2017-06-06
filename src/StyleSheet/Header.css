@@ -26,8 +26,11 @@ position:fixed;
     text-decoration: none;
 }
 
-h1{
-		font-size:3em;
+
+
+.main_header{
+ font-family: font;
+ color: hsl(187, 100%, 42%);
 }
 
 .icon_item{
@@ -38,7 +41,7 @@ h1{
     border-radius:5px;
 }
 .header{
-    width:90%;
+    width:89%;
     justify-content: space-between;
     align-items: center;
 }
@@ -121,9 +124,11 @@ h1{
     transform: rotate(45deg);
 }
 .menu_item a{
+    padding: 17px 74px;
     text-decoration: none;
     color: azure;
     font-size: 1.2em;
+    font-family: font;
 }
 .active{
     background-color:#513654;

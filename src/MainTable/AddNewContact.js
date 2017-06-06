@@ -82,8 +82,8 @@ class AddNewContact extends Component {
                 <input className="list_input edit_input" ref="position" type="text" required placeholder="Position" /> <br />
                 <input className="list_input edit_input" ref="country" type="text" required placeholder="Country" /> <br />
                 <input className="list_input edit_input" ref="email" type="email" required placeholder="Email" /> <br />
-                <button className="main_buttons" onClick={this.closeMode}>Close</button>
-                <button className="main_buttons" type="submit">Add Contact</button>
+                <button className="main_buttons" tabIndex = "2" onClick={this.closeMode}>Close</button>
+                <button className="main_buttons" tabIndex = "1" type="submit">Add Contact</button>
             </form>
             {this.state.loading && <LoadingGIF />}
         </div>)

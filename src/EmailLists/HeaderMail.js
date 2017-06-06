@@ -23,7 +23,7 @@ class HeaderMail extends Component {
             listIDForDel: "",
             loading: false
         };
-      
+
         this.renderBody = this.renderBody.bind(this);
         this.deleteList = this.deleteList.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
@@ -35,7 +35,7 @@ class HeaderMail extends Component {
         this.changeSend = this.changeSend.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.closeDelete = this.closeDelete.bind(this);
-       
+
     }
 
     getContacts(event) {
@@ -43,7 +43,7 @@ class HeaderMail extends Component {
         this.props.getID(index);
         call('api/emaillists/' + index, 'GET')
             .then(response => { response.error ? alert(response.message) : this.props.changeContacts(response.Contacts) });
-            this.props.header(this.props.dbase[event.target.id].EmailListName);
+        this.props.header(this.props.dbase[event.target.id].EmailListName);
     }
 
     changeSend(value) {
@@ -118,31 +118,38 @@ class HeaderMail extends Component {
     handleEdit(key) {
         if (!this.state.edit) {
             return (
-                <div className="edit_mode">
-                    <form className="edit_form" onSubmit={this.saveEdits}>
-                        <h3 className="add_new_header">Edit {this.editName} Mailing List Name</h3>
-                        <input className="list_input" ref="listname" defaultValue={this.editName} required type="text" placeholder="Mailing List Name" /><br />
-                        <button className="main_buttons" onClick={this.closeEditMode}>Close</button>
-                        <button className="main_buttons" type="submit">Save</button>
-                    </form>
+                <div>
+                    <div className="edit_mode">
+                        <form className="edit_form" onSubmit={this.saveEdits}>
+                            <h3 className="add_new_header">Edit {this.editName} Mailing List Name</h3>
+                            <input className="maillist_input" ref="listname" defaultValue={this.editName} required type="text" placeholder="Mailing List Name" /><br />
+                            <button className="main_buttons_list" onClick={this.closeEditMode}>Close</button>
+                            <button className="main_buttons_list" type="submit">Save</button>
+                        </form>
+                    </div>
+                    <button id={key} className="edit_delete list_buttons" onClick={this.handleStateEdit}>EDIT</button>
                 </div>
             )
         }
         else {
-            return (<button id={key} className="edit_delete list_buttons" onClick={this.handleStateEdit}>EDIT</button>)
+            return (<button id={key} className="edit_delete list_buttons" onClick={this.handleStateEdit}>EDIT</button>
+            )
         }
     }
 
     deletingRender(key) {
         if (!this.state.delete) {
             return (
-                <div className="edit_mode">
-                    <form className="edit_form" onSubmit={this.deleteList}>
-                        <h3 className="add_new_header">Are you sure you want to delete this Mailing List ?</h3>
-                        <button className="main_buttons" onClick={this.closeDelete}>No</button>
-                        <button type="submit" className="main_buttons">Yes</button>
-                    </form>
-                    {this.state.loading && <LoadingGIF />}
+                <div>
+                    <div className="edit_mode">
+                        <form className="edit_form" onSubmit={this.deleteList}>
+                            <h3 className="add_new_header">Are you sure you want to delete this Mailing List ?</h3>
+                            <button className="main_buttons_list" onClick={this.closeDelete}>No</button>
+                            <button type="submit" className="main_buttons_list">Yes</button>
+                        </form>
+                        {this.state.loading && <LoadingGIF />}
+                    </div>
+                    <button className="edit_delete del list_buttons" onClick={this.handleDelete} id={key}>DELETE</button>
                 </div>
             )
         }
@@ -159,7 +166,7 @@ class HeaderMail extends Component {
                 <td className="table_data table_head_data">{this.handleEdit(key)}</td>
                 <td className="table_data table_head_data"><button id={key} className=" view_list" onClick={this.getContacts}>VIEW LIST</button></td>
                 <td className="table_data table_head_data">{this.deletingRender(key)}</td>
-                <td className="table_data table_head_data">{this.state.send ? (<button id={key} className="edit_delete send_email" onClick={this.handleSend} >SEND EMAIL</button>) : (<SendEmail EmailListID={this.state.EmailListID} changeSend={this.changeSend} />)}</td>
+                <td className="table_data table_head_data">{this.state.send ? (<button id={key} className="edit_delete send_email" onClick={this.handleSend} >SEND EMAIL</button>) : (<div><button id={key} className="edit_delete send_email" onClick={this.handleSend} >SEND EMAIL</button><SendEmail EmailListID={this.state.EmailListID} changeSend={this.changeSend} /></div>)}</td>
             </tr>)
     }
 

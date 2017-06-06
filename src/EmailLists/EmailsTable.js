@@ -8,12 +8,16 @@ class EmailsTable extends Component {
         super(props);
         this.state = {
             guId: [],
-            disabling: true
+            disabling: true,
+            delete: true,
         };
         this.mapList = this.mapList.bind(this);
         this.checkBoxDel = this.checkBoxDel.bind(this);
         this.deletContact = this.deletContact.bind(this);
         this.closeList = this.closeList.bind(this);
+        this.closeDel=this.closeDel.bind(this);
+        this.handleDel=this.handleDel.bind(this);
+        this.deletingRender=this.deletingRender.bind(this);
     }
 
     checkBoxDel(e) {
@@ -34,7 +38,43 @@ class EmailsTable extends Component {
         }    
     }
 
-    deletContact(deleteData) {
+    handleDel(){
+        this.setState({delete: false})
+    }
+
+    closeDel(){
+        this.setState({delete: true })
+    }
+
+
+  deletingRender() {
+      
+        if (!this.state.delete) {
+            return (
+                <div>
+                    <div className="edit_mode">
+                        <form className="edit_form" onSubmit={this.deletContact}>
+                            <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
+                            <button className="main_buttons_list" onClick={this.closeDel}>No</button>
+                            <button type="submit" className="main_buttons_list">Yes</button>
+                        </form>
+                        {this.state.loading && <LoadingGIF />}
+                    </div>
+                    <button disabled={this.state.disabling} className="edit_delete del list_buttons" onClick={this.handleDel}>DELETE</button>
+                </div>
+            )
+        }
+        else {
+            return (<button disabled={this.state.disabling} className="edit_delete del list_buttons" onClick={this.handleDel}>DELETE</button>)
+        }
+    }
+
+
+
+
+
+    deletContact(event, deleteData) {
+        event.preventDefault();
         deleteData = {
             "EmailListID": this.props.listID,
             "Guids": this.state.guId
@@ -51,6 +91,7 @@ class EmailsTable extends Component {
                 call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? alert(response.message) : that.props.updateContacts(response.Contacts)});            
             }
             that.setState({guId: []});
+            that.closeDel();
         })
        
     }
@@ -93,7 +134,7 @@ class EmailsTable extends Component {
                             {this.props.datas.map(this.mapList)}
                         </tbody>
                     </table>
-                    <button disabled={this.state.disabling} onClick={this.deletContact} className="edit_delete del">Delete</button>
+                    {this.deletingRender()}
                 </div>
             )
         }

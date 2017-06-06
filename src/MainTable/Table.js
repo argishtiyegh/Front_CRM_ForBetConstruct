@@ -258,7 +258,7 @@ class Table extends Component {
                 onClick={this.handleDelMultiple}
                 disabled={this.state.disable}>Multiple Delete</button>) : ((<DeleteMultiple closePopUp={this.closeDeletePopup} guidsList={this.state.sendMail} change={this.changeState} />))}
             <div className="upload createList">
-                <UploadFile />
+                <UploadFile change={this.changeState}/>
                 {this.state.loading && <LoadingGIF />}
                 {this.state.sent && <MessageSent />}
                 {this.state.failed && <MessageFailed />}

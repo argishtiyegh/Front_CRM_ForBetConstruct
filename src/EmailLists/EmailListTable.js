@@ -81,16 +81,7 @@ class EmailListTable extends Component {
 
     render() {
         return (
-            <div className="emailListSection">
-                <h3 className="contacts_status"> {this.state.header} {this.state.message}</h3>
-                <EmailsTable
-                    updateContacts={this.updateContacts}
-                    listID={this.state.listID}
-                    dbase={this.state.dbMailingList}
-                    mes={this.message}
-                    datas={this.state.contacts}
-                    changeHeadMessage={this.changeHeadMessage}
-                    header={this.getHeader} />
+            <div>
                 <div>
                     <p className="count">Number of Mailing Lists: {this.state.dbMailingList.length}</p>
                     <div className="scroll">
@@ -106,6 +97,15 @@ class EmailListTable extends Component {
                         </table>
                     </div>
                 </div>
+                <h3 className="contacts_status"> {this.state.header} {this.state.message}</h3>
+                <EmailsTable
+                    updateContacts={this.updateContacts}
+                    listID={this.state.listID}
+                    dbase={this.state.dbMailingList}
+                    mes={this.message}
+                    datas={this.state.contacts}
+                    changeHeadMessage={this.changeHeadMessage}
+                    header={this.getHeader} />
                 {this.state.loading && <LoadingGIF />}
             </div>
         )

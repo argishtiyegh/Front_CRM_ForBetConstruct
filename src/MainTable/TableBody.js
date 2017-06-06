@@ -113,6 +113,8 @@ class TableBody extends Component {
     let dataPlacehold = this.state.editableData;
     if (this.state.edit) {
       return (
+        <div>
+          <button className="edit_delete" id={key} onClick={this.handleEdit}>Edit</button>
         <div className="edit_mode">
           <form onSubmit={this.SaveEdits} className="edit_form">
             <h3 className="add_new_header">Edit {this.firstname} {this.lastname}'s Contacts</h3>
@@ -122,10 +124,11 @@ class TableBody extends Component {
             <input className="list_input edit_input" ref="position" defaultValue={dataPlacehold["Position"]} type="text" required placeholder="Position" /> <br />
             <input className="list_input edit_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
             <input className="list_input edit_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
-            <button className="main_buttons" onClick={this.closeEdit}>Close</button>
-            <button className="main_buttons" type="submit">Save</button>
+            <button className="main_buttons main_buttons_pop" onClick={this.closeEdit}>Close</button>
+            <button className="main_buttons main_buttons_pop" type="submit">Save</button>
           </form>
           {this.state.loading && <LoadingGIF />}
+        </div>
         </div>
       )
     }
@@ -137,13 +140,16 @@ class TableBody extends Component {
   deletingRender(key) {
     if (this.state.delete) {
       return (
+        <div>
+          <button className="edit_delete del" onClick={this.handleDelete} id={key}>Delete</button>
         <div className="edit_mode">
           <form className="edit_form" onSubmit={this.DelContact}>
             <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
-            <button className="main_buttons" onClick={this.closeDelete}>No</button>
-            <button className="main_buttons" type="submit">Yes</button>
+            <button className="main_buttons main_buttons_pop" onClick={this.closeDelete}>No</button>
+            <button className="main_buttons main_buttons_pop" type="submit">Yes</button>
           </form>
           {this.state.loading && <LoadingGIF />}
+        </div>
         </div>
       )
     }

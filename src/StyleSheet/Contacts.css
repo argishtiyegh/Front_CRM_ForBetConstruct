@@ -22,20 +22,21 @@
 
 .count{
     font-size: 20px;
-    color: #735a73;
     margin-top: 20px;
     margin: 2% auto;
     float: right;
     padding-right: 30px;
     font-family: font;
-    color: #ff3535;
+    color: #000000;
 }
 
 .table_row:nth-child(even) {
     background: rgb(214, 214, 214);
 }
 
-.main_buttons{
+
+
+.main_buttons {
     float: right;
     padding: 1%;
     margin-right: 2%;
@@ -46,7 +47,13 @@
     font-family: font;
     color: white;
     cursor: pointer;
+    border: none;
 }
+
+.main_buttons_pop {
+    padding: 1% 5%;
+}
+
 .button_send{
     float: left;
 }
@@ -204,12 +211,9 @@
     
 }
 
-/* select options */
-
  .selectJoin {
-   margin: auto;
-  width: 50%;
-
+   margin: 3% auto;
+   width: 50%;
    height: 28px;
    overflow: hidden;
    background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
@@ -219,6 +223,7 @@
    -webkit-box-shadow: inset 0px 0px 10px 1px #FEFEFE;
    box-shadow: inset 0px 0px 10px 1px #FEFEFE;
    }
+
 .selectJoin select {
    margin: auto;
    background: transparent;
@@ -230,9 +235,9 @@
    height: 28px;
    -webkit-appearance: none;
    }
-   .selectJoin select:focus {
-    outline: none;
 
+.selectJoin select:focus {
+    outline: none;
 }
 
 .del:disabled{
@@ -240,6 +245,7 @@
     background: burlywood;
     color: black;
 }
+
     .view_list{
     background: #FF9800;
     margin: 0px 8px;
@@ -247,7 +253,7 @@
     cursor: pointer;
     border: none;
     color: white;
-    }
+}
 
 .closelist{
     float: right;
@@ -387,6 +393,7 @@
 .mail_data{
     color: blue;
 }
+
 .multiplePopUp{
   overflow: auto;
   margin: 0 auto;
@@ -396,12 +403,12 @@
 
 
 .multi_delete{
-
- padding: 10px 15px;
- color: white;
- background: rgb(0, 188, 212);
- cursor: pointer;
- margin: 0 3%;
+    padding: 10px 35px;
+    color: white;
+    background: rgb(0, 0, 0);
+    cursor: pointer;
+    margin: 0 3%;
+    border: none;
 
 }
 
@@ -410,7 +417,7 @@
     font-family: font;
     text-align: center;
     display: block;
-    margin: 0;
+    margin: 3% 0%;
 }
 
 .delete_mode{
@@ -421,12 +428,8 @@
     left: 0;
     right: 0;
     width: 45%;
-    background: burlywood;
+    background: rgb(169, 156, 169);
     border-radius: 18px;
-}
-
-.emailListSection{
-    margin-top: 4%;
 }
 
 .sendMail{
@@ -443,3 +446,29 @@
 .mainBlock{
     margin-top: 3%;
 }
+
+.maillist_input{
+    text-indent: 2%;
+	outline: none;
+    padding: 10px 0px;
+    font-size: 14px;
+    margin: 5px 0px;
+    border: solid 1px #735a73;
+    border-radius: 10px;
+    width: 40%;
+}
+
+.main_buttons_list{
+    float: right;
+    padding: 1% 5%;
+    margin-right: 2%;
+    background: black;
+    position: fixies;
+    border-radius: 10px;
+    box-shadow: gray;
+    font-family: font;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+    

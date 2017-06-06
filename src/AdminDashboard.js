@@ -13,17 +13,17 @@ import { Route, Redirect} from 'react-router';
 class AdminDashboard extends Component{
   render(){
     return(
-      <div  className="return ">
+      <div  className="return">
             
               <Header/>
               <Menu/>
             
             <main role="main"  >
        <Switch>
-				      <Route path='/table' component={Table}/>
-						  <Route path='/EmailListTable' component={EmailListTable}/>
+				      <Route path='/Contacts' component={Table}/>
+						  <Route path='/MailingList' component={EmailListTable}/>
               {/*<Route path='/sendemails' component={SendEmails}/>*/}
-              <Redirect to="/table"/>
+              <Redirect to="/Contacts"/>
               
 				</Switch>
         </main>
