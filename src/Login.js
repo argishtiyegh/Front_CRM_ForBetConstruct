@@ -1,51 +1,59 @@
-import React,{Component} from 'react';
-import {Registration} from './Registration.js';
+import React, { Component } from 'react';
+import { Registration } from './Registration.js';
 import './StyleSheet/Login.css';
 
-
 class Login extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={register: false};
-        this.handleRegister=this.handleRegister.bind(this);
-        this.closeRegister=this.closeRegister.bind(this);
-
+        this.state = { register: false };
+        this.handleRegister = this.handleRegister.bind(this);
+        this.closeRegister = this.closeRegister.bind(this);
     }
 
-    handleRegister(){
-        this.setState({register: !this.state.register})
+    handleRegister() {
+        this.setState({ register: !this.state.register });
     }
 
-    closeRegister(){
-        this.setState({register: false})
+    closeRegister() {
+        this.setState({ register: false });
     }
 
-    renderRegistration(){
-        if(this.state.register){
+    renderRegistration() {
+        if (this.state.register) {
             return (
-            <div>
-               
-                <Registration close={this.closeRegister}/>
-            </div>)
+                <div>
+                    <Registration close={this.closeRegister} />
+                </div>
+            )
         }
         else {
-            return (<button className="btn" onClick={this.handleRegister}>Register</button>)
+            return (<p className="message" onClick={this.handleRegister}>Not registered? <a>Create an account</a></p>)
         }
     }
-       render() {
+    render() {
         return (
-            <div>
-                <form action="" className="log_form" method="POST">
-                    <h2>Login</h2>
-                    <input type="text" className="log_input" name="username" placeholder="Email Address" required autoFocus /><br></br>
-                    <input type="password" className="log_input" name="password" placeholder="Password" required /><br></br>
-                    <button className="btn" type="submit">Login</button><br></br>
-                </form>
-                <div>
-                {this.renderRegistration()}
-                  </div>
+            <div className="back-page">
+                <div className="login-page">
+                    <div className="form">
+                        <p className="bet">CRM BET</p>
+                        <form className="register-form">
+                            <input type="text" placeholder="name" />
+                            <input type="password" placeholder="password" />
+                            <input type="text" placeholder="email address" />
+                            <button>create</button>
+                            <p className="message">Already registered? <a>Sign In</a></p>
+                        </form>
+                        <form className="login-form">
+                            <input type="text" placeholder="Email Address" />
+                            <input type="password" placeholder="Password" />
+                            <button>login</button>
+                            {this.renderRegistration()}
+                        </form>
+                    </div>
+                </div>
             </div>
         );
     }
 }
+
 export default Login;

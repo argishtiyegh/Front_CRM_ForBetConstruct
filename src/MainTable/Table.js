@@ -9,7 +9,6 @@ import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import { Added } from '../exceptionHandling/Added.js';
 import { AddContactsToList } from './AddContactsToList';
 import { UploadFile } from './UploadFile';
-import { DeleteMultiple } from './DeleteMultipleContacts';
 import '../StyleSheet/Contacts.css';
 
 class Table extends Component {
@@ -31,7 +30,6 @@ class Table extends Component {
             sendTo: [],
             templatesDB: [],
             templateId: "",
-            deleteMultiple: true,
             addContactsToList: true,
             disableInput: true,
             disabling: true,
@@ -52,8 +50,6 @@ class Table extends Component {
         this.getTemplateId = this.getTemplateId.bind(this);
         this.addContToListState = this.addContToListState.bind(this);
         this.closePopUp = this.closePopUp.bind(this);
-        this.closeDeletePopup = this.closeDeletePopup.bind(this);
-        this.handleDelMultiple = this.handleDelMultiple.bind(this);
         this.changeInputDisable = this.changeInputDisable.bind(this);
         this.addedMsg = this.addedMsg.bind(this);
     }
@@ -109,14 +105,6 @@ class Table extends Component {
 
     closePopUp(value) {
         this.setState({ addContactsToList: value });
-    }
-
-    closeDeletePopup(value) {
-        this.setState({ deleteMultiple: value });
-    }
-
-    handleDelMultiple() {
-        this.setState({ deleteMultiple: false });
     }
 
     closeSend() {
@@ -275,7 +263,6 @@ class Table extends Component {
                 <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable} />
                 <button className="main_buttons createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
-
             <div>
                 {this.state.addContactsToList ? (<button className="main_buttons button_send"
                     onClick={this.addContToListState}
@@ -286,17 +273,6 @@ class Table extends Component {
                     disabled={this.state.disable}>Add To Email List</button>
                     <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} /></div>)}
             </div>
-            {this.state.deleteMultiple ? (<button className="main_buttons button_send"
-                onClick={this.handleDelMultiple}
-                disabled={this.state.disable}>Multiple Delete</button>) : (
-                <div>
-                    <button className="main_buttons button_send"
-                    onClick={this.handleDelMultiple}
-                    disabled={this.state.disable}>Multiple Delete</button>
-                    <DeleteMultiple
-                    closePopUp={this.closeDeletePopup}
-                    guidsList={this.state.sendMail}
-                    change={this.changeState} /></div>)}
             <div className="upload createList">
                 <UploadFile change={this.changeState} />
                 {this.state.loading && <LoadingGIF />}
