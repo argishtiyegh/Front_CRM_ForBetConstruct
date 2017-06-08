@@ -58,6 +58,7 @@ class Table extends Component {
         this.setState({ loading: true });
         call('api/contacts', 'GET').then(response => { response.error ? response.message : this.setState({ db: response }); this.setState({ loading: false }) });
         call('api/template', 'GET').then(response => { response.error ? response.message : this.setState({ templatesDB: response }); this.setState({ loading: false }) });
+
     }
 
     changeState(data) {
@@ -85,6 +86,7 @@ class Table extends Component {
     }
 
     sentMsg() {
+        console.log(this.state.templatesDB);
         this.setState({ sent: true });
         setTimeout(function () { this.setState({ sent: false }) }.bind(this), 2500);
     }
@@ -112,9 +114,11 @@ class Table extends Component {
     }
 
     getTemplateId(e) {
-        this.setState({ templateId: this.state.templatesDB[e.target.selectedIndex].TemplateId });
+        console.log(e.target.selectedIndex)
         if (e.target.value !== "Choose Template") {
+            this.setState({ templateId: this.state.templatesDB[e.target.selectedIndex - 1].TemplateId });
             this.setState({ disabling: false });
+            console.log(this.state.templateId)
         }
         else {
             this.setState({ disabling: true });
@@ -202,7 +206,7 @@ class Table extends Component {
 
     renderOptions(value, key) {
         return (
-            <option key={key} id={key + 1}>{value.TemplateName} </option>
+            <option key={key} id={key += 1}>{value.TemplateName} </option>
         )
     }
 
@@ -210,7 +214,7 @@ class Table extends Component {
         if (this.state.edit) {
             return (
                 <div>
-                    <button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
+                    <button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>Send Email</button>
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.postData}>
                             <h3 className="add_new_header">Select the template</h3>
@@ -230,7 +234,7 @@ class Table extends Component {
             )
         }
         else {
-            return (<button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>)
+            return (<button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>Send Email</button>)
         }
     }
 
