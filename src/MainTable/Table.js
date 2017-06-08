@@ -34,7 +34,7 @@ class Table extends Component {
             disableInput: true,
             disabling: true,
         };
-        console.log(sessionStorage.getItem("token"));
+
         this.getSendMailData = this.getSendMailData.bind(this);
         this.postData = this.postData.bind(this);
         this.changeState = this.changeState.bind(this);
@@ -148,7 +148,7 @@ class Table extends Component {
         tempId = this.state.templateId;
         return fetch('http://crmbetd.azurewebsites.net/api/sendemail?templateid=' + tempId, {
             method: 'POST',
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Authorization': 'Bearer '+sessionStorage.getItem("token") },
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(sendData),
         }
         )
@@ -210,7 +210,7 @@ class Table extends Component {
         if (this.state.edit) {
             return (
                 <div>
-                    <button className="main_buttons button_send sendMail" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
+                    <button className="main_buttons button_send" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.postData}>
                             <h3 className="add_new_header">Select the template</h3>
@@ -231,7 +231,7 @@ class Table extends Component {
             )
         }
         else {
-            return (<button className="main_buttons button_send sendMail" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>)
+            return (<button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>)
         }
     }
 
@@ -259,33 +259,31 @@ class Table extends Component {
                 </table>
             </div>
             {this.sendingRender(key)}
+            <br></br><br></br><br></br><br></br>
+                {this.state.addContactsToList ? (<button className="main_buttons button_send btn-left"
+                    onClick={this.addContToListState}
+                    disabled={this.state.disable}>Add To Email List</button>) : (
+                        <div>
+                            <button className="main_buttons button_send addToList_btn btn-left"
+                                onClick={this.addContToListState}
+                                disabled={this.state.disable}>Add To Email List</button>
+                            <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
+                        </div>)} <br></br><br></br><br></br>
             <div className="createList">
                 <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable} />
                 <button className="main_buttons createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
-            <div>
-                {this.state.addContactsToList ? (<button className="main_buttons button_send"
-                    onClick={this.addContToListState}
-                    disabled={this.state.disable}>Add To Email List</button>) : (
-                        <div>
-                            <button className="main_buttons button_send"
-                                onClick={this.addContToListState}
-                                disabled={this.state.disable}>Add To Email List</button>
-                            <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} /></div>)}
-            </div>
-            <div className="upload createList">
+            <br></br><br></br><br></br>
+            <div className="upload">
                 <UploadFile change={this.changeState} />
-                {this.state.loading && <LoadingGIF />}
-                {this.state.sent && <MessageSent />}
-                {this.state.added && <Added />}
-                {this.state.failed && <MessageFailed />}
             </div>
+            {this.state.loading && <LoadingGIF />}
+            {this.state.sent && <MessageSent />}
+            {this.state.added && <Added />}
+            {this.state.failed && <MessageFailed />}
         </div>
         )
     }
 }
 
 export { Table };
-
-
-

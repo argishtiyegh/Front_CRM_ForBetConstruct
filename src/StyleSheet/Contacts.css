@@ -1,6 +1,6 @@
 .scroll{
     overflow-y:auto;
-    height: 400px;
+    height: 300px;
     width: 100%;
 }
 .table_data {
@@ -34,8 +34,6 @@
     background: rgb(214, 214, 214);
 }
 
-
-
 .main_buttons {
     float: right;
     padding: 1%;
@@ -55,9 +53,8 @@
 }
 
 .button_send{
-    float: left;
+    margin-left: 10px;
 }
-
 
 .headers{
     font-size: 32px;
@@ -67,7 +64,6 @@
     width: 21%;
     margin: 0;
 }
-
 
 .buttonSend{
     float: right;
@@ -83,10 +79,12 @@
     margin: 3% 0;
    
 }
+
 .add_new_form{
     text-align: center;
     z-index: -9999;
 }
+
 .add_new{
     overflow: auto;
 }
@@ -147,6 +145,7 @@
 .edit_input{
     width: 65%;
 }
+
 .del{
     background: rgb(255, 64, 129);
     color: white;
@@ -159,7 +158,6 @@
     width: 64%;
     text-align: center;
     overflow: auto;
-    float: right;
     width: 38%;
     margin: 3% auto;
 }
@@ -202,13 +200,16 @@
     width: 38%;
 }
 
+.btn-left{
+    float: left;
+}
+
 .listName{
     margin: 3px 0%;
     padding: 12px 20px;    
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    
+    border-radius: 4px; 
 }
 
  .selectJoin {
@@ -246,7 +247,7 @@
     color: black;
 }
 
-    .view_list{
+.view_list{
     background: #FF9800;
     margin: 0px 8px;
     padding: 5px 10px;
@@ -257,6 +258,10 @@
 
 .closelist{
     float: right;
+}
+
+.send-div{
+    display: block;
 }
 
 .send_email{
@@ -282,23 +287,24 @@
     padding: 6px;
     width: 28%;
 }
+
 .contacts_status {
     text-align: center;
     color: #ff9800;
     font-family: font;
 }
+
 .deleteContacts{
     margin-top: 1%;
 }
 
-
 .del:disabled{
-
     cursor: not-allowed;
     background: burlywood;
     color: black;
 }
-    .view_list{
+
+ .view_list{
     background: #FF9800;
     margin: 0px 8px;
     padding: 5px 10px;
@@ -334,14 +340,17 @@
         padding: 6px;
     width: 28%;
 }
+
 .contacts_status {
     text-align: center;
     color: #ff9800;
     font-family: font;
 }
+
 .deleteContacts{
     margin-top: 1%;
 }
+
 
 .select_email_list{
     position: fixed;
@@ -432,15 +441,17 @@
     border-radius: 18px;
 }
 
-.sendMail{
-    margin-top: 3px
-}
-
 .createList_but{
      padding: 3%;
 }
+
 .uploadCSV{
-    background: #735a73;
+    background: #dddddd;
+}
+
+.choose{
+    float: left;
+    margin-left: 5px;
 }
 
 .mainBlock{
@@ -471,4 +482,3 @@
     cursor: pointer;
     border: none;
 }
-    

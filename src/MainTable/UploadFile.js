@@ -46,10 +46,10 @@ class UploadFile extends Component {
 
     render() {
         return (
-            <div>
-                <form className="uploadCSV" encType="multipart/form-data" onSubmit={this.UploadData}>
-                    <input name="data" size="40" type="file"></input>
-                    <input type="submit" className="edit_delete"></input>
+            <div className="uploadCSV">
+                <form encType="multipart/form-data" onSubmit={this.UploadData}>
+                    <input name="data" size="40" type="file" className="choose"></input>
+                    <input type="submit" className="edit_delete choose"></input>
                 </form>
                 {this.state.loading && <LoadingGIF />}
                 {this.state.failed && <MessageFailed />}
@@ -58,7 +58,3 @@ class UploadFile extends Component {
     }
 }
 export { UploadFile };
-
-
-
-
