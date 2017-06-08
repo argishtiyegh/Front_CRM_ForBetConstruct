@@ -224,7 +224,6 @@ class Table extends Component {
                             <button className="main_buttons" onClick={this.closeSend}>Close</button>
                             <button className="main_buttons del" disabled={this.state.disabling} type="submit">Send</button>
                         </form>
-
                         {this.state.loading && <LoadingGIF />}
                     </div>
                 </div>

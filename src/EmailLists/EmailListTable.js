@@ -45,8 +45,8 @@ class EmailListTable extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/emaillists', "GET").then(response => { response.error ? response.message : this.setState({ dbMailingList: response }), this.setState({ loading: false }) });
-        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
+        call('api/emaillists', "GET").then(response => { response.error ? response.message : this.setState({ dbMailingList: response }); this.setState({ loading: false }) });
+        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }); this.setState({ loading: false }) });
     }
 
     getHeader(value) {

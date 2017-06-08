@@ -4,6 +4,8 @@ import { SendEmail } from './SendEmail';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import { MessageSent } from '../exceptionHandling/MessageSent.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
+import { Deleted } from '../exceptionHandling/Deleted.js';
+import { Saved } from '../exceptionHandling/Saved.js';
 import call from '../helpers/call.js';
 
 class HeaderMail extends Component {
@@ -21,9 +23,10 @@ class HeaderMail extends Component {
             edit: true,
             delete: true,
             listIDForDel: "",
-            loading: false
+            loading: false,
+            deleted: false,
+            saved: false
         };
-
         this.renderBody = this.renderBody.bind(this);
         this.deleteList = this.deleteList.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
@@ -35,6 +38,24 @@ class HeaderMail extends Component {
         this.changeSend = this.changeSend.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.closeDelete = this.closeDelete.bind(this);
+        this.deletedMsg = this.deletedMsg.bind(this);
+        this.failedMsg = this.failedMsg.bind(this);
+        this.savedMsg = this.savedMsg.bind(this);
+    }
+
+    failedMsg() {
+        this.setState({ failed: true });
+        setTimeout(function () { this.setState({ failed: false }) ; this.closeDelete(); }.bind(this), 2500);
+    }
+
+    deletedMsg() {
+        this.setState({ deleted: true });
+        setTimeout(function () { this.setState({ deleted: false }) }.bind(this), 2500);
+    }
+
+    savedMsg() {
+        this.setState({ saved: true });
+        setTimeout(function () { this.setState({ saved: false }) ; this.closeDelete(); }.bind(this), 2500);
     }
 
     getContacts(event) {
@@ -64,13 +85,34 @@ class HeaderMail extends Component {
             this.setState({ deletes: this.state.deletes });
         };
         let that = this;
-        call('api/emaillists?id=' + deleteID, 'DELETE').then(function (response) {
-            console.log(that);
-            if (response.error) {
-                call('api/emaillists', 'GET').then(response => { response.error ? response.message : that.props.changeDB(response), that.setState({ loading: false }) });
-                console.log(this);
+        return fetch('http://crmbetd.azurewebsites.net/api/emaillists?id=' + deleteID, {
+            method: "DELETE",
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
+        }).then(function (response) {
+            if (response.ok) {
+                return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+                    method: "GET",
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+
+                }).then(function (response) {
+                    if (response.ok) {
+                        that.setState({ loading: false });
+                        that.deletedMsg();
+                        that.closeDelete();
+                        return response.json();
+                    }
+                    else {
+                        that.setState({ loading: false });
+                        that.failedMsg();
+                    }
+                }).then(function (response) {
+                    that.props.changeDB(response);
+                })
             }
-            that.closeDelete();
+            else {
+                that.setState({ loading: false });
+                that.failedMsg();
+            }
         })
     }
 
@@ -97,14 +139,35 @@ class HeaderMail extends Component {
         }
         console.log(this.refs.listname.value);
         let that = this;
-        call('api/emaillists', 'PUT', savedData).then(function (response) {
-            if (response.error) {
-                call('api/emaillists', 'GET').then(response => { response.error ? response.message : that.props.changeDB(response), that.setState({ loading: false }) });
+        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+            method: "PUT",
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(savedData)
+        }).then(function (response) {
+            if (response.ok) {
+                return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+                    method: "GET",
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+
+                }).then(function (response) {
+                    if (response.ok) {
+                        that.setState({ loading: false });
+                        that.savedMsg();
+                        that.closeEditMode();
+                        return response.json();
+                    }
+                    else {
+                        that.setState({ loading: false });
+                        that.failedMsg();
+                    }
+                }).then(function (response) {
+                    that.props.changeDB(response)
+                })
             }
             else {
-                alert("Error Request");
+                that.setState({ loading: false });
+                that.failedMsg();
             }
-            that.closeEditMode();
         })
     }
 
@@ -176,6 +239,9 @@ class HeaderMail extends Component {
                 {this.props.dbase.map(this.renderBody)}
                 <tr>
                     <td>{this.state.loading && <LoadingGIF />}</td>
+                    <td>{this.state.failed && <MessageFailed />}</td>
+                    <td>{this.state.deleted && <Deleted />}</td>
+                    <td>{this.state.saved && <Saved />}</td>
                 </tr>
             </tbody>
         )

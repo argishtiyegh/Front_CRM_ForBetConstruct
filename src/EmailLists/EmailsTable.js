@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import call from '../helpers/call.js';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
+import { Deleted } from '../exceptionHandling/Deleted.js';
+import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import '../StyleSheet/Contacts.css';
 
 class EmailsTable extends Component {
@@ -10,7 +12,8 @@ class EmailsTable extends Component {
             guId: [],
             disabling: true,
             delete: true,
-            loading: false
+            loading: false,
+            deleted: false
         };
         this.mapList = this.mapList.bind(this);
         this.checkBoxDel = this.checkBoxDel.bind(this);
@@ -19,6 +22,18 @@ class EmailsTable extends Component {
         this.closeDel = this.closeDel.bind(this);
         this.handleDel = this.handleDel.bind(this);
         this.deletingRender = this.deletingRender.bind(this);
+        this.deletedMsg = this.deletedMsg.bind(this);
+        this.failedMsg = this.failedMsg.bind(this);
+    }
+
+    failedMsg() {
+        this.setState({ failed: true });
+        setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
+    }
+
+    deletedMsg() {
+        this.setState({ deleted: true });
+        setTimeout(function () { this.setState({ deleted: false }) }.bind(this), 2500);
     }
 
     checkBoxDel(e) {
@@ -78,15 +93,36 @@ class EmailsTable extends Component {
         deleteData = JSON.stringify(deleteData);
         console.log(deleteData);
         let that = this;
-        call("api/emaillists", "DELETE", deleteData).then(function (response) {
-            console.log(deleteData);
-            if (response.error) {
-                console.log(deleteData);
-                console.log(response.message);
-                call('api/emaillists/' + that.props.listID, 'GET').then(response => { response.error ? response.message : that.props.updateContacts(response.Contacts), that.setState({ loading: false }) });
+
+        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+            method: "DELETE",
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: deleteData
+        }).then(function (response) {
+            if (response.ok) {
+                return fetch('http://crmbetd.azurewebsites.net/api/emaillists/' + that.props.listID, {
+                    method: "GET",
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+
+                }).then(function (response) {
+                    if (response.ok) {
+                        that.setState({ loading: false });
+                        that.deletedMsg();
+                        that.closeDel();
+                        return response.json();
+                    }
+                    else {
+                        that.setState({ loading: false });
+                        that.failedMsg();
+                    }
+                }).then(function (response) {
+                    that.props.updateContacts(response.Contacts);
+                })
             }
-            that.setState({ guId: [] });
-            that.closeDel();
+            else {
+                that.setState({ loading: false });
+                that.failedMsg();
+            }
         })
     }
 
@@ -130,6 +166,8 @@ class EmailsTable extends Component {
                     </table>
                     {this.deletingRender()}
                     {this.state.loading && <LoadingGIF />}
+                    {this.state.failed && <MessageFailed />}
+                    {this.state.deleted && <Deleted />}
                 </div>
             )
         }

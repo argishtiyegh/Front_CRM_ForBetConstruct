@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
+import { Deleted } from '../exceptionHandling/Deleted.js';
+import { Saved } from '../exceptionHandling/Saved.js';
+import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import '../StyleSheet/Contacts.css';
 import call from '../helpers/call.js'
 
@@ -14,7 +17,10 @@ class TableBody extends Component {
       editguID: "",
       loading: false,
       delete: false,
-      guIDForDel: ""
+      guIDForDel: "",
+      deleted: false,
+      failed: false,
+      saved: false
     };
     this.renderHeaders = this.renderHeaders.bind(this);
     this.getGuId = this.getGuId.bind(this);
@@ -24,6 +30,9 @@ class TableBody extends Component {
     this.DelContact = this.DelContact.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
     this.closeDelete = this.closeDelete.bind(this);
+    this.deletedMsg = this.deletedMsg.bind(this);
+    this.failedMsg = this.failedMsg.bind(this);
+    this.savedMsg = this.savedMsg.bind(this);
   }
 
   getGuId(e) {
@@ -36,7 +45,7 @@ class TableBody extends Component {
         this.state.guId.splice(index, 1);
       }
     }
-    this.setState({ guId: this.state.guId })
+    this.setState({ guId: this.state.guId });
 
     if (this.state.guId.length > 0) {
       this.props.changeSt(false);
@@ -47,6 +56,21 @@ class TableBody extends Component {
     this.props.getSendData(this.state.guId);
     console.log(this.state.guId);
   };
+
+  savedMsg() {
+    this.setState({ saved: true });
+    setTimeout(function () { this.setState({ saved: false }); this.closeDelete(); }.bind(this), 2500);
+  }
+
+  failedMsg() {
+    this.setState({ failed: true });
+    setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
+  }
+
+  deletedMsg() {
+    this.setState({ deleted: true });
+    setTimeout(function () { this.setState({ deleted: false }) }.bind(this), 2500);
+  }
 
   handleEdit(e) {
     this.setState({ edit: true });
@@ -59,7 +83,7 @@ class TableBody extends Component {
 
   handleDelete(e) {
     this.setState({ delete: true });
-    this.setState({ guIDForDel: this.props.database[e.target.id - 1].GuID })
+    this.setState({ guIDForDel: this.props.database[e.target.id - 1].GuID });
   }
 
   DelContact(e, guid_del) {
@@ -68,13 +92,35 @@ class TableBody extends Component {
     guid_del = this.state.guIDForDel;
     console.log(guid_del);
     let that = this;
-    call('api/contacts?guid=' + guid_del, 'DELETE').then(function (response) {
-      console.log(that);
-      if (response.error) {
-        call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
-        console.log(this);
+
+    return fetch('http://crmbetd.azurewebsites.net/api/contacts?guid=' + guid_del, {
+      method: "DELETE",
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    }).then(function (response) {
+      if (response.ok) {
+        return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+          method: "GET",
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+
+        }).then(function (response) {
+          if (response.ok) {
+            that.setState({ loading: false });
+            that.deletedMsg();
+            that.closeDelete();
+            return response.json();
+          }
+          else {
+            that.setState({ loading: false });
+            that.failedMsg();
+          }
+        }).then(function (response) {
+          that.props.change(response);
+        })
       }
-      that.closeDelete();
+      else {
+        that.setState({ loading: false });
+        that.failedMsg();
+      }
     })
   }
 
@@ -98,16 +144,47 @@ class TableBody extends Component {
       "GuID": this.state.editguID,
     }
     let that = this;
-    call('api/contacts', 'PUT', putObject).then(function (response) {
-      console.log(that)
-      if (response.error) {
-        call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
-        console.log(this);
-      }
-      that.closeEdit();
-    })
-  }
 
+     return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+            method: "PUT",
+            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+            body: JSON.stringify(putObject)
+        }).then(function (response) {
+            if (response.ok) {
+                return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+                    method: "GET",
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+
+                }).then(function (response) {
+                    if (response.ok) {
+                        that.setState({ loading: false });
+                        that.savedMsg();
+                        that.closeEdit();
+                        return response.json();
+                    }
+                    else {
+                        that.setState({ loading: false });
+                        that.failedMsg();
+                    }
+                }).then(function (response) {
+                    that.props.change(response);
+                })
+            }
+            else {
+                that.setState({ loading: false });
+                that.failedMsg();
+            }
+        })
+  //   call('api/contacts', 'PUT', putObject).then(function (response) {
+  //     console.log(that)
+  //     if (response.error) {
+  //       call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
+  //       console.log(this);
+  //     }
+  //     that.closeEdit();
+  //   })
+  // }
+  }
   editingRender(key) {
     let dataPlacehold = this.state.editableData;
     if (this.state.edit) {
@@ -127,6 +204,7 @@ class TableBody extends Component {
               <button className="main_buttons main_buttons_pop" type="submit">Save</button>
             </form>
             {this.state.loading && <LoadingGIF />}
+            {this.state.failed && <MessageFailed />}
           </div>
         </div>
       )
@@ -175,6 +253,9 @@ class TableBody extends Component {
         <td className="table_data">{this.editingRender(key)}</td>
         <td className="table_data">{this.deletingRender(key)}</td>
         <td>{this.state.loading && <LoadingGIF />}</td>
+        <td>{this.state.deleted && <Deleted />}</td>
+        <td>{this.state.failed && <MessageFailed />}</td>
+        <td>{this.state.saved && <Saved />}</td>
       </tr>
     )
   }
