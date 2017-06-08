@@ -3,7 +3,7 @@ import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import { Added } from '../exceptionHandling/Added.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import '../StyleSheet/Contacts.css';
-import call from '../helpers/call.js'
+
 
 class AddNewContact extends Component {
     constructor(props) {
@@ -16,8 +16,6 @@ class AddNewContact extends Component {
             failed: false,
             added: false
         };
-        // this.renderAddNew = this.renderAddNew.bind(this);
-        // this.renderEditMode = this.renderEditMode.bind(this);
         this.normalMode = this.normalMode.bind(this);
         this.addNewMode = this.addNewMode.bind(this);
         this.editState = this.editState.bind(this);
@@ -48,7 +46,6 @@ class AddNewContact extends Component {
 
     handleAdd() {
         this.setState({ putNew: false });
-        console.log(this.state.putNew);
     }
 
     putNewData(event, added_data) {

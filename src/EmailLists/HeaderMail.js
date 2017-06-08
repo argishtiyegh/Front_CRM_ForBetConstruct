@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { SendEmail } from './SendEmail';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
-import { MessageSent } from '../exceptionHandling/MessageSent.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import { Deleted } from '../exceptionHandling/Deleted.js';
 import { Saved } from '../exceptionHandling/Saved.js';
@@ -45,7 +43,7 @@ class HeaderMail extends Component {
 
     failedMsg() {
         this.setState({ failed: true });
-        setTimeout(function () { this.setState({ failed: false }) ; this.closeDelete(); }.bind(this), 2500);
+        setTimeout(function () { this.setState({ failed: false }); this.closeDelete(); }.bind(this), 2500);
     }
 
     deletedMsg() {
@@ -55,7 +53,7 @@ class HeaderMail extends Component {
 
     savedMsg() {
         this.setState({ saved: true });
-        setTimeout(function () { this.setState({ saved: false }) ; this.closeDelete(); }.bind(this), 2500);
+        setTimeout(function () { this.setState({ saved: false }); this.closeDelete(); }.bind(this), 2500);
     }
 
     getContacts(event) {
@@ -63,7 +61,7 @@ class HeaderMail extends Component {
         let index = this.props.dbase[event.target.id].EmailListID;
         this.props.getID(index);
         call('api/emaillists/' + index, 'GET')
-            .then(response => { response.error ? response.message : this.props.changeContacts(response.Contacts), this.setState({ loading: false }); });
+            .then(response => { response.error ? response.message : this.props.changeContacts(response.Contacts); this.setState({ loading: false }); });
         this.props.header(this.props.dbase[event.target.id].EmailListName);
     }
 
@@ -73,7 +71,7 @@ class HeaderMail extends Component {
 
     handleDelete(e) {
         this.setState({ delete: false });
-        this.state.listIDForDel = this.props.dbase[parseInt(e.target.id)].EmailListID;
+        this.setState({ listIDForDel: this.props.dbase[parseInt(e.target.id, 10)].EmailListID });
     }
 
     deleteList(e, deleteID) {
@@ -124,9 +122,9 @@ class HeaderMail extends Component {
 
     handleStateEdit(e) {
         this.setState({ edit: !this.state.edit });
-        this.editID = this.props.dbase[parseInt(e.target.id)].EmailListID;
-        this.editName = this.props.dbase[parseInt(e.target.id)].EmailListName;
-        console.log(this.props.dbase[parseInt(e.target.id)].EmailListID);
+        this.editID = this.props.dbase[parseInt(e.target.id, 10)].EmailListID;
+        this.editName = this.props.dbase[parseInt(e.target.id, 10)].EmailListName;
+        console.log(this.props.dbase[parseInt(e.target.id, 10)].EmailListID);
     }
 
     saveEdits(event, savedData) {
@@ -222,7 +220,6 @@ class HeaderMail extends Component {
     }
 
     renderBody(value, key) {
-        const data = this.state.emaillists
         return (
             <tr className="table_row" key={key} id={key}>
                 <td className="table_data">{value.EmailListName}</td>

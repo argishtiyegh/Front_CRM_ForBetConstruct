@@ -59,7 +59,7 @@ class EmailListTable extends Component {
 
     changeContactsState(newvalue) {
         this.setState({ contacts: newvalue });
-        if (this.state.contacts.length != 0) {
+        if (this.state.contacts.length !== 0) {
             this.setState({ message: "Email List's Contacts" });
         }
         else {

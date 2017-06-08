@@ -4,7 +4,7 @@ import { Deleted } from '../exceptionHandling/Deleted.js';
 import { Saved } from '../exceptionHandling/Saved.js';
 import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import '../StyleSheet/Contacts.css';
-import call from '../helpers/call.js'
+
 
 class TableBody extends Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class TableBody extends Component {
       this.props.changeSt(true);
     }
     this.props.getSendData(this.state.guId);
-    console.log(this.state.guId);
+
   };
 
   savedMsg() {
@@ -74,7 +74,6 @@ class TableBody extends Component {
 
   handleEdit(e) {
     this.setState({ edit: true });
-    console.log(e.target.id);
     let editData = this.props.database[e.target.id - 1];
     this.firstname = editData["Full Name"].split(" ")[0];
     this.lastname = editData["Full Name"].split(" ")[1];
@@ -90,7 +89,6 @@ class TableBody extends Component {
     e.preventDefault();
     this.setState({ loading: true });
     guid_del = this.state.guIDForDel;
-    console.log(guid_del);
     let that = this;
 
     return fetch('http://crmbetd.azurewebsites.net/api/contacts?guid=' + guid_del, {
@@ -145,45 +143,36 @@ class TableBody extends Component {
     }
     let that = this;
 
-     return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
-            method: "PUT",
-            headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
-            body: JSON.stringify(putObject)
-        }).then(function (response) {
-            if (response.ok) {
-                return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
-                    method: "GET",
-                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+    return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+      method: "PUT",
+      headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+      body: JSON.stringify(putObject)
+    }).then(function (response) {
+      if (response.ok) {
+        return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+          method: "GET",
+          headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
-                }).then(function (response) {
-                    if (response.ok) {
-                        that.setState({ loading: false });
-                        that.savedMsg();
-                        that.closeEdit();
-                        return response.json();
-                    }
-                    else {
-                        that.setState({ loading: false });
-                        that.failedMsg();
-                    }
-                }).then(function (response) {
-                    that.props.change(response);
-                })
-            }
-            else {
-                that.setState({ loading: false });
-                that.failedMsg();
-            }
+        }).then(function (response) {
+          if (response.ok) {
+            that.setState({ loading: false });
+            that.savedMsg();
+            that.closeEdit();
+            return response.json();
+          }
+          else {
+            that.setState({ loading: false });
+            that.failedMsg();
+          }
+        }).then(function (response) {
+          that.props.change(response);
         })
-  //   call('api/contacts', 'PUT', putObject).then(function (response) {
-  //     console.log(that)
-  //     if (response.error) {
-  //       call('api/contacts', 'GET').then(response => { response.error ? response.message : that.props.change(response), that.setState({ loading: false }) });
-  //       console.log(this);
-  //     }
-  //     that.closeEdit();
-  //   })
-  // }
+      }
+      else {
+        that.setState({ loading: false });
+        that.failedMsg();
+      }
+    })
   }
   editingRender(key) {
     let dataPlacehold = this.state.editableData;

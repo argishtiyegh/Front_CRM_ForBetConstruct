@@ -8,7 +8,7 @@
     height: 90%;
     float:left;
 	position:fixed;
-	top:10%;
+	top:61px;
 	
 }
 .list_menu{
@@ -17,9 +17,8 @@
     width: 100%;
 }
 .menu_item{
-	text-decoration: none;
     color: azure;
-    font-size: 1.1em;
+    font-size: 1.2em;
 	width:100%;
     text-align: left;
     height: 60px;
@@ -30,8 +29,9 @@
     align-items:center;
     cursor: pointer;
     transition: .5s ;
-    
+	padding:0;
 }
+
 
 .menu_item:hover{
     background-color:#00bcd4;
@@ -39,8 +39,21 @@
 .active{
     background-color:#795548
 }
-a :active{
-    background-color:#513654;
+.menu_item a{
+	padding-left:20px;
+	padding-top:18px;
+	box-sizing:border-box;
+    text-decoration: none;
+    color: azure;
+    font-size: 1.1em;
+	height:100%;
+	width:100%;
+	display:block;
+
+}
+
+.menu_item:hover{
+    background-color:#907a94;
 }
 
 @media (max-width:768px) {

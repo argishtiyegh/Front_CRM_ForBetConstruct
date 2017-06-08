@@ -6,10 +6,10 @@ import './StyleSheet/Login.css';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { register: false};
+        this.state = { register: false };
         this.handleRegister = this.handleRegister.bind(this);
         this.closeRegister = this.closeRegister.bind(this);
-     
+
     }
 
     handleRegister() {
@@ -41,7 +41,7 @@ class Login extends Component {
                         <form className="login-form">
                             <input type="text" ref="username" placeholder="Email Address" />
                             <input type="password" ref="password" placeholder="Password" />
-                           
+
                             <button type="submit">Login</button>
                             {this.renderRegistration()}
                         </form>

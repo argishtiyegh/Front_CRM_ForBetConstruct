@@ -1,26 +1,29 @@
-.scroll{
-    overflow-y:auto;
-    height: 300px;
+.scroll {
+    overflow-y: auto;
+    height: 265px;
     width: 100%;
+    box-shadow: 10px 10px 5px grey;
+}
+.scroll_list {
+    overflow-y: auto;
+    height: 215px;
+    width: 100%;
+    box-shadow: 10px 10px 5px grey;
 }
 .table_data {
     border: 1px solid #dddddd;
     padding: 4px;
     font-family: font;
-    
 }
-
 .table_head_data {
-    text-align: center;  
+    text-align: center;
 }
-
-.all_contacts{
+.all_contacts {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;  
+    width: 100%;
 }
-
-.count{
+.count {
     font-size: 20px;
     margin-top: 20px;
     margin: 2% auto;
@@ -29,11 +32,9 @@
     font-family: font;
     color: #000000;
 }
-
 .table_row:nth-child(even) {
     background: rgb(214, 214, 214);
 }
-
 .main_buttons {
     float: right;
     padding: 1%;
@@ -47,16 +48,13 @@
     cursor: pointer;
     border: none;
 }
-
 .main_buttons_pop {
     padding: 1% 5%;
 }
-
-.button_send{
+.button_send {
     margin-left: 10px;
 }
-
-.headers{
+.headers {
     font-size: 32px;
     font-family: font;
     text-align: center;
@@ -64,113 +62,92 @@
     width: 21%;
     margin: 0;
 }
-
-.buttonSend{
+.buttonSend {
     float: right;
     clear: both;
-   
 }
-
-.add_new_header{
+.add_new_header {
     font-size: 24px;
     font-family: font;
     text-align: center;
     display: block;
     margin: 3% 0;
-   
 }
-
-.add_new_form{
+.add_new_form {
     text-align: center;
     z-index: -9999;
 }
-
-.add_new{
+.add_new {
     overflow: auto;
 }
-
 .list_input {
-	text-indent: 2%;
-	outline: none;
+    text-indent: 2%;
+    outline: none;
     padding: 10px 0px;
     font-size: 14px;
     margin: 5px 0px;
     border: solid 1px #735a73;
     border-radius: 10px;
 }
-
 .list_input:focus::-webkit-input-placeholder {
-	color: transparent;
+    color: transparent;
 }
-
 .list_input:focus:-moz-placeholder {
-	color: transparent;
+    color: transparent;
 }
-
 .list_input:focus::-moz-placeholder {
-	color: transparent;
+    color: transparent;
 }
-
 .list_input:focus:-ms-input-placeholder {
-	color: transparent;
+    color: transparent;
 }
-
-.edit_form{
+.edit_form {
     background: rgb(169, 156, 169);
     width: 52%;
     overflow: auto;
     text-align: center;
     margin: 11% auto;
-	border-radius: 15px;
+    border-radius: 15px;
 }
-
-.edit_mode{
+.edit_mode {
     position: fixed;
     top: 0;
-    left: 0; 
+    left: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgba(224,224,224,0.07);
+    background-color: rgba(224, 224, 224, 0.07);
 }
-.edit_delete{
+.edit_delete {
     margin: 0px 8px;
     padding: 5px 10px;
     cursor: pointer;
     border: none;
     color: white;
     background: rgb(0, 188, 212)
-    
 }
-
-.edit_input{
+.edit_input {
     width: 65%;
 }
-
-.del{
+.del {
     background: rgb(255, 64, 129);
     color: white;
+    margin: 0 2%;
 }
-
-.upload{
-    float: left;
+.upload {
     color: white;
-    background: #dddddd;
-    width: 64%;
     text-align: center;
     overflow: auto;
-    width: 38%;
-    margin: 3% auto;
+    float: left;
+    margin-top: 3%;
 }
-
-.uploadFile{
+.uploadFile {
     clear: both;
     overflow: auto;
     margin-top: 20px;
     margin-left: 5px;
 }
-
-.chooseFile{
-    background-color: #dddddd; 
+.chooseFile {
+    background-color: #dddddd;
     border: none;
     color: white;
     padding: 13px 30px;
@@ -182,72 +159,72 @@
     cursor: pointer;
     border-radius: 12px;
 }
-
-.button_send:disabled{
+.button_send:disabled {
     cursor: not-allowed;
-    background: white;
+    background: #928383;
     color: black;
 }
-
-.checkbox{
+.checkbox {
     text-align: center;
 }
 
-.createList{
-    overflow: auto;
-    float: left;
-    margin-left: 5px;
-    width: 38%;
+.delList{
+	margin-top: 2%;
 }
-
-.btn-left{
+.createList {
     float: left;
+    width: 39%;
+    margin-right: 2%;
+    border-radius: 10px;
+    font-family: font;
+    color: white;
+    border: none;
+    margin-top: 3%;
+    clear: both;
+    padding-left: 1%;
 }
-
-.listName{
-    margin: 3px 0%;
-    padding: 12px 20px;    
+.btn-left {
+    float: left;
+    margin-top: 3%;
+}
+.listName {
+    padding: 12px 20px;
     font-size: 14px;
     border: 1px solid #ccc;
-    border-radius: 4px; 
+    border-radius: 4px;
 }
-
- .selectJoin {
-   margin: 3% auto;
-   width: 50%;
-   height: 28px;
-   overflow: hidden;
-   background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
-   border: #FEFEFE 1px solid;
-   -webkit-border-radius: 3px;
-   border-radius: 3px;
-   -webkit-box-shadow: inset 0px 0px 10px 1px #FEFEFE;
-   box-shadow: inset 0px 0px 10px 1px #FEFEFE;
-   }
-
+.selectJoin {
+    margin: 3% auto;
+    width: 50%;
+    height: 28px;
+    overflow: hidden;
+    background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
+    border: #FEFEFE 1px solid;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -webkit-box-shadow: inset 0px 0px 10px 1px #FEFEFE;
+    box-shadow: inset 0px 0px 10px 1px #FEFEFE;
+}
 .selectJoin select {
-   margin: auto;
-   background: transparent;
-   width: 100%;
-   font-size:12pt;
-   color:grey;
-   border: 0;
-   border-radius: 0;
-   height: 28px;
-   -webkit-appearance: none;
-   }
-
+    margin: auto;
+    background: transparent;
+    width: 100%;
+    font-size: 12pt;
+    color: grey;
+    border: 0;
+    border-radius: 0;
+    height: 28px;
+    -webkit-appearance: none;
+}
 .selectJoin select:focus {
     outline: none;
 }
-
-.del:disabled{
+.del:disabled {
     cursor: not-allowed;
     background: burlywood;
     color: black;
 }
-
-.view_list{
+.view_list {
     background: #FF9800;
     margin: 0px 8px;
     padding: 5px 10px;
@@ -255,125 +232,55 @@
     border: none;
     color: white;
 }
-
-.closelist{
-    float: right;
-}
-
-.send-div{
+.send-div {
     display: block;
 }
-
-.send_email{
+.send_email {
     background: #795548;
 }
-
-.send_email_template{
+.send_email_template {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 100%;
     padding: 22% 0%;
-    background-color: rgba(224,224,224,0.07);
+    background-color: rgba(224, 224, 224, 0.07);
 }
-
-.send_template{
+.del:disabled {
+    cursor: not-allowed;
+    background: burlywood;
+    color: black;
+}
+.send_email {
+    background: #795548;
+}
+.send_template {
     margin: 10px 72px;
     background: black;
 }
-
-.select_template{
-    padding: 6px;
-    width: 28%;
-}
-
-.contacts_status {
-    text-align: center;
-    color: #ff9800;
-    font-family: font;
-}
-
-.deleteContacts{
+.deleteContacts {
     margin-top: 1%;
 }
-
-.del:disabled{
-    cursor: not-allowed;
-    background: burlywood;
-    color: black;
-}
-
- .view_list{
-    background: #FF9800;
-    margin: 0px 8px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
-    color: white;
-    }
-
-.closelist{
-    float: right;
-}
-
-.send_email{
-    background: #795548;
-}
-
-.send_email_template{
+.select_email_list {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 100%;
     padding: 22% 0%;
-    background-color: rgba(224,224,224,0.07);
-}
-
-.send_template{
-        margin: 10px 72px;
-         background: black;
-}
-
-.select_template{
-        padding: 6px;
-    width: 28%;
-}
-
-.contacts_status {
-    text-align: center;
-    color: #ff9800;
-    font-family: font;
-}
-
-.deleteContacts{
-    margin-top: 1%;
-}
-
-
-.select_email_list{
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 22% 0%;
-    background-color:rgba(12, 12, 10, 0.74);
+    background-color: rgba(12, 12, 10, 0.74);
     text-align: center;
 }
-
-.add_to_list{
+.add_to_list {
     margin: 0px 8px;
     padding: 5px 10px;
     cursor: pointer;
     border: none;
     color: white;
     background: rgb(0, 188, 212)
-
 }
-
-.add_to_list_del{
+.add_to_list_del {
     margin: 0px 8px;
     padding: 5px 10px;
     cursor: pointer;
@@ -381,55 +288,44 @@
     background: rgb(255, 64, 129);
     color: white;
 }
-
-.listadd{
+.listadd {
     margin: 0 4%;
 }
-
-.add_to_list:disabled{
-
+.add_to_list:disabled {
     cursor: not-allowed;
     background: burlywood;
     color: black;
 }
-
-.send_template:disabled{
+.send_template:disabled {
     cursor: not-allowed;
     background: burlywood;
     color: black;
 }
-
-.mail_data{
+.mail_data {
     color: blue;
 }
-
-.multiplePopUp{
-  overflow: auto;
-  margin: 0 auto;
-  text-align: center;
-  width: 80%
+.multiplePopUp {
+    overflow: auto;
+    margin: 0 auto;
+    text-align: center;
+    width: 80%
 }
-
-
-.multi_delete{
+.multi_delete {
     padding: 10px 35px;
     color: white;
     background: rgb(0, 0, 0);
     cursor: pointer;
     margin: 0 3%;
     border: none;
-
 }
-
-.del_header{
+.del_header {
     font-size: 24px;
     font-family: font;
     text-align: center;
     display: block;
     margin: 3% 0%;
 }
-
-.delete_mode{
+.delete_mode {
     margin: 0 auto;
     padding: 0;
     position: fixed;
@@ -440,27 +336,31 @@
     background: rgb(169, 156, 169);
     border-radius: 18px;
 }
-
-.createList_but{
-     padding: 3%;
+.createList_but {
+    margin-top: 2%;
+    margin-right: 2%;
+    background: black;
+    position: fixies;
+    border-radius: 10px;
+    box-shadow: gray;
+    font-family: font;
+    color: white;
+    cursor: pointer;
+    border: none;
+    padding: 3%;
+    margin-left: 6%
 }
-
-.uploadCSV{
-    background: #dddddd;
-}
-
-.choose{
+.choose {
     float: left;
     margin-left: 5px;
 }
-
-.mainBlock{
+.mainBlock {
     margin-top: 3%;
+    overflow: auto;
 }
-
-.maillist_input{
+.maillist_input {
     text-indent: 2%;
-	outline: none;
+    outline: none;
     padding: 10px 0px;
     font-size: 14px;
     margin: 5px 0px;
@@ -468,8 +368,25 @@
     border-radius: 10px;
     width: 40%;
 }
-
-.main_buttons_list{
+.closelist {
+    margin-bottom: 7px;
+    float: right;
+}
+.del_list_but {
+    margin-top: 14px;
+}
+.select_template {
+    padding: 6px;
+    width: 46%;
+}
+.contacts_status {
+    text-align: center;
+    color: #3a373a;
+    font-family: font;
+    margin-top: 3%;
+	font-size: 22px;
+}
+.main_buttons_list {
     float: right;
     padding: 1% 5%;
     margin-right: 2%;
@@ -481,4 +398,50 @@
     color: white;
     cursor: pointer;
     border: none;
+}
+.upl {
+    width: 40%;
+}
+.submit_btn {
+    background: black;
+    padding: 11px;
+    border-radius: 11px;
+    color: white;
+    cursor: pointer;
+}
+@media (max-width: 850px) {
+    .closelist {
+        float: left;
+        margin-top: 7px;
+    }
+    .view_list {
+        width: 91px;
+    }
+    .send_email {
+        width: 110px;
+    }
+    .add_new_header {
+        font-size: 14px;
+    }
+    .maillist_input {
+        width: 90%;
+    }
+    .select_template {
+        width: 90%;
+    }
+    .send_template {
+        margin: 2% 4%;
+    }
+    .edit_form {
+        width: 100%
+    }
+    .upl {
+        float: left;
+        margin-left: 7%;
+        margin-top: 3%;
+    }
+    .submit_btn {
+        float: left;
+        margin-left: 7%;
+    }
 }

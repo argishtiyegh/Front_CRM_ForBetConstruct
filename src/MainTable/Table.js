@@ -56,8 +56,8 @@ class Table extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/contacts', 'GET').then(response => { response.error ? response.message : this.setState({ db: response }), this.setState({ loading: false }) });
-        call('api/template', 'GET').then(response => { response.error ? response.message : this.setState({ templatesDB: response }), this.setState({ loading: false }) });
+        call('api/contacts', 'GET').then(response => { response.error ? response.message : this.setState({ db: response }); this.setState({ loading: false }) });
+        call('api/template', 'GET').then(response => { response.error ? response.message : this.setState({ templatesDB: response }); this.setState({ loading: false }) });
     }
 
     changeState(data) {
@@ -158,7 +158,7 @@ class Table extends Component {
                     that.setState({ sent: false });
                     that.failedMsg();
                     that.setState({ templateId: "" });
-                    console.log(response);
+
                 } else {
                     that.setState({ failed: false });
                     that.setState({ loading: false });
@@ -186,7 +186,7 @@ class Table extends Component {
                     that.setState({ loading: false });
                     that.setState({ added: false });
                     that.failedMsg();
-                    console.log(response);
+
                 } else {
                     that.setState({ failed: false });
                     that.setState({ loading: false });
@@ -197,7 +197,7 @@ class Table extends Component {
 
     handleSend(e) {
         this.setState({ edit: true });
-        console.log(e.target.id);
+
     }
 
     renderOptions(value, key) {
@@ -210,7 +210,7 @@ class Table extends Component {
         if (this.state.edit) {
             return (
                 <div>
-                    <button className="main_buttons button_send" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
+                    <button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>SEND EMAIL</button>
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.postData}>
                             <h3 className="add_new_header">Select the template</h3>
@@ -258,21 +258,20 @@ class Table extends Component {
                 </table>
             </div>
             {this.sendingRender(key)}
-            <br></br><br></br><br></br><br></br>
-                {this.state.addContactsToList ? (<button className="main_buttons button_send btn-left"
-                    onClick={this.addContToListState}
-                    disabled={this.state.disable}>Add To Email List</button>) : (
-                        <div>
-                            <button className="main_buttons button_send addToList_btn btn-left"
-                                onClick={this.addContToListState}
-                                disabled={this.state.disable}>Add To Email List</button>
-                            <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
-                        </div>)} <br></br><br></br><br></br>
+            {this.state.addContactsToList ? (<button className="main_buttons button_send btn-left"
+                onClick={this.addContToListState}
+                disabled={this.state.disable}>Add To Email List</button>) : (
+                    <div>
+                        <button className="main_buttons button_send sendMail btn-left"
+                            onClick={this.addContToListState}
+                            disabled={this.state.disable}>Add To Email List</button>
+                        <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
+                    </div>)}
             <div className="createList">
                 <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable} />
-                <button className="main_buttons createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
+                <button className="createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
             </div>
-            <br></br><br></br><br></br>
+
             <div className="upload">
                 <UploadFile change={this.changeState} />
             </div>

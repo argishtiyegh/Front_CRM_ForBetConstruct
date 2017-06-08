@@ -26,8 +26,7 @@ class SendEmail extends Component {
 
     componentDidMount() {
         this.setState({ loading: true });
-        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }), this.setState({ loading: false }) });
-        console.log(this.state.templatesDb);
+        call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }); this.setState({ loading: false }) });
     }
 
     //Close Contact's Table
@@ -38,8 +37,7 @@ class SendEmail extends Component {
     getTemplateID(event) {
         let templateID = event.target.value;
         this.setState({ templateID: templateID });
-        console.log(this.props.EmailListID);
-        if (event.target.value != "Choose Template") {
+        if (event.target.value !== "Choose Template") {
             this.setState({ disabling: false });
         }
         else {
@@ -49,21 +47,17 @@ class SendEmail extends Component {
 
     sentMsg() {
         this.setState({ sent: true });
-        setTimeout(function () { this.setState({ sent: false }), this.close() }.bind(this), 2500);
-        console.log(this.state.sent);
+        setTimeout(function () { this.setState({ sent: false }); this.close() }.bind(this), 2500);
     }
 
     failedMsg() {
         this.setState({ failed: true });
-        setTimeout(function () { this.setState({ failed: false }), this.close() }.bind(this), 2500);
+        setTimeout(function () { this.setState({ failed: false }); this.close() }.bind(this), 2500);
     }
 
     sendEMailWithTemplate(templateID) {
         this.setState({ loading: true });
-        console.log(this.props.EmailListID);
-        templateID = parseInt(this.state.templateID);
-        console.log(templateID);
-
+        templateID = parseInt(this.state.templateID, 10);
         let that = this;
         return fetch("http://crmbetd.azurewebsites.net/api/sendemail/list?id=" + this.props.EmailListID + "&template=" + templateID, {
             method: 'POST',
@@ -74,7 +68,6 @@ class SendEmail extends Component {
                     that.setState({ loading: false });
                     that.setState({ sent: false });
                     that.failedMsg();
-                    console.log(response);
                 } else {
                     that.setState({ failed: false });
                     that.setState({ loading: false });

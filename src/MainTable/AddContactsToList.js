@@ -25,7 +25,7 @@ class AddContactsToList extends Component {
     componentDidMount() {
         this.setState({ loading: true });
         call('api/emaillists/', "GET").then((response) => {
-            this.setState({ mailingListsDB: response }), this.setState({ loading: false });
+            this.setState({ mailingListsDB: response }); this.setState({ loading: false });
         });
     }
     renderEmailList(value, key) {
@@ -38,7 +38,7 @@ class AddContactsToList extends Component {
 
     getEmailListId(e) {
         this.setState({ EmailListId: e.target.value });
-        if (e.target.value != "Choose Email List") {
+        if (e.target.value !== "Choose Email List") {
             this.setState({ disabling: false });
         }
         else {
@@ -48,13 +48,13 @@ class AddContactsToList extends Component {
 
     addedMsg() {
         this.setState({ added: true });
-        setTimeout(function () { this.setState({ added: false }), this.closePopUp() }.bind(this), 2500);
-        console.log(this.state.sent);
+        setTimeout(function () { this.setState({ added: false }); this.closePopUp() }.bind(this), 2500);
+
     }
 
     failedMsg() {
         this.setState({ failed: true });
-        setTimeout(function () { this.setState({ failed: false }), this.closePopUp() }.bind(this), 2500);
+        setTimeout(function () { this.setState({ failed: false }); this.closePopUp() }.bind(this), 2500);
     }
 
     SendToExistingList(addToData) {
@@ -64,7 +64,6 @@ class AddContactsToList extends Component {
             "Guids": this.props.guidsList
         };
         let that = this;
-        console.log(addToData);
         return fetch('http://crmbetd.azurewebsites.net/api/emaillists/add', {
             method: 'PUT',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
