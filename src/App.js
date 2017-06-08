@@ -11,7 +11,7 @@ class App extends Component {
       <div className="global_container">
         <Switch>
           <Route exact path='/' render={() => (
-            true ? (
+            false ? (
               <Redirect to="/login" />
             ) : (
                 <AdminDashboard />

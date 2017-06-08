@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import { Registration } from './Registration.js';
 import './StyleSheet/Login.css';
 
+
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = { register: false };
+        this.state = { register: false};
         this.handleRegister = this.handleRegister.bind(this);
         this.closeRegister = this.closeRegister.bind(this);
+     
     }
 
     handleRegister() {
@@ -36,17 +38,11 @@ class Login extends Component {
                 <div className="login-page">
                     <div className="form">
                         <p className="bet">CRM BET</p>
-                        <form className="register-form">
-                            <input type="text" placeholder="name" />
-                            <input type="password" placeholder="password" />
-                            <input type="text" placeholder="email address" />
-                            <button>create</button>
-                            <p className="message">Already registered? <a>Sign In</a></p>
-                        </form>
                         <form className="login-form">
-                            <input type="text" placeholder="Email Address" />
-                            <input type="password" placeholder="Password" />
-                            <button>login</button>
+                            <input type="text" ref="username" placeholder="Email Address" />
+                            <input type="password" ref="password" placeholder="Password" />
+                           
+                            <button type="submit">Login</button>
                             {this.renderRegistration()}
                         </form>
                     </div>

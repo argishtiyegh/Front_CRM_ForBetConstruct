@@ -59,7 +59,7 @@ class TableBody extends Component {
 
   handleDelete(e) {
     this.setState({ delete: true });
-    this.setState({guIDForDel:this.props.database[e.target.id - 1].GuID})
+    this.setState({ guIDForDel: this.props.database[e.target.id - 1].GuID })
   }
 
   DelContact(e, guid_del) {
@@ -114,20 +114,20 @@ class TableBody extends Component {
       return (
         <div>
           <button className="edit_delete" id={key} onClick={this.handleEdit}>Edit</button>
-        <div className="edit_mode">
-          <form onSubmit={this.SaveEdits} className="edit_form">
-            <h3 className="add_new_header">Edit {this.firstname} {this.lastname}'s Contacts</h3>
-            <input className="list_input edit_input" ref="firstname" defaultValue={this.firstname} required type="text" placeholder="First Name" /><br />
-            <input className="list_input edit_input" ref="lastname" defaultValue={this.lastname} required type="text" placeholder="Last Name" /><br />
-            <input className="list_input edit_input" ref="company" defaultValue={dataPlacehold["Company Name"]} type="text" required placeholder="Company Name" /> <br />
-            <input className="list_input edit_input" ref="position" defaultValue={dataPlacehold["Position"]} type="text" required placeholder="Position" /> <br />
-            <input className="list_input edit_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
-            <input className="list_input edit_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
-            <button className="main_buttons main_buttons_pop" onClick={this.closeEdit}>Close</button>
-            <button className="main_buttons main_buttons_pop" type="submit">Save</button>
-          </form>
-          {this.state.loading && <LoadingGIF />}
-        </div>
+          <div className="edit_mode">
+            <form onSubmit={this.SaveEdits} className="edit_form">
+              <h3 className="add_new_header">Edit {this.firstname} {this.lastname}'s Contacts</h3>
+              <input className="list_input edit_input" ref="firstname" defaultValue={this.firstname} required type="text" placeholder="First Name" /><br />
+              <input className="list_input edit_input" ref="lastname" defaultValue={this.lastname} required type="text" placeholder="Last Name" /><br />
+              <input className="list_input edit_input" ref="company" defaultValue={dataPlacehold["Company Name"]} type="text" required placeholder="Company Name" /> <br />
+              <input className="list_input edit_input" ref="position" defaultValue={dataPlacehold["Position"]} type="text" required placeholder="Position" /> <br />
+              <input className="list_input edit_input" ref="country" defaultValue={dataPlacehold["Country"]} type="text" required placeholder="Country" /> <br />
+              <input className="list_input edit_input" ref="email" defaultValue={dataPlacehold["Email"]} type="email" required placeholder="Email" /> <br />
+              <button className="main_buttons main_buttons_pop" onClick={this.closeEdit}>Close</button>
+              <button className="main_buttons main_buttons_pop" type="submit">Save</button>
+            </form>
+            {this.state.loading && <LoadingGIF />}
+          </div>
         </div>
       )
     }
@@ -141,14 +141,14 @@ class TableBody extends Component {
       return (
         <div>
           <button className="edit_delete del" onClick={this.handleDelete} id={key}>Delete</button>
-        <div className="edit_mode">
-          <form className="edit_form" onSubmit={this.DelContact}>
-            <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
-            <button className="main_buttons main_buttons_pop" onClick={this.closeDelete}>No</button>
-            <button className="main_buttons main_buttons_pop" type="submit">Yes</button>
-          </form>
-          {this.state.loading && <LoadingGIF />}
-        </div>
+          <div className="edit_mode">
+            <form className="edit_form" onSubmit={this.DelContact}>
+              <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
+              <button className="main_buttons main_buttons_pop" onClick={this.closeDelete}>No</button>
+              <button className="main_buttons main_buttons_pop" type="submit">Yes</button>
+            </form>
+            {this.state.loading && <LoadingGIF />}
+          </div>
         </div>
       )
     }

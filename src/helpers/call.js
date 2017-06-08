@@ -4,7 +4,7 @@ export default  function call(uri, method, body = false, error_message = "Someth
     body = JSON.stringify(body);
   }
   return fetch('http://crmbetd.azurewebsites.net/'+uri,{method: method,
-    headers: {'Accept': 'application/json','Content-Type': 'application/json'},
+    headers: {'Accept': 'application/json','Content-Type': 'application/json', 'Authorization': 'Bearer '+sessionStorage.getItem("token")},
     body : body,
     }
   )
