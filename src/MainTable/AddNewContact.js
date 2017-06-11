@@ -26,6 +26,8 @@ class AddNewContact extends Component {
         this.addedMsg = this.addedMsg.bind(this);
     }
 
+    //Notification messages
+
     addedMsg() {
         this.setState({ added: true });
         setTimeout(function () { this.setState({ added: false }); this.closeMode() }.bind(this), 2500);
@@ -48,6 +50,8 @@ class AddNewContact extends Component {
         this.setState({ putNew: false });
     }
 
+
+    //Add New Contact 
     putNewData(event, added_data) {
         event.preventDefault();
         this.setState({ loading: true });
@@ -60,13 +64,13 @@ class AddNewContact extends Component {
                 "Email": this.refs.email.value,
             };
             let that = this;
-            return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+            fetch('http://crmbetd.azurewebsites.net/api/contacts', {
                 method: "POST",
                 headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify(added_data)
             }).then(function (response) {
                 if (response.ok) {
-                    return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+                    fetch('http://crmbetd.azurewebsites.net/api/contacts', {
                         method: "GET",
                         headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -93,26 +97,28 @@ class AddNewContact extends Component {
     }
 
     addNewMode() {
-        return (<div className="add_new">
-            <form action="" className="add_new_form" onSubmit={this.putNewData}>
-                <h3 className="add_new_header">Add New Contact</h3>
-                <input className="list_input edit_input" ref="firstname" required type="text" placeholder="First Name" /><br />
-                <input className="list_input edit_input" ref="lastname" type="text" required placeholder="Last Name" /> <br />
-                <input className="list_input edit_input" ref="company" type="text" required placeholder="Company Name" /> <br />
-                <input className="list_input edit_input" ref="position" type="text" required placeholder="Position" /> <br />
-                <input className="list_input edit_input" ref="country" type="text" required placeholder="Country" /> <br />
-                <input className="list_input edit_input" ref="email" type="email" required placeholder="Email" /> <br />
-                <button className="main_buttons" tabIndex="2" onClick={this.closeMode}>Close</button>
-                <button className="main_buttons" tabIndex="1" type="submit">Add Contact</button>
-            </form>
-            {this.state.loading && <LoadingGIF />}
-            {this.state.added && <Added />}
-            {this.state.failed && <MessageFailed />}
-        </div>)
+        return (
+            <div className="edit_mode">
+                <form action="" className="edit_form" onSubmit={this.putNewData}>
+                    <h3 className="add_new_header">Add New Contact</h3>
+                    <input className="list_input edit_input" ref="firstname" required type="text" placeholder="First Name" /><br />
+                    <input className="list_input edit_input" ref="lastname" type="text" required placeholder="Last Name" /> <br />
+                    <input className="list_input edit_input" ref="company" type="text" required placeholder="Company Name" /> <br />
+                    <input className="list_input edit_input" ref="position" type="text" required placeholder="Position" /> <br />
+                    <input className="list_input edit_input" ref="country" type="text" required placeholder="Country" /> <br />
+                    <input className="list_input edit_input" ref="email" type="email" required placeholder="Email" /> <br />
+                    <button className="addnewBut" onClick={this.closeMode}>Close</button>
+                    <button className="addnewBut" type="submit">Add</button>
+                </form>
+                {this.state.loading && <LoadingGIF />}
+                {this.state.added && <Added />}
+                {this.state.failed && <MessageFailed />}
+            </div>
+        )
     }
 
     normalMode() {
-        return (<button className="main_buttons" onClick={this.editState}>Add New</button>)
+        return (<button className="addnewBut" onClick={this.editState}>Add New</button>)
     }
     render() {
         if (this.state.close) {

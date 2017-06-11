@@ -24,15 +24,19 @@ class SendEmail extends Component {
         this.failedMsg = this.failedMsg.bind(this);
     }
 
+    //Getting Data
+
     componentDidMount() {
         this.setState({ loading: true });
         call('api/template/', "GET").then(response => { response.error ? response.message : this.setState({ templatesDb: response }); this.setState({ loading: false }) });
     }
 
-    //Close Contact's Table
+    //Closing Contact's Table
     close() {
         this.props.changeSend(true);
     }
+
+    //Getting template ID
 
     getTemplateID(event) {
         let templateID = event.target.value;
@@ -55,11 +59,13 @@ class SendEmail extends Component {
         setTimeout(function () { this.setState({ failed: false }); this.close() }.bind(this), 2500);
     }
 
+    //Sending email to mailing list with template
+
     sendEMailWithTemplate(templateID) {
         this.setState({ loading: true });
         templateID = parseInt(this.state.templateID, 10);
         let that = this;
-        return fetch("http://crmbetd.azurewebsites.net/api/sendemail/list?id=" + this.props.EmailListID + "&template=" + templateID, {
+        fetch("http://crmbetd.azurewebsites.net/api/sendemail/list?id=" + this.props.EmailListID + "&template=" + templateID, {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
         })
@@ -83,7 +89,7 @@ class SendEmail extends Component {
     render() {
         return (
             <div className="send_email_template">
-                <select className="select_template" onChange={this.getTemplateID}>
+                <select className="select_template_list" onChange={this.getTemplateID}>
                     <option defaultValue="Choose Template" >Choose Template</option>
                     {this.state.templatesDb.map(this.renderTemplate)}
                 </select>

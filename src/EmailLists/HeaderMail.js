@@ -41,6 +41,8 @@ class HeaderMail extends Component {
         this.savedMsg = this.savedMsg.bind(this);
     }
 
+    //Notification messages
+
     failedMsg() {
         this.setState({ failed: true });
         setTimeout(function () { this.setState({ failed: false }); this.closeDelete(); }.bind(this), 2500);
@@ -55,6 +57,8 @@ class HeaderMail extends Component {
         this.setState({ saved: true });
         setTimeout(function () { this.setState({ saved: false }); this.closeDelete(); }.bind(this), 2500);
     }
+
+
 
     getContacts(event) {
         this.setState({ loading: true });
@@ -74,6 +78,8 @@ class HeaderMail extends Component {
         this.setState({ listIDForDel: this.props.dbase[parseInt(e.target.id, 10)].EmailListID });
     }
 
+    //Deleting Mailing List
+
     deleteList(e, deleteID) {
         e.preventDefault();
         this.setState({ loading: true });
@@ -83,12 +89,12 @@ class HeaderMail extends Component {
             this.setState({ deletes: this.state.deletes });
         };
         let that = this;
-        return fetch('http://crmbetd.azurewebsites.net/api/emaillists?id=' + deleteID, {
+        fetch('http://crmbetd.azurewebsites.net/api/emaillists?id=' + deleteID, {
             method: "DELETE",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' }
         }).then(function (response) {
             if (response.ok) {
-                return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+                fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
                     method: "GET",
                     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -124,8 +130,9 @@ class HeaderMail extends Component {
         this.setState({ edit: !this.state.edit });
         this.editID = this.props.dbase[parseInt(e.target.id, 10)].EmailListID;
         this.editName = this.props.dbase[parseInt(e.target.id, 10)].EmailListName;
-        console.log(this.props.dbase[parseInt(e.target.id, 10)].EmailListID);
     }
+
+    //Saving Edits
 
     saveEdits(event, savedData) {
         this.setState({ loading: true });
@@ -137,13 +144,13 @@ class HeaderMail extends Component {
         }
         console.log(this.refs.listname.value);
         let that = this;
-        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+        fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
             method: "PUT",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(savedData)
         }).then(function (response) {
             if (response.ok) {
-                return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+                fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
                     method: "GET",
                     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -177,6 +184,8 @@ class HeaderMail extends Component {
         this.setState({ edit: true });
     }
 
+    //Rendering popup for edit action
+
     handleEdit(key) {
         if (!this.state.edit) {
             return (
@@ -199,13 +208,14 @@ class HeaderMail extends Component {
         }
     }
 
+    //Rendering popup for delete action
     deletingRender(key) {
         if (!this.state.delete) {
             return (
                 <div>
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.deleteList}>
-                            <h3 className="add_new_header">Are you sure you want to delete this Mailing List ?</h3>
+                            <h3 className="add_new_header header-list">Are you sure you want to delete this Mailing List ?</h3>
                             <button className="main_buttons_list" onClick={this.closeDelete}>No</button>
                             <button type="submit" className="main_buttons_list">Yes</button>
                         </form>

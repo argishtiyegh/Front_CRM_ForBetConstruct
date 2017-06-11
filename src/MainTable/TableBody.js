@@ -35,6 +35,7 @@ class TableBody extends Component {
     this.savedMsg = this.savedMsg.bind(this);
   }
 
+  //Get contact's Guid on checked
   getGuId(e) {
     if (e.target.checked) {
       this.state.guId.push(this.props.database[e.target.id].GuID);
@@ -57,6 +58,8 @@ class TableBody extends Component {
 
   };
 
+  //Notification messages
+
   savedMsg() {
     this.setState({ saved: true });
     setTimeout(function () { this.setState({ saved: false }); this.closeDelete(); }.bind(this), 2500);
@@ -72,6 +75,8 @@ class TableBody extends Component {
     setTimeout(function () { this.setState({ deleted: false }) }.bind(this), 2500);
   }
 
+  //Handle contacts edit
+
   handleEdit(e) {
     this.setState({ edit: true });
     let editData = this.props.database[e.target.id - 1];
@@ -80,23 +85,25 @@ class TableBody extends Component {
     this.setState({ editableData: editData, editguID: editData.GuID });
   }
 
+  //Handle contact's delete
   handleDelete(e) {
     this.setState({ delete: true });
     this.setState({ guIDForDel: this.props.database[e.target.id - 1].GuID });
   }
 
+  //Delete contact
   DelContact(e, guid_del) {
     e.preventDefault();
     this.setState({ loading: true });
     guid_del = this.state.guIDForDel;
     let that = this;
 
-    return fetch('http://crmbetd.azurewebsites.net/api/contacts?guid=' + guid_del, {
+    fetch('http://crmbetd.azurewebsites.net/api/contacts?guid=' + guid_del, {
       method: "DELETE",
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
     }).then(function (response) {
       if (response.ok) {
-        return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+        fetch('http://crmbetd.azurewebsites.net/api/contacts', {
           method: "GET",
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -122,6 +129,7 @@ class TableBody extends Component {
     })
   }
 
+  //Closing popup
   closeEdit() {
     this.setState({ edit: false });
   }
@@ -129,6 +137,8 @@ class TableBody extends Component {
   closeDelete() {
     this.setState({ delete: false });
   }
+
+  //Saving edits of contacts
 
   SaveEdits(event, putObject) {
     event.preventDefault();
@@ -143,13 +153,13 @@ class TableBody extends Component {
     }
     let that = this;
 
-    return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+    fetch('http://crmbetd.azurewebsites.net/api/contacts', {
       method: "PUT",
       headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
       body: JSON.stringify(putObject)
     }).then(function (response) {
       if (response.ok) {
-        return fetch('http://crmbetd.azurewebsites.net/api/contacts', {
+        fetch('http://crmbetd.azurewebsites.net/api/contacts', {
           method: "GET",
           headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -174,6 +184,9 @@ class TableBody extends Component {
       }
     })
   }
+
+  //Rendering contact's edit mode
+
   editingRender(key) {
     let dataPlacehold = this.state.editableData;
     if (this.state.edit) {
@@ -203,6 +216,8 @@ class TableBody extends Component {
     }
   }
 
+  //Rendering contact's delete mode
+
   deletingRender(key) {
     if (this.state.delete) {
       return (
@@ -223,6 +238,8 @@ class TableBody extends Component {
       return (<button className="edit_delete del" onClick={this.handleDelete} id={key}>Delete</button>)
     }
   }
+
+  //Rendering contact's table body
 
   renderHeaders(value, key) {
     return (

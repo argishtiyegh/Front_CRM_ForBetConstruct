@@ -26,6 +26,8 @@ class EmailsTable extends Component {
         this.failedMsg = this.failedMsg.bind(this);
     }
 
+    //Notifications for user
+
     failedMsg() {
         this.setState({ failed: true });
         setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
@@ -36,6 +38,8 @@ class EmailsTable extends Component {
         setTimeout(function () { this.setState({ deleted: false }); this.closeDel(); this.props.updateContacts(this.state.resp) }.bind(this), 2500);
     }
 
+    
+// Get contact GuID from checkbox checks
     checkBoxDel(e) {
         if (e.target.checked) {
             this.state.guId.push(this.props.datas[e.target.id].GuID);
@@ -62,13 +66,14 @@ class EmailsTable extends Component {
         this.setState({ delete: true });
     }
 
+
     deletingRender() {
         if (!this.state.delete) {
             return (
                 <div>
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.deletContact}>
-                            <h3 className="add_new_header">Are you sure you want to delete this contact ?</h3>
+                            <h3 className="del_contact">Are you sure you want to delete this contact ?</h3>
                             <button className="main_buttons_list" onClick={this.closeDel}>No</button>
                             <button type="submit" className="main_buttons_list">Yes</button>
                         </form>
@@ -83,6 +88,8 @@ class EmailsTable extends Component {
         }
     }
 
+
+//Delete contacts from Mailing List
     deletContact(event, deleteData) {
         this.setState({ loading: true });
         event.preventDefault();
@@ -93,13 +100,13 @@ class EmailsTable extends Component {
         deleteData = JSON.stringify(deleteData);
         let that = this;
 
-        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+         fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
             method: "DELETE",
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: deleteData
         }).then(function (response) {
             if (response.ok) {
-                return fetch('http://crmbetd.azurewebsites.net/api/emaillists/' + that.props.listID, {
+                fetch('http://crmbetd.azurewebsites.net/api/emaillists/' + that.props.listID, {
                     method: "GET",
                     headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
 
@@ -124,6 +131,8 @@ class EmailsTable extends Component {
             }
         })
     }
+
+    //Rendering Mailing Lists contacts table
 
     mapList(value, key) {
         return (

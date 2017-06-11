@@ -5,6 +5,9 @@ import { EmailsTable } from './EmailsTable';
 import { LoadingGIF } from '../exceptionHandling/LoadingGIF.js';
 import '../StyleSheet/Contacts.css';
 
+
+//Rendering Mailing List Headers
+
 function TableHead(props) {
     return (<thead>
         <tr>
@@ -43,6 +46,8 @@ class EmailListTable extends Component {
         this.setState({ contacts: value });
     }
 
+    //Getting Data
+    
     componentDidMount() {
         this.setState({ loading: true });
         call('api/emaillists', "GET").then(response => { response.error ? response.message : this.setState({ dbMailingList: response }); this.setState({ loading: false }) });

@@ -1,16 +1,49 @@
-.msg-sent-failed{
+.msg-sent-failedw{
     
-    top: 44%;
-    left: 45%;
+    top: 0;
+    left: 0;
     position: fixed;
-    border-radius: 41%;
-    background-color: #7e748e;
+    /* border-radius: 41%; */
+    /* background-color: #7e748e; */
     border: none;
-    color: #00bcd4;
-    padding: 2% 5%;
-    font-size: 60px;
+    color: black;
+    padding: 20% 0%;
+    font-size: 25px;
     font-family: font;
+    width: 100%;
+    text-align: center;
+    /* margin: 16%; */
+    height: 100%;
+    
 }
+
+.msg-sent-failed{
+
+ position: fixed;
+    top: 22px;
+    left: 0;
+    bottom: 0;
+    right: 0%;
+    color: aqua;
+}
+
 .fail {
         color: #ff4081
 }
+
+/*
+
+    top: 0;
+    
+    width: 80%;
+    position: fixed;
+   
+    border: none;
+    color: white;
+    padding: 2% 0%;
+    font-size: 25px;
+    font-family: font;
+   
+    text-align: center;
+
+*/

@@ -1,8 +1,23 @@
 .scroll {
     overflow-y: auto;
-    height: 265px;
+    height: 380px;
     width: 100%;
     box-shadow: 10px 10px 5px grey;
+}
+.but_bottom {
+    padding: 1%;
+    border-radius: 11px;
+    border: none;
+    font-family: font;
+    margin: 3%;
+    cursor: pointer;
+    background: rgb(0, 0, 0);
+    color: white;
+}
+.but_bottom:disabled {
+    cursor: not-allowed;
+    background: #928383;
+    color: black;
 }
 .scroll_list {
     overflow-y: auto;
@@ -25,8 +40,7 @@
 }
 .count {
     font-size: 20px;
-    margin-top: 20px;
-    margin: 2% auto;
+    margin: 1% auto;
     float: right;
     padding-right: 30px;
     font-family: font;
@@ -37,8 +51,23 @@
 }
 .main_buttons {
     float: right;
-    padding: 1%;
+    padding: 1% 5%;
     margin-right: 2%;
+    margin-bottom: 1%;
+    background: black;
+    position: fixies;
+    border-radius: 10px;
+    box-shadow: gray;
+    font-family: font;
+    color: white;
+    cursor: pointer;
+    border: none;
+}
+.addnewBut {
+    float: right;
+    padding: 1% 3%;
+    margin-right: 2%;
+    margin-bottom: 1%;
     background: black;
     position: fixies;
     border-radius: 10px;
@@ -50,6 +79,15 @@
 }
 .main_buttons_pop {
     padding: 1% 5%;
+    margin-bottom: 1%;
+    background: black;
+}
+.existingList {
+    padding-top: 2%;
+}
+.listMailBut {
+    overflow: auto;
+    margin-top: 1%;
 }
 .button_send {
     margin-left: 10px;
@@ -72,13 +110,7 @@
     text-align: center;
     display: block;
     margin: 3% 0;
-}
-.add_new_form {
-    text-align: center;
-    z-index: -9999;
-}
-.add_new {
-    overflow: auto;
+    color: black;
 }
 .list_input {
     text-indent: 2%;
@@ -101,21 +133,14 @@
 .list_input:focus:-ms-input-placeholder {
     color: transparent;
 }
-.edit_form {
-    background: rgb(169, 156, 169);
-    width: 52%;
-    overflow: auto;
-    text-align: center;
-    margin: 11% auto;
-    border-radius: 15px;
-}
 .edit_mode {
     position: fixed;
     top: 0;
     left: 0;
     bottom: 0;
     width: 100%;
-    background-color: rgba(224, 224, 224, 0.07);
+    background-color: rgba(0, 6, 0, 0.4);
+    display: flex;
 }
 .edit_delete {
     margin: 0px 8px;
@@ -128,23 +153,68 @@
 .edit_input {
     width: 65%;
 }
+.edit_form {
+    background-color: lightslategray;
+    width: 47%;
+    overflow: auto;
+    text-align: center;
+    margin: auto;
+}
 .del {
     background: rgb(255, 64, 129);
     color: white;
     margin: 0 2%;
 }
+.pop {
+    float: right;
+}
 .upload {
+    padding: 1%;
+    margin-left: 2%;
+    border-radius: 11px;
+    border: none;
+    font-family: font;
+    cursor: pointer;
+    background: rgb(0, 0, 0);
     color: white;
-    text-align: center;
-    overflow: auto;
-    float: left;
-    margin-top: 3%;
 }
 .uploadFile {
     clear: both;
     overflow: auto;
     margin-top: 20px;
     margin-left: 5px;
+}
+.edit_mode_form {
+    display: block;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 6, 0, 0.4);
+    display: flex;
+}
+.buttons_up {
+    width: 80%;
+    margin-top: 20%;
+    overflow: hidden;
+}
+.main_buttons_up {
+    padding: 5% 5%;
+    margin-bottom: 1%;
+    background: black;
+}
+.edit_form_upl {
+    padding: 3%;
+    background-color: lightslategray;
+    width: 24%;
+    text-align: center;
+    margin: auto;
+}
+.upl_buttons {
+    clear: both;
+    width: 80%;
 }
 .chooseFile {
     background-color: #dddddd;
@@ -159,17 +229,11 @@
     cursor: pointer;
     border-radius: 12px;
 }
-.button_send:disabled {
-    cursor: not-allowed;
-    background: #928383;
-    color: black;
-}
 .checkbox {
     text-align: center;
 }
-
-.delList{
-	margin-top: 2%;
+.delList {
+    margin-top: 1%;
 }
 .createList {
     float: left;
@@ -190,12 +254,20 @@
 .listName {
     padding: 12px 20px;
     font-size: 14px;
+    color: black;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 11px;
+    margin: 3%;
+    font-family: font;
+}
+.listName:disabled {
+    cursor: not-allowed;
+    background: #ccc;
+    font-family: font;
 }
 .selectJoin {
     margin: 3% auto;
-    width: 50%;
+    width: 70%;
     height: 28px;
     overflow: hidden;
     background: url('http://s24.postimg.org/lyhytocf5/dropdown.png') no-repeat right #FEFEFE;
@@ -245,7 +317,7 @@
     bottom: 0;
     width: 100%;
     padding: 22% 0%;
-    background-color: rgba(224, 224, 224, 0.07);
+    background-color: rgba(0, 6, 0, 0.2);
 }
 .del:disabled {
     cursor: not-allowed;
@@ -257,7 +329,7 @@
 }
 .send_template {
     margin: 10px 72px;
-    background: black;
+    background: rgb(0, 188, 212);
 }
 .deleteContacts {
     margin-top: 1%;
@@ -273,23 +345,23 @@
     text-align: center;
 }
 .add_to_list {
-    margin: 0px 8px;
-    padding: 5px 10px;
+    float: right;
+    padding: 1% 5%;
+    margin-right: 2%;
+    margin-bottom: 2%;
+    background: black;
+    position: fixies;
+    border-radius: 10px;
+    box-shadow: gray;
+    font-family: font;
+    color: white;
     cursor: pointer;
     border: none;
-    color: white;
-    background: rgb(0, 188, 212)
 }
 .add_to_list_del {
-    margin: 0px 8px;
-    padding: 5px 10px;
-    cursor: pointer;
-    border: none;
     background: rgb(255, 64, 129);
     color: white;
-}
-.listadd {
-    margin: 0 4%;
+    margin: 0 2%;
 }
 .add_to_list:disabled {
     cursor: not-allowed;
@@ -325,6 +397,11 @@
     display: block;
     margin: 3% 0%;
 }
+.del_contact {
+    margin: 3% 0;
+    font-size: 24px;
+    font-family: font;
+}
 .delete_mode {
     margin: 0 auto;
     padding: 0;
@@ -351,12 +428,13 @@
     margin-left: 6%
 }
 .choose {
+    padding: 2%;
+    margin-top: 0%;
+    border-radius: 11px;
     float: left;
-    margin-left: 5px;
 }
 .mainBlock {
     margin-top: 3%;
-    overflow: auto;
 }
 .maillist_input {
     text-indent: 2%;
@@ -366,7 +444,7 @@
     margin: 5px 0px;
     border: solid 1px #735a73;
     border-radius: 10px;
-    width: 40%;
+    width: 85%;
 }
 .closelist {
     margin-bottom: 7px;
@@ -377,18 +455,23 @@
 }
 .select_template {
     padding: 6px;
-    width: 46%;
+    width: 80%;
+}
+.select_template_list {
+    padding: 6px;
+    width: 35%;
 }
 .contacts_status {
     text-align: center;
     color: #3a373a;
     font-family: font;
     margin-top: 3%;
-	font-size: 22px;
+    font-size: 22px;
 }
 .main_buttons_list {
     float: right;
     padding: 1% 5%;
+    margin-bottom: 1%;
     margin-right: 2%;
     background: black;
     position: fixies;
@@ -421,7 +504,7 @@
         width: 110px;
     }
     .add_new_header {
-        font-size: 14px;
+        font-size: 22px;
     }
     .maillist_input {
         width: 90%;
@@ -432,9 +515,6 @@
     .send_template {
         margin: 2% 4%;
     }
-    .edit_form {
-        width: 100%
-    }
     .upl {
         float: left;
         margin-left: 7%;
@@ -443,5 +523,34 @@
     .submit_btn {
         float: left;
         margin-left: 7%;
+    }
+    .edit_form {
+        width: 80%;
+    }
+    .edit_form_upl{
+        padding: 3% 0%;
+        width: 40%;
+    }
+}
+@media (max-width: 550px) {
+    .add_new_header {
+        font-size: 15px;
+    }
+    .del_contact {
+        font-size: 15px;
+    }
+    .contacts_status {
+        margin-top: 8%;
+        font-size: 17px;
+    }
+    .main_buttons_list {
+        padding: 3% 5%;
+    }
+    .select_template_list {
+        width: 80%;
+    }
+    .edit_form_upl{
+        padding: 3% 0%;
+        width: 80%;
     }
 }

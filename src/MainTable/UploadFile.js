@@ -9,15 +9,25 @@ class UploadFile extends Component {
         super(props);
         this.state = {
             loading: false,
-            failed: false
+            failed: false,
+            upload: true,
         };
         this.UploadData = this.UploadData.bind(this);
         this.failedMsg = this.failedMsg.bind(this);
+        this.uploadHandle = this.uploadHandle.bind(this);
+        this.close = this.close.bind(this);
     }
 
     failedMsg() {
         this.setState({ failed: true });
         setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
+    }
+
+    uploadHandle() {
+        this.setState({ upload: false })
+    }
+    close() {
+        this.setState({ upload: !this.state.upload })
     }
 
     UploadData(event) {
@@ -44,16 +54,25 @@ class UploadFile extends Component {
     }
 
     render() {
-        return (
-            <div className="uploadCSV">
-                <form encType="multipart/form-data" onSubmit={this.UploadData}>
-                    <input name="data" size="40" type="file" className="choose"></input>
-                    <input type="submit" className="edit_delete choose"></input>
-                </form>
-                {this.state.loading && <LoadingGIF />}
-                {this.state.failed && <MessageFailed />}
-            </div>
-        )
+        if (this.state.upload) {
+            return (<button className="upload" onClick={this.uploadHandle}> UPLOAD </button>)
+        }
+        else {
+            return (
+                <div className="edit_mode_form">
+                    <form encType="multipart/form-data" className="edit_form_upl" onSubmit={this.UploadData}>
+                        <input name="data" size="40" type="file" className="choose"></input>
+                        <div className="buttons_up">
+                            <button className="main_buttons main_buttons_up" onClick={this.close}>CLOSE</button>
+                            <input type="submit" className="main_buttons main_buttons_up" value="UPLOAD"></input>
+                        </div>
+                    </form>
+                    {this.state.loading && <LoadingGIF />}
+                    {this.state.failed && <MessageFailed />}
+                </div>
+            )
+        }
+
     }
 }
 export { UploadFile };

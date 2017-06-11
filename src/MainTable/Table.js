@@ -9,6 +9,7 @@ import { MessageFailed } from '../exceptionHandling/MessageFailed.js';
 import { Added } from '../exceptionHandling/Added.js';
 import { AddContactsToList } from './AddContactsToList';
 import { UploadFile } from './UploadFile';
+import { Saved } from '../exceptionHandling/Saved.js';
 import '../StyleSheet/Contacts.css';
 
 class Table extends Component {
@@ -54,6 +55,8 @@ class Table extends Component {
         this.addedMsg = this.addedMsg.bind(this);
     }
 
+    //Get initial Data
+
     componentDidMount() {
         this.setState({ loading: true });
         call('api/contacts', 'GET').then(response => { response.error ? response.message : this.setState({ db: response }); this.setState({ loading: false }) });
@@ -85,6 +88,8 @@ class Table extends Component {
         this.setState({ sendMail: sendData });
     }
 
+    //Notification Messages
+
     sentMsg() {
         console.log(this.state.templatesDB);
         this.setState({ sent: true });
@@ -100,6 +105,7 @@ class Table extends Component {
         this.setState({ failed: true });
         setTimeout(function () { this.setState({ failed: false }) }.bind(this), 2500);
     }
+    // Change of States
 
     addContToListState() {
         this.setState({ addContactsToList: false });
@@ -112,6 +118,7 @@ class Table extends Component {
     closeSend() {
         this.setState({ edit: false, disabling: true });
     }
+    //Getting Template ID
 
     getTemplateId(e) {
         console.log(e.target.selectedIndex)
@@ -125,6 +132,8 @@ class Table extends Component {
         }
     }
 
+    // Enabling and Disabling buttons on Click
+
     changeInputDisable() {
         if (this.refs.listname.value.length > 0 && this.state.sendMail.length !== 0) {
             this.setState({ disableInput: false });
@@ -133,6 +142,8 @@ class Table extends Component {
             this.setState({ disableInput: true });
         }
     }
+
+    //Get Contact GuID and Send Email
 
     postData(event, sendData, tempId) {
         event.preventDefault();
@@ -150,7 +161,7 @@ class Table extends Component {
         }
         let that = this;
         tempId = this.state.templateId;
-        return fetch('http://crmbetd.azurewebsites.net/api/sendemail?templateid=' + tempId, {
+        fetch('http://crmbetd.azurewebsites.net/api/sendemail?templateid=' + tempId, {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(sendData),
@@ -173,6 +184,9 @@ class Table extends Component {
             });
     };
 
+
+    //Create new Mailing List
+
     createMailingList() {
         this.setState({ loading: true });
         let listData = {
@@ -180,7 +194,7 @@ class Table extends Component {
             "Guids": this.state.sendMail
         };
         let that = this;
-        return fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
+        fetch('http://crmbetd.azurewebsites.net/api/emaillists', {
             method: 'POST',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(listData),
@@ -204,17 +218,37 @@ class Table extends Component {
 
     }
 
+    // Rendering Template Options
     renderOptions(value, key) {
         return (
             <option key={key} id={key += 1}>{value.TemplateName} </option>
         )
     }
 
+
+    // Rendering "Send Email" button popup ,  other buttons will not be hided...
     sendingRender(key) {
         if (this.state.edit) {
             return (
                 <div>
-                    <button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>Send Email</button>
+                    <button className="but_bottom" disabled={this.state.disable} 
+                    id={key} onClick={this.handleSend}>Send Email</button>
+                    <input id="listcreate" ref="listname" 
+                    className="listName second_row" 
+                    required type="text" 
+                    disabled={this.state.disable} 
+                    placeholder="Mailing List Name" 
+                    onChange={this.changeInputDisable} />
+
+                    <button className="but_bottom second_row"
+                        onClick={this.createMailingList}
+                        disabled={this.state.disableInput}>Create New Mailing List</button>
+                        {this.state.addContactsToList ? (<button className="but_bottom"
+                        onClick={this.addContToListState}
+                        disabled={this.state.disable}>Add To Email List</button>) : (
+                    <div>
+                        <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
+                    </div>)}        
                     <div className="edit_mode">
                         <form className="edit_form" onSubmit={this.postData}>
                             <h3 className="add_new_header">Select the template</h3>
@@ -234,12 +268,26 @@ class Table extends Component {
             )
         }
         else {
-            return (<button className="main_buttons button_send sendMail btn-left" disabled={this.state.disable} id={key} onClick={this.handleSend}>Send Email</button>)
+            return (
+                <div>
+                    <button className="but_bottom" disabled={this.state.disable} id={key} onClick={this.handleSend}>Send Email</button>
+                    <input id="listcreate" ref="listname" className="listName second_row" required type="text" disabled={this.state.disable} placeholder="Mailing List Name" onChange={this.changeInputDisable} />
+                    <button className="but_bottom second_row" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
+                    {this.state.addContactsToList ? (<button className="but_bottom"
+                        onClick={this.addContToListState}
+                        disabled={this.state.disable}>Add To Email List</button>) : (
+                            <div>
+                                <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
+                            </div>)}
+
+
+                </div>
+            )
         }
     }
-
     render(key) {
         return (<div className="mainBlock">
+            <UploadFile change={this.changeState} />
             <AddNewContact
                 addNewState={this.state.AddNewMode}
                 change={this.changeState} />
@@ -262,23 +310,6 @@ class Table extends Component {
                 </table>
             </div>
             {this.sendingRender(key)}
-            {this.state.addContactsToList ? (<button className="main_buttons button_send btn-left"
-                onClick={this.addContToListState}
-                disabled={this.state.disable}>Add To Email List</button>) : (
-                    <div>
-                        <button className="main_buttons button_send sendMail btn-left"
-                            onClick={this.addContToListState}
-                            disabled={this.state.disable}>Add To Email List</button>
-                        <AddContactsToList closePopUp={this.closePopUp} guidsList={this.state.sendMail} />
-                    </div>)}
-            <div className="createList">
-                <input id="listcreate" ref="listname" className="listName" required type="text" placeholder="Mailing List Name" onChange={this.changeInputDisable} />
-                <button className="createList_but button_send" onClick={this.createMailingList} disabled={this.state.disableInput}>Create New Mailing List</button>
-            </div>
-
-            <div className="upload">
-                <UploadFile change={this.changeState} />
-            </div>
             {this.state.loading && <LoadingGIF />}
             {this.state.sent && <MessageSent />}
             {this.state.added && <Added />}

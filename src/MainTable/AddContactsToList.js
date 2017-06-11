@@ -22,12 +22,16 @@ class AddContactsToList extends Component {
         this.failedMsg = this.failedMsg.bind(this);
     }
 
+    //Getting initial data
     componentDidMount() {
         this.setState({ loading: true });
         call('api/emaillists/', "GET").then((response) => {
             this.setState({ mailingListsDB: response }); this.setState({ loading: false });
         });
     }
+
+    //  Mailing List Render for select options
+
     renderEmailList(value, key) {
         return (<option value={value.EmailListID} key={key} id={key}>{value.EmailListName}</option>)
     }
@@ -36,6 +40,8 @@ class AddContactsToList extends Component {
         this.props.closePopUp(true);
     }
 
+    //Getting Mailing List ID
+    
     getEmailListId(e) {
         this.setState({ EmailListId: e.target.value });
         if (e.target.value !== "Choose Email List") {
@@ -45,6 +51,8 @@ class AddContactsToList extends Component {
             this.setState({ disabling: true });
         }
     }
+
+    //Notification Messages
 
     addedMsg() {
         this.setState({ added: true });
@@ -57,6 +65,9 @@ class AddContactsToList extends Component {
         setTimeout(function () { this.setState({ failed: false }); this.closePopUp() }.bind(this), 2500);
     }
 
+
+    //Adding contact to existing mailing list
+
     SendToExistingList(addToData) {
         this.setState({ loading: true });
         addToData = {
@@ -64,7 +75,7 @@ class AddContactsToList extends Component {
             "Guids": this.props.guidsList
         };
         let that = this;
-        return fetch('http://crmbetd.azurewebsites.net/api/emaillists/add', {
+        fetch('http://crmbetd.azurewebsites.net/api/emaillists/add', {
             method: 'PUT',
             headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
             body: JSON.stringify(addToData),
@@ -85,14 +96,16 @@ class AddContactsToList extends Component {
     render() {
         return (
             <div>
-                <div className="select_email_list">
-                    <select className="select_template" onChange={this.getEmailListId}>
-                        <option defaultValue="Choose Email List">Choose Email List</option>
-                        {this.state.mailingListsDB.map(this.renderEmailList)}
-                    </select>
-                    <div>
-                        <button className="add_to_list listadd" disabled={this.state.disabling} onClick={this.SendToExistingList}>ADD</button>
-                        <button className="add_to_list_del listadd" onClick={this.closePopUp}>CLOSE</button>
+                <div className="edit_mode">
+                    <div className="edit_form existingList">
+                        <select className="select_template" onChange={this.getEmailListId}>
+                            <option defaultValue="Choose Email List">Choose Email List</option>
+                            {this.state.mailingListsDB.map(this.renderEmailList)}
+                        </select>
+                        <div className="listMailBut">
+                            <button className="add_to_list_del add_to_list " onClick={this.closePopUp}>CLOSE</button>
+                            <button className="add_to_list " disabled={this.state.disabling} onClick={this.SendToExistingList}>ADD</button>
+                        </div>
                     </div>
                 </div>
                 {this.state.loading && <LoadingGIF />}

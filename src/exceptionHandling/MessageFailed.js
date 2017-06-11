@@ -4,8 +4,8 @@ import '../StyleSheet/MessageSentFailed.css';
 class MessageFailed extends Component {
     render() {
         return (
-            <div className="msg-sent-failed fail">
-                Failed
+            <div className="msg-sent-failedw">
+                <p className="msg-sent-failed">Failed</p>
             </div>
         );
     }
