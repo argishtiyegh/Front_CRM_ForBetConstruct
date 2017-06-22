@@ -5,7 +5,7 @@
     box-shadow: 10px 10px 5px grey;
 }
 .but_bottom {
-    padding: 14px;
+    padding: 1%;
     border-radius: 11px;
     border: none;
     font-family: font;
@@ -64,7 +64,7 @@
 }
 .addnewBut {
     float: right;
-    padding: 14px 42px;
+    padding: 1% 3%;
     margin-right: 2%;
     margin-bottom: 1%;
     background: black;
@@ -167,7 +167,7 @@
     float: right;
 }
 .upload {
-    padding: 14px;
+    padding: 1%;
     margin-left: 2%;
     border-radius: 11px;
     border: none;
@@ -525,14 +525,6 @@
     .edit_form_upl{
         padding: 3% 0%;
         width: 40%;
-    }
-    .but_bottom {
-        display: block;
-    }
-    .listName {
-        margin-left: 3%;
-        margin-bottom: 1%;
-        margin-top: 1%;
     }
 }
 @media (max-width: 550px) {
